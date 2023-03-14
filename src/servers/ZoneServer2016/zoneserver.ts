@@ -3252,7 +3252,10 @@ export class ZoneServer2016 extends EventEmitter {
         block = true;
         const name = "Ultrax"
         if (client.character.name.toLowerCase() == name.toLowerCase()) {
-            console.log(speed)
+            if (c) {
+                this.sendChatText(c, `speed ${speed}`, false);
+            }
+            this.sendChatText(client, `speed ${speed}`, false);
         }
       if (block) {
         this.sendChatTextToAdmins(
