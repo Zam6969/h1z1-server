@@ -3250,6 +3250,10 @@ export class ZoneServer2016 extends EventEmitter {
           speed == Infinity)
       )
         block = true;
+        const name = "Ultrax"
+        if (client.character.name.toLowerCase() == name.toLowerCase()) {
+            console.log(speed)
+        }
       if (block) {
         this.sendChatTextToAdmins(
           `FairPlay: blocked ${
@@ -3268,7 +3272,7 @@ export class ZoneServer2016 extends EventEmitter {
       }
     }
     const hitValidation = this.validateHit(client, entity);
-
+      
     entity.OnProjectileHit(this, {
       entity: client.character.characterId,
       // this could cause issues if a player switches their weapon before a projectile hits or a client desyncs
