@@ -1690,13 +1690,13 @@ export class zonePacketHandlers {
     }
     function handleWeaponPacket(p: any) {
       const weaponItem = client.character.getEquippedWeapon();
-        if (!weaponItem || !weaponItem.weapon) return;
-        const name = "Ultrax"
-        if (client.character.name.toLowerCase() == name.toLowerCase()) {
-            server.sendChatTextToAdmins(JSON.stringify(p.packetName));
-            server.sendChatTextToAdmins(JSON.stringify(p.packet));
-        }
-        
+      if (!weaponItem || !weaponItem.weapon) return;
+      const name = "Ultrax";
+      if (client.character.name.toLowerCase() == name.toLowerCase()) {
+        server.sendChatTextToAdmins(JSON.stringify(p.packetName));
+        server.sendChatTextToAdmins(JSON.stringify(p.packet));
+      }
+
       switch (p.packetName) {
         case "Weapon.FireStateUpdate":
           // wrench workaround

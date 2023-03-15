@@ -3239,6 +3239,12 @@ export class ZoneServer2016 extends EventEmitter {
           maxSpeed = this.fairPlayValues.WEAPON_SHOTGUN.maxSpeed;
           minSpeed = this.fairPlayValues.WEAPON_SHOTGUN.minSpeed;
           maxDistance = this.fairPlayValues.WEAPON_SHOTGUN.maxDistance;
+          break;
+        default:
+          maxSpeed = this.fairPlayValues.defaultMaxProjectileSpeed;
+          minSpeed = this.fairPlayValues.defaultMinProjectileSpeed;
+          maxDistance = this.fairPlayValues.defaultMaxProjectileSpeed;
+          break;
       }
       let block = false;
       if (distance > maxDistance && speed < minSpeed) block = true;
@@ -3250,13 +3256,13 @@ export class ZoneServer2016 extends EventEmitter {
           speed == Infinity)
       )
         block = true;
-        const name = "Ultrax"
-        if (client.character.name.toLowerCase() == name.toLowerCase()) {
-            if (c) {
-                this.sendChatText(c, `speed ${speed}`, false);
-            }
-            this.sendChatText(client, `speed ${speed}`, false);
+      const name = "Ultrax";
+      if (client.character.name.toLowerCase() == name.toLowerCase()) {
+        if (c) {
+          this.sendChatText(c, `speed ${speed}`, false);
         }
+        this.sendChatText(client, `speed ${speed}`, false);
+      }
       if (block) {
         this.sendChatTextToAdmins(
           `FairPlay: blocked ${
@@ -3275,7 +3281,7 @@ export class ZoneServer2016 extends EventEmitter {
       }
     }
     const hitValidation = this.validateHit(client, entity);
-      
+
     entity.OnProjectileHit(this, {
       entity: client.character.characterId,
       // this could cause issues if a player switches their weapon before a projectile hits or a client desyncs
