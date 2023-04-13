@@ -237,12 +237,12 @@ export class WeatherManager {
         this.skyColor = randomIntFromInterval(0, 60);
         switch (this.currentSeason) {
           case "summer":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 60);
             this.fog = 0;
             break;
           case "autumn":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 120);
             this.fog = 0;
             break;
@@ -252,7 +252,7 @@ export class WeatherManager {
             this.fog = 0;
             break;
           case "spring":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 100);
             this.fog = 0;
             break;
@@ -264,22 +264,22 @@ export class WeatherManager {
         this.skyColor = randomIntFromInterval(280, 400);
         switch (this.currentSeason) {
           case "summer":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 120);
             this.fog = randomIntFromInterval(0, 80);
             break;
           case "autumn":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 240);
             this.fog = randomIntFromInterval(140, 200);
             break;
           case "winter":
-            this.temperature = 0;
+            this.temperature = 12;
             this.windStrength = randomIntFromInterval(0, 600);
             this.fog = randomIntFromInterval(140, 200);
             break;
           case "spring":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 160);
             this.fog = randomIntFromInterval(0, 100);
             break;
@@ -291,22 +291,22 @@ export class WeatherManager {
         this.skyColor = randomIntFromInterval(200, 280);
         switch (this.currentSeason) {
           case "summer":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 100);
             this.fog = randomIntFromInterval(0, 40);
             break;
           case "autumn":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 180);
             this.fog = randomIntFromInterval(38, 100);
             break;
           case "winter":
-            this.temperature = 0;
+            this.temperature = 12;
             this.windStrength = randomIntFromInterval(0, 400);
             this.fog = randomIntFromInterval(38, 100);
             break;
           case "spring":
-            this.temperature = 80;
+            this.temperature = 35;
             this.windStrength = randomIntFromInterval(0, 140);
             this.fog = randomIntFromInterval(0, 48);
             break;
@@ -458,19 +458,19 @@ export class WeatherManager {
       fogGradient: 0.008,
       rain: 1, //broken
       temp: 34, // does almost nothing
-      colorGradient: Number((this.skyColor / 400).toFixed(5)),
+      colorGradient: 0.2,
       unknownDword8: 0.25, //clouds cause the screen flickering
       unknownDword9: 0.25,
       unknownDword10: 0.25,
       unknownDword11: 0.25,
-      unknownDword12: 0.25,
-      sunAxisX: 0,
-      sunAxisY: 0,
-      unknownDword15: 0,
-      windDirectionX: -1,
-      windDirectionY: -0.5,
-      windDirectionZ: -1,
-      wind: Number((this.windStrength / 25).toFixed(5)),
+      unknownDword12: 0,
+      sunAxisX: 40,
+      sunAxisY: 40,
+      unknownDword15: 0.1,
+      windDirectionX: 10,
+      windDirectionY: 10,
+      windDirectionZ: 1,
+      wind: 3,
       unknownDword20: 0,
       unknownDword21: 2,
       unknownDword22: 0.3,
@@ -482,7 +482,7 @@ export class WeatherManager {
       unknownDword28: 0.002,
       unknownDword29: 8000,
       AOSize: 0.1,
-      AOGamma: 0.8,
+      AOGamma: 0.4,
       AOBlackpoint: 0.2,
       unknownDword33: 0.5,
     };
