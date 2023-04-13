@@ -461,7 +461,7 @@ export class WeatherManager {
       colorGradient: 0.2,
       unknownDword8: 0.025, //clouds cause the screen flickering
       unknownDword9: 0.025,
-      unknownDword10: 0.25,
+      unknownDword10: 0.15,//flickering
       unknownDword11: 0.025,
       unknownDword12: 0,
       sunAxisX: 10,
