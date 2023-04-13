@@ -456,7 +456,7 @@ export class WeatherManager {
         : 0,
       fogFloor: 71,
       fogGradient: 0.008,
-      rain: 1, //broken
+      rain: 0, //broken
       temp: 34, // does almost nothing
       colorGradient: 0.2,
       unknownDword8: 0.25, //clouds cause the screen flickering
@@ -471,8 +471,8 @@ export class WeatherManager {
       windDirectionY: 10,
       windDirectionZ: 1,
       wind: 3,
-      unknownDword20: 0,
-      unknownDword21: 2,
+      unknownDword20: 2,
+      unknownDword21: 1,
       unknownDword22: 0.3,
       unknownDword23: -0.002,
       unknownDword24: 0,
