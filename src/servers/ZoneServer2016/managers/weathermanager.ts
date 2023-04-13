@@ -459,10 +459,10 @@ export class WeatherManager {
       rain: 0, //broken
       temp: 34, // does almost nothing
       colorGradient: 0.2,
-      unknownDword8: 0.025, //clouds cause the screen flickering
-      unknownDword9: 0.025,
+      unknownDword8: 0.25, //clouds cause the screen flickering
+      unknownDword9: 0.25,
       unknownDword10: 0.15,//flickering
-      unknownDword11: 0.025,
+      unknownDword11: 0.15,
       unknownDword12: 0,
       sunAxisX: 10,
       sunAxisY: 40,
