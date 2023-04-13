@@ -456,13 +456,13 @@ export class WeatherManager {
         : 0,
       fogFloor: 71,
       fogGradient: 0.008,
-      rain: 0, //broken
-      temp: this.temperature, // does almost nothing
+      rain: 1, //broken
+      temp: 34, // does almost nothing
       colorGradient: Number((this.skyColor / 400).toFixed(5)),
-      unknownDword8: 0, //clouds cause the screen flickering
-      unknownDword9: 0,
-      unknownDword10: 0,
-      unknownDword11: 0,
+      unknownDword8: 0.25, //clouds cause the screen flickering
+      unknownDword9: 0.25,
+      unknownDword10: 0.25,
+      unknownDword11: 0.25,
       unknownDword12: 0.25,
       sunAxisX: 0,
       sunAxisY: 0,
@@ -472,7 +472,7 @@ export class WeatherManager {
       windDirectionZ: -1,
       wind: Number((this.windStrength / 25).toFixed(5)),
       unknownDword20: 0,
-      unknownDword21: 1,
+      unknownDword21: 2,
       unknownDword22: 0.3,
       unknownDword23: -0.002,
       unknownDword24: 0,
