@@ -171,10 +171,10 @@ export class ZonePacketHandlers {
           { title: 'Server Name', info: `EU ` },
         ];
         server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
-        server.sendAlert(client, "Welcome to JsReborn Trio US");
+        server.sendAlert(client, "Welcome to JsReborn Trio EU");
         server.sendAlert(client, "Please read the /rules!");
         server.sendAlert(client, "use /discord for support to contact Admin");
-        server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio US");
+        server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio EU");
         
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
