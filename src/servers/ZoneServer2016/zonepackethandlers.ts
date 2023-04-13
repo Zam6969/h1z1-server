@@ -148,6 +148,34 @@ export class ZonePacketHandlers {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
       setTimeout(() => {
+      if (client.isAdmin) {
+        server.setGodMode(client, true);
+        server.sendChatTextToAdmins(`${client.character.name}' + " has joined the EU server `);
+        const obj = [
+          { title: 'Name', info: `${client.character.name}` },
+          { title: 'Server', info: `EU ` },
+          { title: 'CharacterID', info: `${client.character.characterId}` },
+          { title: 'LoginSessionID', info: `${client.loginSessionId}` },
+        ];
+        server.sendAdminDiscordHook(client, client, "", `Admin Has Joined The Server!`, ``, obj);
+      }
+    }, 4000);
+      setTimeout(() => {
+        const soeClient = server.getSoeClient(client.soeClientId);
+        const obj = [
+          { title: 'Player HWID', info: `${client.HWID}` },
+          { title: 'CharacterID', info: `${client.character.characterId}` },
+          { title: 'Player IP', info: `||${soeClient?.address}||` },
+          { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
+          { title: 'Server Population', info: `${_.size(server._characters)}` },
+          { title: 'Server Name', info: `EU ` },
+        ];
+        server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
+        server.sendAlert(client, "Welcome to JsReborn Trio US");
+        server.sendAlert(client, "Please read the /rules!");
+        server.sendAlert(client, "use /discord for support to contact Admin");
+        server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio US");
+        
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
@@ -188,7 +216,6 @@ export class ZonePacketHandlers {
         runSpeed: 0,
       });
       client.character.isReady = true;
-      server.airdropManager(client, true);
     }
     if (!client.character.isAlive || client.character.isRespawning) {
       // try to fix stuck on death screen
@@ -504,8 +531,22 @@ export class ZonePacketHandlers {
 
     if (!client.radio) {
       server.chatManager.sendChatToAllInRange(server, client, message, 300);
+      const obj = [
+        { title: 'Name', info: `${client.character.name}` },
+        { title: 'type', info: `Chat` },
+        { title: 'Server', info: `EU ` },
+        { title: 'Message', info: `${message}` },
+      ];
+      server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
     } else if (client.radio) {
       server.chatManager.sendChatToAllWithRadio(server, client, message);
+      const obj = [
+        { title: 'Name', info: `${client.character.name}` },
+        { title: 'type', info: `Radio` },
+        { title: 'Server', info: `EU ` },
+        { title: 'Message', info: `${message}` },
+      ];
+      server.sendChatDiscordHook(client, client, "", `${client.character.name} sent a message!`, ``, obj);
     }
   }
   ClientInitializationDetails(
@@ -847,6 +888,7 @@ export class ZonePacketHandlers {
             const c = server.getClientByCharId(passenger);
             if (!c) return;
             server.kickPlayer(c);
+            server.sendReportDiscordHook(client, client, client.character.name, `EU Kicked`, `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`, null);
             server.sendChatTextToAdmins(
               `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`,
               false
@@ -981,6 +1023,7 @@ export class ZonePacketHandlers {
             { type: "XS glitching", pos }
           );
         }
+        server.sendReportDiscordHook(client, client, client.character.name, `EU Fairplay`, `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`, null);
         server.sendChatTextToAdmins(
           `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`
         );

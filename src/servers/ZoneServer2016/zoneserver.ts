@@ -206,6 +206,7 @@ export class ZoneServer2016 extends EventEmitter {
   } = {};
   _constructionDoors: { [characterId: string]: ConstructionDoor } = {};
   _constructionSimple: { [characterId: string]: ConstructionChildEntity } = {};
+  _discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1073334544717062164/7PJrqz28wYiVt9KAa-Eau6JKdbR-Ql8SP_pRqhaGumvp9JxkYXNsJs2xiscCW-xXF9O3";
   _lootableProps: { [characterId: string]: LootableProp } = {};
   _taskProps: { [characterId: string]: TaskProp } = {};
   _crates: { [characterId: string]: Crate } = {};
@@ -4078,7 +4079,7 @@ export class ZoneServer2016 extends EventEmitter {
     const seatId = vehicle.getNextSeatId(this),
       seat = vehicle.seats[seatId],
       passenger = this._characters[seat];
-    if (seatId < 0) return; // no available seats in vehicle
+    if (seatId < '0') return; // no available seats in vehicle
     client.vehicle.mountedVehicle = vehicle.characterId;
     client.isInAir = false;
     if (passenger) {
@@ -6474,6 +6475,86 @@ export class ZoneServer2016 extends EventEmitter {
   }
   sendConsoleText(client: Client, message: string) {
     this.sendData(client, "H1emu.PrintToConsole", { message });
+  }
+  sendChatDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("https://discord.com/api/webhooks/1086421427013550190/SYI2WtLXnjxqDaBMEsB5Lv2JKd0J7GbB0TjFM1yZNVrr24qWp1j8sLpD4S1qFNeJbjpE");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+  }
+  sendkillDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("https://discord.com/api/webhooks/1084389033079226409/bnY9bRiU6tAXD5_xLL0ip_eSdF_z-wjJPyUcsF_OznI8hU4L9PHRvxKeVu7EJhJWKl-P");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+    const fetch = require('node-fetch');
+
+  }
+  sendDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    if (!this._discordWebhookUrl) return;
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("https://discord.com/api/webhooks/1086421151254843442/nlnPWNRExhxuzdDQCCdITk680KE5HEO0CQMc4iOyuu11KWW9iPvPEyb6pkusfQplvyXX");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+
+
+  }
+  sendReportDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("https://discord.com/api/webhooks/1086421558110736416/trJ-UognjJWot_T6bihmdppkMNAW1YU_8Wz17MeqStmJCkGD8zSah3mKmOXE9daL8dsO");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+  }
+  sendAdminDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("https://discord.com/api/webhooks/1092403739006091304/cx2NbJhwxVfLA97Y-z2oNpU-Ng5yAZ99DUAHD1HtH-Tzfz0H-gmlWox6InC5ZRasWipq");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
   }
   sendConsoleTextToAdmins(message: string) {
     for (const a in this._clients) {
