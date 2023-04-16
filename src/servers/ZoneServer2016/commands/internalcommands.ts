@@ -109,8 +109,6 @@ export const internalCommands: Array<Command> = [
         return;
       }
       server.sendCharacterData(client);
-      client.character.updateEquipment(server); // needed or third person character will be invisible
-      client.character.updateLoadout(server);
       server.sendAlert(
         client,
         `Set spectate/vanish state to ${client.character.isSpectator}`

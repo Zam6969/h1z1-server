@@ -259,8 +259,7 @@ No floaters, First offence: Deletion of shelter / loot, Second offence: Deletion
       }
       server.sendData(client, "Spectator.Enable", {});
       server.sendCharacterData(client);
-      client.character.updateEquipment(server); // needed or third person character will be invisible
-      client.character.updateLoadout(server);
+
     },
   },
   {

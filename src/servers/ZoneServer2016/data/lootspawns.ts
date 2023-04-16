@@ -1856,6 +1856,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.CODED_MESSAGE,
+        weight: 6,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.METAL_SHEET,
         weight: 33,
         spawnCount: {
@@ -1883,6 +1891,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 20,
+        },
+      },
+      {
+        item: Items.CODED_MESSAGE,
+        weight: 6,
+        spawnCount: {
+          min: 1,
+          max: 1,
         },
       },
       {
@@ -1946,6 +1962,14 @@ export const containerLootSpawners: {
     maxItems: 1,
     items: [
       {
+        item: Items.WEAPON_AK47,
+        weight: 20,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.WEAPON_AR15,
         weight: 20,
         spawnCount: {
@@ -1975,6 +1999,14 @@ export const containerLootSpawners: {
     spawnChance: 100,
     maxItems: 1,
     items: [
+      {
+        item: Items.WEAPON_AK47,
+        weight: 50,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
       {
         item: Items.BACKPACK_MILITARY_TAN,
         weight: 50,
