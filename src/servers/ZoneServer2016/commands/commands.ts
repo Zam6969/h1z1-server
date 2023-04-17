@@ -29,6 +29,7 @@ import { ZoneClient2016 as Client } from "../classes/zoneclient";
 import {
   characterBuildKitLoadout,
   characterKitLoadout,
+  characterskinsloadout,
 } from "../data/loadouts";
 import { EquipSlots, Items, ResourceIds, ResourceTypes } from "../models/enums";
 import { ZoneServer2016 } from "../zoneserver";
@@ -68,6 +69,40 @@ export const commands: Array<Command> = [
       server.sendChatText(
         client,
         `Spawned entities count : ${client.spawnedEntities.length}`
+      );
+    },
+  },
+  {
+    name: "discord",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      server.sendChatText(
+        client,
+        `Discord Link: Discord.gg/JsReborn`
+      );
+    },
+  },
+  {
+    name: "rules",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      server.sendChatText(
+        client,
+        `1.Max 3 players raiding/In Base/roaming together
+        2.No alliances of Any kind
+        3.If reporting a player you suspect of this, please try to supply as much evidence as possible.
+        4.Glitching- Do not use glitches at all or you will be banned.
+        5.Dont be toxic to fellow players be kind!
+        6.PLEASE DO NOT BLOCK POI OR REMOVAL OF BASE (if Building in citys is enabled)
+        7.No floaters, First offence: Deletion of shelter / loot, Second offence: Deletion of entire base / loot.  Third offence  Ban if you do it again.
+        8.Switching teamates is allowed but only 3 online at a time!
+        
+        Rules for people that don't think they are rules.
+        8.No being racist at all 
+        9.No cheating at all 
+        10.No pretending to be admin
+        11.No doxing another player
+        12.No Custom Packs that Give you a Advantage.`
       );
     },
   },
@@ -225,6 +260,7 @@ export const commands: Array<Command> = [
         }
       }
       server.sendData(client, "Spectator.Enable", {});
+      server.sendCharacterData(client);
     },
   },
   {
@@ -393,9 +429,9 @@ export const commands: Array<Command> = [
         position: client.character.state.position,
         triggerLoadingScreen: true,
       });
-      server.sendChatText(
-        client,
-        `Teleporting ${targetClient.character.name} to your location`
+      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has tphere ${targetClient.character.name}`, ``, []);
+      server.sendChatText(client,`Teleporting ${targetClient.character.name} to your location`
+      
       );
     },
   },
@@ -429,6 +465,7 @@ export const commands: Array<Command> = [
         position: targetClient.character.state.position,
         triggerLoadingScreen: true,
       });
+      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has Tpto ${targetClient.character.name} `, ``, []);
       server.sendChatText(
         client,
         `Teleporting to ${targetClient.character.name}'s location`
@@ -476,6 +513,7 @@ export const commands: Array<Command> = [
           } until ${server.getDateString(time)}`
         );
       } else {
+        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has You have silently banned ${targetClient.character.name} permemently, banType: ${banType}`, ``, []);
         server.sendChatText(
           client,
           `You have silently banned ${targetClient.character.name} permemently, banType: ${banType}`
@@ -542,6 +580,55 @@ export const commands: Array<Command> = [
     },
   },
   {
+    name: "deepcover",
+    permissionLevel: PermissionLevels.MODERATOR,
+    execute: async (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const newCharacterName = args[0];
+  
+      // Validate the input to ensure that it is a single word without special characters
+      const isValidInput = /^[a-zA-Z0-9_]+$/.test(newCharacterName);
+      if (!isValidInput) {
+        server.sendChatText(client, "Invalid input. Please enter a single word without special characters.");
+        return;
+      }
+  
+      // Update the client's character name
+      client.character.name = newCharacterName;
+  
+      // Wait for one second before running vanish command
+      await new Promise(resolve => setTimeout(resolve, 1000));
+  
+      // Set the client's isSpectator state
+      client.character.isSpectator = !client.character.isSpectator;
+  
+      // Remove the client's character from the game if in spectate mode
+      if (client.character.isSpectator) {
+        for (const a in server._clients) {
+          const iteratedClient = server._clients[a];
+          if (iteratedClient.spawnedEntities.includes(client.character)) {
+            server.sendData(iteratedClient, "Character.RemovePlayer", {
+              characterId: client.character.characterId,
+            });
+            iteratedClient.spawnedEntities.splice(
+              iteratedClient.spawnedEntities.indexOf(client.character),
+              1
+            );
+          }
+        }
+        server.sendData(client, "Spectator.Enable", {});
+      }
+  
+      // Wait for an additional second before running the second vanish command
+      await new Promise(resolve => setTimeout(resolve, 1000));
+  
+      // Set the client's isSpectator state again
+      client.character.isSpectator = !client.character.isSpectator;
+  
+      // Send a chat message to confirm the name change
+      server.sendChatText(client, `Name changed to ${newCharacterName}`);
+    },
+  },
+  {
     name: "kick",
     permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -564,6 +651,7 @@ export const commands: Array<Command> = [
       }
       const reason = args[1] ? args.slice(1).join(" ") : "Undefined";
       for (let i = 0; i < 5; i++) {
+        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has kicked ${targetClient.character.name} from the server. Reason: ${reason}`, ``, []);
         server.sendAlert(
           targetClient,
           `You are being kicked from the server. Reason: ${reason}`
@@ -597,6 +685,7 @@ export const commands: Array<Command> = [
       const name = args.join(" ").toString();
       const unBannedClient = await server.unbanClient(client, name);
       if (unBannedClient) {
+        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has Removed ban on user ${unBannedClient.name}`, ``, []);
         server.sendChatText(
           client,
           `Removed ban on user ${unBannedClient.name}`
@@ -936,7 +1025,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "decoy",
-    permissionLevel: PermissionLevels.ADMIN,
+    permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0] && !server._decoys[client.character.transientId]) {
         server.sendChatText(client, "usage /decoy {name}");
@@ -1140,6 +1229,7 @@ export const commands: Array<Command> = [
           server.sendChatText(client, "Client not found.");
           return;
         }
+        server.sendAdminDiscordHook(client, client, "", `Adding ${count}x item${count == 1 ? "" : "s"} with id ${itemDefId} to player ${targetClient ? targetClient.character.name : client.character.name}`, ``, []);
         server.sendChatText(
           client,
           `Adding ${count}x item${
@@ -1153,6 +1243,7 @@ export const commands: Array<Command> = [
           item
         );
       } else {
+        server.sendAdminDiscordHook(client, client, "", `Adding ${count}x item${count == 1 ? "" : "s"} with id ${itemDefId} to player ${client.character.name}`, ``, []);
         server.sendChatText(
           client,
           `Adding ${count}x item${
@@ -1191,6 +1282,8 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       client.character.equipLoadout(server, characterKitLoadout);
+      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has used /kit`, ``, []);
+
     },
   },
   {
@@ -1622,6 +1715,23 @@ export const commands: Array<Command> = [
       server.sendChatText(client, `Build kit given`);
     },
   },
+  {
+    name: "skins",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: async (
+      server: ZoneServer2016,
+      client: Client,
+      args: Array<string>
+    ) => {
+      client.character.equipItem(
+        server,
+        server.generateItem(Items.FANNY_PACK_DEV)
+      );
+      client.character.equipLoadout(server, characterskinsloadout);
+      server.sendChatText(client, `skins kit given`);
+    },
+  },
+
   {
     name: "debug",
     permissionLevel: PermissionLevels.MODERATOR,
