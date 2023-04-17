@@ -166,6 +166,7 @@ export class ZonePacketHandlers {
         const obj = [
           { title: 'Player HWID', info: `${client.HWID}` },
           { title: 'CharacterID', info: `${client.character.characterId}` },
+          { title: 'LoginSessionID', info: `${client.loginSessionId}` },
           { title: 'Player IP', info: `||${soeClient?.address}||` },
           { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
           { title: 'Server Population', info: `${_.size(server._characters)}` },
