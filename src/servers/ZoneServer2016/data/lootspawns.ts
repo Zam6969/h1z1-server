@@ -1856,14 +1856,6 @@ export const containerLootSpawners: {
         },
       },
       {
-        item: Items.CODED_MESSAGE,
-        weight: 6,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
-      {
         item: Items.METAL_SHEET,
         weight: 33,
         spawnCount: {
@@ -1891,14 +1883,6 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 20,
-        },
-      },
-      {
-        item: Items.CODED_MESSAGE,
-        weight: 6,
-        spawnCount: {
-          min: 1,
-          max: 1,
         },
       },
       {
@@ -2081,6 +2065,7 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 15,
+
         },
       },
       {
@@ -3187,14 +3172,6 @@ Demolitioner: {
         max: 10,
       },
     },
-    {
-      item: Items.LIGHTER,
-      weight: 1,
-      spawnCount: {
-        min: 10,
-        max: 10,
-      },
-    },
   ],
 },
 Medic: {
@@ -3317,6 +3294,7 @@ Builder: {
       spawnCount: {
         min: 5,
         max: 5,
+
       },
     },
   ],

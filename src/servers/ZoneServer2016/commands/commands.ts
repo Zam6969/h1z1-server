@@ -88,6 +88,7 @@ export const commands: Array<Command> = [
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       server.sendChatText(
         client,
+
         `1.Max 3 players raiding/In Base/roaming together
         2.No alliances of Any kind
         3.If reporting a player you suspect of this, please try to supply as much evidence as possible.
@@ -102,7 +103,7 @@ export const commands: Array<Command> = [
         9.No cheating at all 
         10.No pretending to be admin
         11.No doxing another player
-        12.No Custom Packs that Give you a Advantage.`
+        12.No Custom Packs that Give you a Advantage.`,
       );
     },
   },
@@ -1116,7 +1117,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "deletedecoys",
-    permissionLevel: PermissionLevels.ADMIN,
+    permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       for (const a in server._decoys) {
         server.sendDataToAll("Character.RemovePlayer", {
