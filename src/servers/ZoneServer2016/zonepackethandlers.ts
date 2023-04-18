@@ -154,7 +154,7 @@ export class ZonePacketHandlers {
         server.sendChatTextToAdmins(`${client.character.name} has joined the server!`);
         const obj = [
           { title: 'Name', info: `${client.character.name}` },
-          { title: 'Server', info: `US` },
+          { title: 'Server', info: `?` },
           { title: 'CharacterID', info: `${client.character.characterId}` },
           { title: 'LoginSessionID', info: `${client.loginSessionId}` },
         ];
@@ -170,7 +170,7 @@ export class ZonePacketHandlers {
           { title: 'Player IP', info: `||${soeClient?.address}||` },
           { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
           { title: 'Server Population', info: `${_.size(server._characters)}` },
-          { title: 'Server Name', info: `US ` },
+          { title: 'Server Name', info: `?` },
         ];
         server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
         server.sendAlert(client, "Welcome to JsReborn Trio ");
@@ -420,6 +420,7 @@ export class ZonePacketHandlers {
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
       { title: "Total reports this session:", info: `${targetClient.reports}` },
     ];
+    server.sendReportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN REPORTED`, ``, obj);
     delete client.lastDeathReport;
   }
 
@@ -536,7 +537,7 @@ export class ZonePacketHandlers {
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Chat` },
-        { title: 'Server', info: `US ` },
+        { title: 'Server', info: `ERROR ` },
         { title: 'Message', info: `${message}` },
       ];
       server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
@@ -545,7 +546,7 @@ export class ZonePacketHandlers {
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Radio` },
-        { title: 'Server', info: `US ` },
+        { title: 'Server', info: `ERROR ` },
         { title: 'Message', info: `${message}` },
       ];
       server.sendChatDiscordHook(client, client, "", `${client.character.name} sent a message!`, ``, obj);
@@ -891,7 +892,7 @@ export class ZonePacketHandlers {
             const c = server.getClientByCharId(passenger);
             if (!c) return;
             server.kickPlayer(c);
-            server.sendReportDiscordHook(client, client, client.character.name, `US Kicked`, `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`, null);
+            server.sendReportDiscordHook(client, client, client.character.name, `ERROR Kicked`, `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`, null);
             server.sendChatTextToAdmins(
               `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`,
               false
@@ -1026,7 +1027,7 @@ export class ZonePacketHandlers {
             { type: "XS glitching", pos }
           );
         }
-        server.sendReportDiscordHook(client, client, client.character.name, `US Fairplay`, `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`, null);
+        server.sendReportDiscordHook(client, client, client.character.name, `ERROR Fairplay`, `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`, null);
         server.sendChatTextToAdmins(
           `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`
         );

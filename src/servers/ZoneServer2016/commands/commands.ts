@@ -571,12 +571,15 @@ export const commands: Array<Command> = [
         );
       }
       const reason = args.slice(2).join(" ");
-      server.banClient(
-        targetClient,
-        reason,
-        "normal",
-        client.character.name ? client.character.name : "",
-        time
+      const obj = [
+        { title: 'Admin', info: `${client.character.name}` },
+        { title: 'Player', info: `${targetClient.character.name}` },
+        { title: 'Ban length', info: `${time}` },
+        { title: 'BanType', info: `Normal` },
+        { title: 'Reason', info: `${reason}` },
+      ];
+      server.sendBanreportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN BANNED`, ``, obj);
+      server.banClient(targetClient,reason,"normal",client.character.name ? client.character.name : "",time
       );
     },
   },

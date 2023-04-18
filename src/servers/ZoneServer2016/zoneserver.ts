@@ -6599,6 +6599,21 @@ export class ZoneServer2016 extends EventEmitter {
     }
     hook.send(embed);
   }
+  sendBanreportDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook("Ban discord webhook");
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+  }
   sendAdminDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
     const hook = new Webhook("https://discord.com/api/webhooks/1092403739006091304/cx2NbJhwxVfLA97Y-z2oNpU-Ng5yAZ99DUAHD1HtH-Tzfz0H-gmlWox6InC5ZRasWipq");
