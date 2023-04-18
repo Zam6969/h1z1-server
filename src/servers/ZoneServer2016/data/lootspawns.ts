@@ -3114,40 +3114,40 @@ export const containerLootSpawners: {
       item: Items.GROUND_TILLER,
       weight: 1,
       spawnCount: {
-        min: 1,
-        max: 1,
+        min: 10,
+        max: 10,
       },
     },
     {
       item: Items.GROUND_TAMPER,
       weight: 1,
       spawnCount: {
-        min: 1,
-        max: 1,
+        min: 5,
+        max: 5,
       },
     },
     {
       item: Items.SEED_CORN,
       weight: 1,
       spawnCount: {
-        min: 10,
-        max: 10,
+        min: 30,
+        max: 30,
       },
     },
     {
       item: Items.SEED_WHEAT,
       weight: 1,
       spawnCount: {
-        min: 10,
-        max: 10,
+        min: 30,
+        max: 30,
       },
     },
     {
       item: Items.FERTILIZER,
       weight: 1,
       spawnCount: {
-        min: 15,
-        max: 15,
+        min: 30,
+        max: 30,
       },
     },
   ],
@@ -3168,32 +3168,32 @@ Demolitioner: {
       item: Items.IED,
       weight: 1,
       spawnCount: {
-        min: 25,
-        max: 25,
+        min: 35,
+        max: 35,
       },
     },
     {
       item: Items.FUEL_BIOFUEL,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 20,
+        max: 20,
       },
     },
     {
       item: Items.FUEL_ETHANOL,
       weight: 1,
       spawnCount: {
-        min: 25,
-        max: 25,
+        min: 50,
+        max: 50,
       },
     },
     {
       item: Items.LANDMINE,
       weight: 1,
       spawnCount: {
-        min: 10,
-        max: 10,
+        min: 20,
+        max: 20,
       },
     },
   ],
@@ -3214,48 +3214,48 @@ Medic: {
       item: Items.BANDAGE_DRESSED,
       weight: 1,
       spawnCount: {
-        min: 15,
-        max: 15,
+        min: 25,
+        max: 25,
       },
     },
     {
       item: Items.FIRST_AID,
       weight: 1,
       spawnCount: {
-        min: 10,
-        max: 10,
+        min: 20,
+        max: 20,
       },
     },
     {
       item: Items.LOCKER_KEY_F1,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 15,
+        max: 15,
       },
     },
     {
       item: Items.LOCKER_KEY_F2,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 15,
+        max: 15,
       },
     },
     {
       item: Items.LOCKER_KEY_F3,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 15,
+        max: 15,
       },
     },
     {
       item: Items.LOCKER_KEY_F4,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 15,
+        max: 15,
       },
     },
   ],
@@ -3268,16 +3268,16 @@ Builder: {
       item: Items.METAL_SCRAP,
       weight: 1,
       spawnCount: {
-        min: 60,
-        max: 60,
+        min: 100,
+        max: 100,
       },
     },
     {
       item: Items.WOOD_LOG,
       weight: 1,
       spawnCount: {
-        min: 60,
-        max: 60,
+        min: 100,
+        max: 100,
       },
     },
     {
@@ -3300,8 +3300,8 @@ Builder: {
       item: Items.WEAPON_HAMMER,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 10,
+        max: 10,
       },
     },
     {
@@ -3316,8 +3316,8 @@ Builder: {
       item: Items.WORKBENCH,
       weight: 1,
       spawnCount: {
-        min: 5,
-        max: 5,
+        min: 10,
+        max: 10,
 
       },
     },
@@ -3355,24 +3355,24 @@ Fighter: {
       item: Items.AMMO_762,
       weight: 1,
       spawnCount: {
-        min: 50,
-        max: 50,
+        min: 80,
+        max: 80,
       },
     },
     {
       item: Items.AMMO_308,
       weight: 1,
       spawnCount: {
-        min: 15,
-        max: 15,
+        min: 30,
+        max: 30,
       },
     },
     {
       item: Items.AMMO_12GA,
       weight: 1,
       spawnCount: {
-        min: 15,
-        max: 15,
+        min: 30,
+        max: 30,
       },
     },
   ],
