@@ -1979,7 +1979,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.KEVLAR_DEFAULT,
-        weight: 40,
+        weight: 35,
         spawnCount: {
           min: 1,
           max: 1,
