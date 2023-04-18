@@ -1273,6 +1273,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         },
       },
       {
+        item: Items.CODED_MESSAGE,
+        weight: 3,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.MRE_APPLE,
         weight: 100,
         spawnCount: {
@@ -1947,7 +1955,15 @@ export const containerLootSpawners: {
     items: [
       {
         item: Items.WEAPON_AK47,
-        weight: 20,
+        weight: 15,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.CODED_MESSAGE,
+        weight: 3,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1955,7 +1971,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WEAPON_AR15,
-        weight: 20,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1963,7 +1979,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.KEVLAR_DEFAULT,
-        weight: 35,
+        weight: 40,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1985,7 +2001,15 @@ export const containerLootSpawners: {
     items: [
       {
         item: Items.WEAPON_AK47,
-        weight: 50,
+        weight: 15,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.CODED_MESSAGE,
+        weight: 3,
         spawnCount: {
           min: 1,
           max: 1,
