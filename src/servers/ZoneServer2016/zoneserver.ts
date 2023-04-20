@@ -6539,8 +6539,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("https://discord.com/api/webhooks/1086421427013550190/SYI2WtLXnjxqDaBMEsB5Lv2JKd0J7GbB0TjFM1yZNVrr24qWp1j8sLpD4S1qFNeJbjpE");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
@@ -6554,8 +6554,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("https://discord.com/api/webhooks/1084389033079226409/bnY9bRiU6tAXD5_xLL0ip_eSdF_z-wjJPyUcsF_OznI8hU4L9PHRvxKeVu7EJhJWKl-P");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
@@ -6572,8 +6572,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("https://discord.com/api/webhooks/1086421151254843442/nlnPWNRExhxuzdDQCCdITk680KE5HEO0CQMc4iOyuu11KWW9iPvPEyb6pkusfQplvyXX");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
@@ -6589,8 +6589,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("https://discord.com/api/webhooks/1086421558110736416/trJ-UognjJWot_T6bihmdppkMNAW1YU_8Wz17MeqStmJCkGD8zSah3mKmOXE9daL8dsO");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
@@ -6604,8 +6604,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("Ban discord webhook");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
@@ -6619,8 +6619,8 @@ export class ZoneServer2016 extends EventEmitter {
     const hook = new Webhook("https://discord.com/api/webhooks/1092403739006091304/cx2NbJhwxVfLA97Y-z2oNpU-Ng5yAZ99DUAHD1HtH-Tzfz0H-gmlWox6InC5ZRasWipq");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/VxXyRG.png')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/VxXyRG.png')
+      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
       .setColor("#000000")
       .setDescription(description);
 
