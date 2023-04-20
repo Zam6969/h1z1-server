@@ -420,22 +420,19 @@ export class ZonePacketHandlers {
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
       { title: "Total reports this session:", info: `${targetClient.reports}` },
     ];
+    server.sendChatTextToAdmins(client, `${targetClient.character.name} HAS BEEN REPORTED by ${client.character.name}`)
     server.sendReportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN REPORTED`, ``, obj);
     setTimeout(() => {
       server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
       server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
       server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
-    }, 10000);
-  setTimeout(() => {
-    server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
-    server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
-    server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
-  }, 10000);
-  setTimeout(() => {
-    server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
-    server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
-    server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
-  }, 10000);
+    }, 1);
+    setTimeout(() => {
+      server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
+      server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
+      server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
+    }, 30000);
+
 
     delete client.lastDeathReport;
   }
