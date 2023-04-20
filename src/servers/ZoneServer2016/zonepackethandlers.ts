@@ -420,7 +420,7 @@ export class ZonePacketHandlers {
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
       { title: "Total reports this session:", info: `${targetClient.reports}` },
     ];
-    server.sendChatTextToAdmins(client, client, `${targetClient.character.name} HAS BEEN REPORTED by ${client.character.name}`)
+    server.sendChatTextToAdmins(`${targetClient.character.name} HAS BEEN REPORTED BY ${client.character.name}`); 
     server.sendReportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN REPORTED`, ``, obj);
     setTimeout(() => {
       server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
