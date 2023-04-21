@@ -123,60 +123,6 @@ const dev: any = {
       } as CharacterSeekTarget);
     }, 5000);
   },
-  state: function (server: ZoneServer2015, client: Client, args: any[]) {
-    const state = args[1];
-    switch (state) {
-      case "list":
-        server.sendChatText(
-          client,
-          "Availables states : hidden, sit, autorun, cuffed, handsup"
-        );
-        break;
-      case "hidden":
-        if (client.character.characterStates.gmHidden) {
-          delete client.character.characterStates.gmHidden;
-        } else {
-          client.character.characterStates.gmHidden = true;
-        }
-        break;
-      case "sit":
-        if (client.character.characterStates.sitting) {
-          delete client.character.characterStates.sitting;
-          delete client.character.characterStates.userMovementDisabled;
-        } else {
-          client.character.characterStates.sitting = true;
-          client.character.characterStates.userMovementDisabled = true;
-        }
-        break;
-      case "autorun":
-        if (client.character.characterStates.charging) {
-          delete client.character.characterStates.charging;
-        } else {
-          client.character.characterStates.charging = true;
-        }
-        break;
-      case "cuffed":
-        if (client.character.characterStates.bound) {
-          delete client.character.characterStates.bound;
-        } else {
-          client.character.characterStates.bound = true;
-        }
-        break;
-      case "handsup":
-        if (client.character.characterStates.handsUp) {
-          delete client.character.characterStates.handsUp;
-        } else {
-          client.character.characterStates.handsUp = true;
-        }
-        break;
-      default:
-        server.sendChatText(
-          client,
-          `Incorrect characterstate! use /hax state list`
-        );
-        break;
-      }
-    },
   
   stats: function (
     server: ZoneServer2016,
