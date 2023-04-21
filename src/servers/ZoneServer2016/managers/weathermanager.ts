@@ -457,7 +457,7 @@ export class WeatherManager {
       fogFloor: 71,
       fogGradient: 0.008,
       rain: 0, //broken
-      temp: 34,
+      temp: 29,
       colorGradient: Number((this.skyColor / 400).toFixed(5)),
       unknownDword8: 0.25, //clouds cause the screen flickering
       unknownDword9: 0.25,
