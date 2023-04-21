@@ -147,7 +147,7 @@ export class WeatherManager {
             skyBrightness1: 1,
             skyBrightness2: 1,
             */
-      rain: rnd_number(200, true),
+      rain: 0,
       temp: rnd_number(80, true),
       colorGradient: rnd_number(1),
       unknownDword8: rnd_number(1),
@@ -155,13 +155,13 @@ export class WeatherManager {
       unknownDword10: rnd_number(1),
       unknownDword11: 0,
       unknownDword12: 0,
-      sunAxisX: rnd_number(360, true),
-      sunAxisY: rnd_number(360, true),
+      sunAxisX: 500,
+      sunAxisY: 500,
       unknownDword15: 0,
-      windDirectionX: rnd_number(360, true),
-      windDirectionY: rnd_number(360, true),
-      windDirectionZ: rnd_number(360, true),
-      wind: rnd_number(100, true),
+      windDirectionX: 1,
+      windDirectionY: 0.5,
+      windDirectionZ: 1,
+      wind: rnd_number(5, true),
       unknownDword20: 0,
       unknownDword21: 0,
       unknownDword22: 0,
@@ -173,9 +173,9 @@ export class WeatherManager {
       unknownDword28: 0,
       unknownDword29: 0,
 
-      AOSize: rnd_number(0.5),
-      AOGamma: rnd_number(0.2),
-      AOBlackpoint: rnd_number(2),
+      AOSize: 0.5,
+      AOGamma: 0.2,
+      AOBlackpoint: 2,
 
       unknownDword33: 0,
     };
@@ -450,14 +450,14 @@ export class WeatherManager {
     this.seasonstart();
     const weather = {
       name: "sky_Z_clouds.dds",
-      unknownDword1: 1,
+      unknownDword1: 0.002,
       fogDensity: this.fogEnabled
         ? Number((this.fogValue / 40000).toFixed(5))
         : 0,
       fogFloor: 71,
       fogGradient: 0.008,
       rain: 0, //broken
-      temp: this.temperature, // does almost nothing
+      temp: 34,
       colorGradient: Number((this.skyColor / 400).toFixed(5)),
       unknownDword8: 0.18, //clouds cause the screen flickering
       unknownDword9: 0.18,
