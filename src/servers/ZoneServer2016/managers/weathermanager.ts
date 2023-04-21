@@ -39,7 +39,7 @@ export class WeatherManager {
   weather!: Weather2016;
   templates = localWeatherTemplates;
   dynamicWorker: any;
-  dynamicEnabled = true;
+  dynamicEnabled = false;
 
   cycleSpeed = 100;
   frozeCycle = false;
@@ -459,26 +459,26 @@ export class WeatherManager {
       rain: 0, //broken
       temp: this.temperature, // does almost nothing
       colorGradient: Number((this.skyColor / 400).toFixed(5)),
-      unknownDword8: 0, //clouds cause the screen flickering
-      unknownDword9: 0,
-      unknownDword10: 0,
-      unknownDword11: 0,
-      unknownDword12: 0.25,
-      sunAxisX: 0,
-      sunAxisY: 0,
+      unknownDword8: 0.18, //clouds cause the screen flickering
+      unknownDword9: 0.18,
+      unknownDword10: 0.18,
+      unknownDword11: 0.18,
+      unknownDword12: 0,
+      sunAxisX: 500,
+      sunAxisY: 500,
       unknownDword15: 0,
       windDirectionX: 1,
       windDirectionY: 0.5,
       windDirectionZ: 1,
-      wind: 1,
+      wind: 3,
       unknownDword20: 0,
       unknownDword21: 1,
       unknownDword22: 0.3,
-      unknownDword23: -0.002,
-      unknownDword24: 0,
+      unknownDword23: 0.002,
+      unknownDword24: 0.002,
       unknownDword25: 1000,
-      unknownDword26: 0.2,
-      unknownDword27: 0,
+      unknownDword26: 0.001,
+      unknownDword27: 0.5,
       unknownDword28: 0.002,
       unknownDword29: 8000,
       AOSize: 0.1,
