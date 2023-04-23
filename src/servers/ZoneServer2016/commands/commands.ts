@@ -2045,7 +2045,6 @@ export const commands: Array<Command> = [
 
       args.splice(0, 1);
       const message = args.join(" ");
-
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Whisper` },
