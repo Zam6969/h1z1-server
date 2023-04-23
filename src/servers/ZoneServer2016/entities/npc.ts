@@ -20,7 +20,7 @@ import { DB_COLLECTIONS } from "../../../utils/enums";
 
 export class Npc extends BaseFullCharacter {
   health: number;
-  npcRenderDistance = 80;
+  npcRenderDistance = 300;
   spawnerId: number;
   deathTime: number = 0;
   flags = {
