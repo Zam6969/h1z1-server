@@ -550,7 +550,6 @@ export class ZonePacketHandlers {
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Chat` },
-        { title: 'Server', info: `ERROR ` },
         { title: 'Message', info: `${message}` },
       ];
       server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
@@ -559,7 +558,6 @@ export class ZonePacketHandlers {
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Radio` },
-        { title: 'Server', info: `ERROR ` },
         { title: 'Message', info: `${message}` },
       ];
       server.sendChatDiscordHook(client, client, "", `${client.character.name} sent a message!`, ``, obj);

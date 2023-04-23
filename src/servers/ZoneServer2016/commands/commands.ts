@@ -2046,6 +2046,14 @@ export const commands: Array<Command> = [
       args.splice(0, 1);
       const message = args.join(" ");
 
+      const obj = [
+        { title: 'Name', info: `${client.character.name}` },
+        { title: 'type', info: `Whisper` },
+        { title: 'to', info: `${targetClient.character.name}` },
+        { title: 'Message', info: `${message}` },
+
+      ];
+      server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
       server.sendChatText(
         client,
         `[Whisper to ${targetClient.character.name}]: ${message}`
