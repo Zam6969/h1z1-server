@@ -199,14 +199,6 @@ export class Character2016 extends BaseFullCharacter {
   }
 
   updateResources(client: ZoneClient2016, server: ZoneServer2016) {
-    if (this.isGodMode()) {
-      client.character.resourcesUpdater.refresh();
-      return;
-    }
-
-    if (!server._clients[client.sessionId]) {
-      return;
-    }
     let effectId;
     for (const a in this._characterEffects) {
       const characterEffect = this._characterEffects[a];
@@ -230,6 +222,14 @@ export class Character2016 extends BaseFullCharacter {
           effectId: effectId,
         }
       );
+    }
+    if (this.isGodMode()) {
+      client.character.resourcesUpdater.refresh();
+      return;
+    }
+
+    if (!server._clients[client.sessionId]) {
+      return;
     }
     const hunger = this._resources[ResourceIds.HUNGER],
       hydration = this._resources[ResourceIds.HYDRATION],
@@ -965,6 +965,7 @@ export class Character2016 extends BaseFullCharacter {
         hasArmorBefore
       );
     }
+
     /* eslint-disable @typescript-eslint/no-unused-vars */
     switch (damageInfo.weapon) {
       case Items.WEAPON_BLAZE:
@@ -1030,7 +1031,7 @@ export class Character2016 extends BaseFullCharacter {
         break;
     }
     /* eslint-enable @typescript-eslint/no-unused-vars */
-    c.character.damage(server, {
+    this.damage(server, {
       ...damageInfo,
       damage: damage,
       causeBleed: !(canStopBleed && this.hasArmor(server)),

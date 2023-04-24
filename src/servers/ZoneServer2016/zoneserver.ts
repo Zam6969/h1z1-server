@@ -1639,6 +1639,11 @@ export class ZoneServer2016 extends EventEmitter {
     if (!client.character.isAlive) return;
     if (!this.hookManager.checkHook("OnPlayerDeath", client, damageInfo))
       return;
+    for (const a in client.character._characterEffects) {
+      const characterEffect = client.character._characterEffects[a];
+      if (characterEffect.endCallback)
+        characterEffect.endCallback(this, client.character);
+    }
     const weapon = client.character.getEquippedWeapon();
     if (weapon && weapon.weapon) {
       this.sendRemoteWeaponUpdateDataToAllOthers(
@@ -1692,11 +1697,6 @@ export class ZoneServer2016 extends EventEmitter {
       unk: gridArr,
       bool: true,
     });
-    for (const a in client.character._characterEffects) {
-      const characterEffect = client.character._characterEffects[a];
-      if (characterEffect.endCallback)
-        characterEffect.endCallback(this, client.character);
-    }
     client.character._characterEffects = {};
     client.character.isRespawning = true;
     this.sendDeathMetrics(client);
@@ -1802,7 +1802,6 @@ export class ZoneServer2016 extends EventEmitter {
     client?: Client
   ) {
     // TODO: REDO THIS WITH AN OnExplosiveDamage method per class
-
     for (const characterId in this._characters) {
       const character = this._characters[characterId];
       if (isPosInRadiusWithY(3, character.state.position, position, 1.5)) {
@@ -2059,6 +2058,16 @@ export class ZoneServer2016 extends EventEmitter {
     client.character.isRunning = false;
     client.character.isRespawning = false;
     client.isInAir = false;
+
+    this.sendDataToAllWithSpawnedEntity(
+      this._characters,
+      client.character.characterId,
+      "Command.PlayDialogEffect",
+      {
+        characterId: client.character.characterId,
+        effectId: 0,
+      }
+    );
 
     client.character._resources[ResourceIds.HEALTH] = 10000;
     client.character._resources[ResourceIds.HUNGER] = 10000;
@@ -2520,8 +2529,8 @@ export class ZoneServer2016 extends EventEmitter {
       case Items.WEAPON_NAGAFENS_RAGE:
         return calculate_falloff(
           getDistance(sourcePos, targetPos),
-          400,
-          2800, //1667,
+          200,
+          2400, //1667,
           3,
           20
         );
@@ -2531,7 +2540,7 @@ export class ZoneServer2016 extends EventEmitter {
       case Items.WEAPON_308:
         return 6700;
       case Items.WEAPON_REAPER:
-        return 21000;
+        return 14000;
       case Items.WEAPON_MAGNUM:
         return 3000;
       case Items.WEAPON_BOW_MAKESHIFT:
@@ -2651,7 +2660,10 @@ export class ZoneServer2016 extends EventEmitter {
         gameTime
       )
     ) {
-      if (weaponItem.itemDefinitionId != Items.WEAPON_SHOTGUN) {
+      if (
+        weaponItem.itemDefinitionId != Items.WEAPON_SHOTGUN &&
+        weaponItem.itemDefinitionId != Items.WEAPON_NAGAFENS_RAGE
+      ) {
         client.flaggedShots++;
         if (
           client.flaggedShots >=
@@ -4785,6 +4797,14 @@ export class ZoneServer2016 extends EventEmitter {
         durability = 100;
         break;
     }
+    if (
+      itemDefinitionId == Items.WEAPON_REAPER ||
+      itemDefinitionId == Items.WEAPON_NAGAFENS_RAGE ||
+      itemDefinitionId == Items.WEAPON_FROSTBITE ||
+      itemDefinitionId == Items.WEAPON_BLAZE
+    ) {
+      durability = 1000;
+    }
     const itemData: BaseItem = new BaseItem(
       itemDefinitionId,
       generatedGuid,
@@ -5957,7 +5977,7 @@ export class ZoneServer2016 extends EventEmitter {
             if (smeltable.subEntity.isWorking) continue;
             smeltable.subEntity.isWorking = true;
             const effectTime =
-              Math.ceil(this.smeltingManager.burningTime / 1000) -
+              Math.ceil(this.smeltingManager.burnTime / 1000) -
               Math.floor(
                 (Date.now() - this.smeltingManager.lastBurnTime) / 1000
               );
@@ -5992,7 +6012,7 @@ export class ZoneServer2016 extends EventEmitter {
             if (smeltable.subEntity.isWorking) continue;
             smeltable.subEntity.isWorking = true;
             const effectTime =
-              Math.ceil(this.smeltingManager.burningTime / 1000) -
+              Math.ceil(this.smeltingManager.burnTime / 1000) -
               Math.floor(
                 (Date.now() - this.smeltingManager.lastBurnTime) / 1000
               );

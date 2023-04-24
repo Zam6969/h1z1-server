@@ -2101,8 +2101,8 @@ export const containerLootSpawners: {
         },
       },
       {
-        item: Items.SALT,
-        weight: 20,
+        item: Items.CODED_MESSAGE,
+        weight: 2,
         spawnCount: {
           min: 1,
           max: 1,
@@ -3081,362 +3081,370 @@ export const containerLootSpawners: {
       },
     ],
   },
- // airdrops
- Farmer: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.GROUND_TILLER,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
-      },
-    },
-    {
-      item: Items.GROUND_TILLER,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
-      },
-    },
-    {
-      item: Items.GROUND_TILLER,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
-      },
-    },
-    {
-      item: Items.GROUND_TILLER,
-      weight: 1,
-      spawnCount: {
-        min: 10,
-        max: 10,
-      },
-    },
-    {
-      item: Items.GROUND_TAMPER,
-      weight: 1,
-      spawnCount: {
-        min: 5,
-        max: 5,
-      },
-    },
-    {
-      item: Items.SEED_CORN,
-      weight: 1,
-      spawnCount: {
-        min: 30,
-        max: 30,
-      },
-    },
-    {
-      item: Items.SEED_WHEAT,
-      weight: 1,
-      spawnCount: {
-        min: 30,
-        max: 30,
-      },
-    },
-    {
-      item: Items.FERTILIZER,
-      weight: 1,
-      spawnCount: {
-        min: 30,
-        max: 30,
-      },
-    },
-  ],
-},
-Demolitioner: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.WEAPON_HAMMER_DEMOLITION,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
-      },
-    },
-    {
-      item: Items.IED,
-      weight: 1,
-      spawnCount: {
-        min: 35,
-        max: 35,
-      },
-    },
-    {
-      item: Items.FUEL_BIOFUEL,
-      weight: 1,
-      spawnCount: {
-        min: 20,
-        max: 20,
-      },
-    },
-    {
-      item: Items.FUEL_ETHANOL,
-      weight: 1,
-      spawnCount: {
-        min: 50,
-        max: 50,
-      },
-    },
-    {
-      item: Items.LANDMINE,
-      weight: 1,
-      spawnCount: {
-        min: 20,
-        max: 20,
-      },
-    },
-  ],
-},
-Medic: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.GAUZE,
-      weight: 1,
-      spawnCount: {
-        min: 25,
-        max: 25,
-      },
-    },
-    {
-      item: Items.BANDAGE_DRESSED,
-      weight: 1,
-      spawnCount: {
-        min: 25,
-        max: 25,
-      },
-    },
-    {
-      item: Items.FIRST_AID,
-      weight: 1,
-      spawnCount: {
-        min: 20,
-        max: 20,
-      },
-    },
-    {
-      item: Items.LOCKER_KEY_F1,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
-      },
-    },
-    {
-      item: Items.LOCKER_KEY_F2,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
-      },
-    },
-    {
-      item: Items.LOCKER_KEY_F3,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
-      },
-    },
-    {
-      item: Items.LOCKER_KEY_F4,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
-      },
-    },
-  ],
-},
-Builder: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.METAL_SCRAP,
-      weight: 1,
-      spawnCount: {
-        min: 100,
-        max: 100,
-      },
-    },
-    {
-      item: Items.WOOD_LOG,
-      weight: 1,
-      spawnCount: {
-        min: 100,
-        max: 100,
-      },
-    },
-    {
-      item: Items.WEAPON_AXE_WOOD,
-      weight: 1,
-      spawnCount: {
-        min: 10,
-        max: 10,
-      },
-    },
-    {
-      item: Items.WEAPON_CROWBAR,
-      weight: 1,
-      spawnCount: {
-        min: 5,
-        max: 5,
-      },
-    },
-    {
-      item: Items.WEAPON_HAMMER,
-      weight: 1,
-      spawnCount: {
-        min: 10,
-        max: 10,
-      },
-    },
-    {
-      item: Items.SHACK,
-      weight: 1,
-      spawnCount: {
-        min: 5,
-        max: 5,
-      },
-    },
-    {
-      item: Items.WORKBENCH,
-      weight: 1,
-      spawnCount: {
-        min: 10,
-        max: 10,
 
+  // airdrops
+  Farmer: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.GROUND_TILLER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-  ],
-},
-Fighter: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.WEAPON_308,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
+      {
+        item: Items.GROUND_TILLER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-    {
-      item: Items.WEAPON_SHOTGUN,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
+      {
+        item: Items.GROUND_TILLER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-    {
-      item: Items.WEAPON_AK47,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
+      {
+        item: Items.GROUND_TILLER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-    {
-      item: Items.AMMO_762,
-      weight: 1,
-      spawnCount: {
-        min: 80,
-        max: 80,
+      {
+        item: Items.GROUND_TAMPER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-    {
-      item: Items.AMMO_308,
-      weight: 1,
-      spawnCount: {
-        min: 30,
-        max: 30,
+      {
+        item: Items.SEED_CORN,
+        weight: 1,
+        spawnCount: {
+          min: 10,
+          max: 10,
+        },
       },
-    },
-    {
-      item: Items.AMMO_12GA,
-      weight: 1,
-      spawnCount: {
-        min: 30,
-        max: 30,
+      {
+        item: Items.SEED_WHEAT,
+        weight: 1,
+        spawnCount: {
+          min: 10,
+          max: 10,
+        },
       },
-    },
-  ],
-},
-Supplier: {
-  spawnChance: 100,
-  maxItems: 1,
-  items: [
-    {
-      item: Items.SANDWICH_DEER,
-      weight: 1,
-      spawnCount: {
-        min: 3,
-        max: 3,
+      {
+        item: Items.FERTILIZER,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
       },
-    },
-    {
-      item: Items.SANDWICH_BEAR,
-      weight: 1,
-      spawnCount: {
-        min: 3,
-        max: 3,
+    ],
+  },
+  Demolitioner: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.WEAPON_HAMMER_DEMOLITION,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-    {
-      item: Items.SANDWICH_RABBIT,
-      weight: 1,
-      spawnCount: {
-        min: 3,
-        max: 3,
+      {
+        item: Items.IED,
+        weight: 1,
+        spawnCount: {
+          min: 25,
+          max: 25,
+        },
       },
-    },
-    {
-      item: Items.SANDWICH_WOLF,
-      weight: 1,
-      spawnCount: {
-        min: 3,
-        max: 3,
+      {
+        item: Items.FUEL_BIOFUEL,
+        weight: 1,
+        spawnCount: {
+          min: 5,
+          max: 5,
+        },
       },
-    },
-    {
-      item: Items.WATER_PURE,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
+      {
+        item: Items.FUEL_ETHANOL,
+        weight: 1,
+        spawnCount: {
+          min: 25,
+          max: 25,
+        },
       },
-    },
-    {
-      item: Items.MOONSHINE,
-      weight: 1,
-      spawnCount: {
-        min: 15,
-        max: 15,
+      {
+        item: Items.LANDMINE,
+        weight: 1,
+        spawnCount: {
+          min: 10,
+          max: 10,
+        },
       },
-    },
-    {
-      item: Items.SKINNING_KNIFE,
-      weight: 1,
-      spawnCount: {
-        min: 1,
-        max: 1,
+      {
+        item: Items.LIGHTER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
       },
-    },
-  ],
-},
+    ],
+  },
+  Medic: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.GAUZE,
+        weight: 1,
+        spawnCount: {
+          min: 25,
+          max: 25,
+        },
+      },
+      {
+        item: Items.BANDAGE_DRESSED,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
+      },
+      {
+        item: Items.FIRST_AID,
+        weight: 1,
+        spawnCount: {
+          min: 10,
+          max: 10,
+        },
+      },
+      {
+        item: Items.LOCKER_KEY_F1,
+        weight: 1,
+        spawnCount: {
+          min: 5,
+          max: 5,
+        },
+      },
+      {
+        item: Items.LOCKER_KEY_F2,
+        weight: 1,
+        spawnCount: {
+          min: 5,
+          max: 5,
+        },
+      },
+      {
+        item: Items.LOCKER_KEY_F3,
+        weight: 1,
+        spawnCount: {
+          min: 5,
+          max: 5,
+        },
+      },
+      {
+        item: Items.LOCKER_KEY_F4,
+        weight: 1,
+        spawnCount: {
+          min: 5,
+          max: 5,
+        },
+      },
+    ],
+  },
+  Builder: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.METAL_SCRAP,
+        weight: 1,
+        spawnCount: {
+          min: 60,
+          max: 60,
+        },
+      },
+      {
+        item: Items.WOOD_LOG,
+        weight: 1,
+        spawnCount: {
+          min: 60,
+          max: 60,
+        },
+      },
+      {
+        item: Items.WEAPON_AXE_WOOD,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.WEAPON_CROWBAR,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.WEAPON_HAMMER,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.SHACK,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.WORKBENCH,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+    ],
+  },
+  Fighter: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.WEAPON_308,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.WEAPON_SHOTGUN,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.WEAPON_AK47,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.AMMO_762,
+        weight: 1,
+        spawnCount: {
+          min: 50,
+          max: 50,
+        },
+      },
+      {
+        item: Items.AMMO_308,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
+      },
+      {
+        item: Items.AMMO_12GA,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
+      },
+    ],
+  },
+  Supplier: {
+    spawnChance: 100,
+    maxItems: 1,
+    items: [
+      {
+        item: Items.SANDWICH_DEER,
+        weight: 1,
+        spawnCount: {
+          min: 3,
+          max: 3,
+        },
+      },
+      {
+        item: Items.SANDWICH_BEAR,
+        weight: 1,
+        spawnCount: {
+          min: 3,
+          max: 3,
+        },
+      },
+      {
+        item: Items.SANDWICH_RABBIT,
+        weight: 1,
+        spawnCount: {
+          min: 3,
+          max: 3,
+        },
+      },
+      {
+        item: Items.SANDWICH_WOLF,
+        weight: 1,
+        spawnCount: {
+          min: 3,
+          max: 3,
+        },
+      },
+      {
+        item: Items.WATER_PURE,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
+      },
+      {
+        item: Items.MOONSHINE,
+        weight: 1,
+        spawnCount: {
+          min: 15,
+          max: 15,
+        },
+      },
+      {
+        item: Items.SKINNING_KNIFE,
+        weight: 1,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+    ],
+  },
 };

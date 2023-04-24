@@ -1977,6 +1977,9 @@ export class ZonePacketHandlers {
         handleWeaponPacket(packet.data.weaponPacket);
         break;
     }
+
+    // this function is disgusting: TODO: FIX IT - MEME
+
     function handleWeaponPacket(p: any) {
       const weaponItem = client.character.getEquippedWeapon();
       if (!weaponItem || !weaponItem.weapon) return;
@@ -2121,7 +2124,52 @@ export class ZonePacketHandlers {
                     entity.itemDefinitionId != Items.FOUNDATION_RAMP &&
                     entity.itemDefinitionId != Items.FOUNDATION_STAIRS
                   ) {
-                    entity.destroy(server);
+                    if (!client.character.temporaryScrapSoundTimeout) {
+                      client.character.temporaryScrapSoundTimeout = setTimeout(
+                        () => {
+                          delete client.character.temporaryScrapSoundTimeout;
+                        },
+                        375
+                      );
+                      server.sendCompositeEffectToAllInRange(
+                        15,
+                        client.character.characterId,
+                        entity.state.position,
+                        1667
+                      );
+                      const damageInfo: DamageInfo = {
+                        entity: "Server.DemoHammer",
+                        damage: 250000,
+                      };
+                      if (entity instanceof ConstructionParentEntity) {
+                        entity.damageSimpleNpc(
+                          server,
+                          damageInfo,
+                          server._constructionFoundations
+                        );
+                      } else if (entity instanceof ConstructionChildEntity) {
+                        entity.damageSimpleNpc(
+                          server,
+                          damageInfo,
+                          server._constructionSimple
+                        );
+                      } else if (entity instanceof ConstructionDoor) {
+                        entity.damageSimpleNpc(
+                          server,
+                          damageInfo,
+                          server._constructionDoors
+                        );
+                      } else if (entity instanceof LootableConstructionEntity) {
+                        entity.damageSimpleNpc(
+                          server,
+                          damageInfo,
+                          server._lootableConstruction
+                        );
+                      }
+
+                      if (entity.health > 0) return;
+                      entity.destroy(server);
+                    }
                   }
                 }
               } else {
@@ -2311,9 +2359,11 @@ export class ZonePacketHandlers {
             let blockedTime = 50;
             switch (weaponItem.itemDefinitionId) {
               case Items.WEAPON_308:
+              case Items.WEAPON_REAPER:
                 blockedTime = 1300;
                 break;
               case Items.WEAPON_SHOTGUN:
+              case Items.WEAPON_NAGAFENS_RAGE:
                 blockedTime = 400;
                 break;
             }
@@ -2330,7 +2380,10 @@ export class ZonePacketHandlers {
           )
             hitNumber = 1;
           const shotProjectiles =
-            weaponItem.itemDefinitionId == Items.WEAPON_SHOTGUN ? 12 : 1;
+            weaponItem.itemDefinitionId == Items.WEAPON_SHOTGUN ||
+            weaponItem.itemDefinitionId == Items.WEAPON_NAGAFENS_RAGE
+              ? 12
+              : 1;
           for (let x = 0; x < shotProjectiles; x++) {
             const fireHint: fireHint = {
               id: p.packet.sessionProjectileCount + x,
