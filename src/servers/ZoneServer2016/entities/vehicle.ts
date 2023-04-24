@@ -26,6 +26,7 @@ import { DamageInfo } from "types/zoneserver";
 import { BaseLootableEntity } from "./baselootableentity";
 import { vehicleDefaultLoadouts } from "../data/loadouts";
 import { LoadoutItem } from "../classes/loadoutItem";
+import { BaseItem } from "../classes/baseItem";
 
 function getActorModelId(vehicleId: number) {
   switch (vehicleId) {
@@ -279,6 +280,34 @@ export class Vehicle2016 extends BaseLootableEntity {
       },
     };
   }
+
+  pGetFull(server: ZoneServer2016) {
+    return {
+      transientId: this.transientId,
+      attachmentData: this.pGetAttachmentSlots(),
+      characterId: this.characterId,
+      resources: {
+        data: this.pGetResources(),
+      },
+      effectTags: [],
+      unknownData1: {},
+      targetData: {},
+      unknownArray1: [],
+      unknownArray2: [],
+      unknownArray3: { data: {} },
+      unknownArray4: { data: {} },
+      unknownArray5: { data: {} },
+      remoteWeapons: {
+        isVehicle: true,
+        data: {},
+      },
+      itemsData: {
+        items: this.pGetInventoryItems(server),
+        unknownDword1: 0,
+      },
+    };
+  }
+
   pGetFullVehicle(server: ZoneServer2016) {
     return {
       npcData: {
@@ -326,13 +355,13 @@ export class Vehicle2016 extends BaseLootableEntity {
   getInventoryItemId(): number {
     switch (this.loadoutId) {
       case LoadoutIds.VEHICLE_OFFROADER:
-        return Items.VEHICLE_CONTAINER_OFFROADER;
+        return Items.CONTAINER_VEHICLE_OFFROADER;
       case LoadoutIds.VEHICLE_PICKUP:
-        return Items.VEHICLE_CONTAINER_PICKUP;
+        return Items.CONTAINER_VEHICLE_PICKUP;
       case LoadoutIds.VEHICLE_POLICECAR:
-        return Items.VEHICLE_CONTAINER_POLICECAR;
+        return Items.CONTAINER_VEHICLE_POLICECAR;
       case LoadoutIds.VEHICLE_ATV:
-        return Items.VEHICLE_CONTAINER_ATV;
+        return Items.CONTAINER_VEHICLE_ATV;
       default:
         return 0;
     }
@@ -487,6 +516,36 @@ export class Vehicle2016 extends BaseLootableEntity {
       );
     }
   }
+
+  pGetLoadoutSlots() {
+    return {
+      characterId: this.characterId,
+      loadoutId: this.loadoutId,
+      loadoutData: {
+        loadoutSlots: Object.values(this.getLoadoutSlots()).map(
+          (slotId: any) => {
+            return this.pGetLoadoutSlot(slotId);
+          }
+        ),
+      },
+      currentSlotId: this.currentLoadoutSlot,
+    };
+  }
+
+  updateLoadout(server: ZoneServer2016) {
+    const client = server.getClientByCharId(this.characterId);
+    if (client) {
+      if (!client.character.initialized) return;
+      server.checkConveys(client);
+    }
+    server.sendDataToAllWithSpawnedEntity(
+      server._vehicles,
+      this.characterId,
+      "Loadout.SetLoadoutSlots",
+      this.pGetLoadoutSlots()
+    );
+  }
+
   /* eslint-disable @typescript-eslint/no-unused-vars */
   OnPlayerSelect(
     server: ZoneServer2016,
@@ -508,6 +567,40 @@ export class Vehicle2016 extends BaseLootableEntity {
     }
   }
 
+  pGetItemData(server: ZoneServer2016, item: BaseItem, containerDefId: number) {
+    let durability: number = 0;
+    switch (true) {
+      case server.isWeapon(item.itemDefinitionId):
+        durability = 2000;
+        break;
+      case server.isArmor(item.itemDefinitionId):
+        durability = 1000;
+        break;
+      case server.isHelmet(item.itemDefinitionId):
+        durability = 100;
+        break;
+    }
+    return {
+      itemDefinitionId: item.itemDefinitionId,
+      tintId: 0,
+      guid: item.itemGuid,
+      count: item.stackCount,
+      itemSubData: {
+        hasSubData: false,
+      },
+      containerGuid: item.containerGuid,
+      containerDefinitionId: containerDefId,
+      containerSlotId: item.slotId,
+      baseDurability: durability,
+      currentDurability: durability ? item.currentDurability : 0,
+      maxDurabilityFromDefinition: durability,
+      unknownBoolean1: true,
+      ownerCharacterId: this.characterId,
+      unknownDword9: 1,
+      weaponData: this.pGetItemWeaponData(server, item),
+    };
+  }
+
   OnFullCharacterDataRequest(server: ZoneServer2016, client: ZoneClient2016) {
     if (
       this.vehicleId == VehicleIds.SPECTATE ||
@@ -520,6 +613,13 @@ export class Vehicle2016 extends BaseLootableEntity {
       "LightweightToFullVehicle",
       this.pGetFullVehicle(server)
     );
+    Object.values(this._loadout).forEach((item) => {
+      server.sendData(client, "ClientUpdate.ItemAdd", {
+        characterId: this.characterId,
+        data: this.pGetItemData(server, item, 101),
+      });
+    });
+    this.updateLoadout(server);
     // fix seat change crash related to our managed object workaround
     if (this.droppedManagedClient == client) {
       const seatId = this.getCharacterSeat(client.character.characterId);

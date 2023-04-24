@@ -15,6 +15,7 @@ import { EquipmentSetCharacterEquipmentSlot } from "types/zone2016packets";
 import { characterEquipment, DamageInfo } from "../../../types/zoneserver";
 import { LoadoutKit } from "../data/loadouts";
 import {
+  ContainerErrors,
   ItemClasses,
   Items,
   LoadoutSlots,
@@ -28,6 +29,7 @@ import { LoadoutContainer } from "../classes/loadoutcontainer";
 import { LoadoutItem } from "../classes/loadoutItem";
 import { ZoneClient2016 } from "../classes/zoneclient";
 import { Weapon } from "../classes/weapon";
+import { _ } from "../../../utils/utils";
 
 const debugName = "ZoneServer",
   debug = require("debug")(debugName);
@@ -55,7 +57,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
   _loadout: { [loadoutSlotId: number]: LoadoutItem } = {};
   _equipment: { [equipmentSlotId: number]: characterEquipment } = {};
   _containers: { [loadoutSlotId: number]: LoadoutContainer } = {};
-  loadoutId = 0;
+  loadoutId = 5;
   currentLoadoutSlot = 0; // idk if other full npcs use this
   isLightweight = false;
   gender: number;
@@ -155,7 +157,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
   }
 
   updateLoadout(server: ZoneServer2016) {
-    const client = server.getClientByCharId(this.characterId);
+    const client = server.getClientByContainerAccessor(this);
     if (client) {
       if (!client.character.initialized) return;
       server.checkConveys(client);
@@ -269,7 +271,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
     const client = server.getClientByCharId(this.characterId);
     if (client && this._loadout[loadoutSlotId] && sendPacket) {
       server.deleteItem(
-        client,
+        this,
         client.character._loadout[loadoutSlotId].itemGuid
       );
     }
@@ -373,6 +375,97 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
     }
   }
 
+  lootItemFromContainer(
+    server: ZoneServer2016,
+    sourceContainer: LoadoutContainer,
+    item?: BaseItem,
+    count?: number
+  ) {
+    const client = server.getClientByCharId(this.characterId);
+    if (!item || !item.isValid("lootItem")) return;
+    if (!count) count = item.stackCount;
+    if (count > item.stackCount) {
+      count = item.stackCount;
+    }
+    const sourceCharacter = client?.character.mountedContainer,
+      itemDefId = item.itemDefinitionId;
+    if (
+      this.getAvailableLoadoutSlot(server, itemDefId) &&
+      sourceCharacter &&
+      server.removeContainerItem(sourceCharacter, item, sourceContainer, count)
+    ) {
+      if (client && client.character.initialized) {
+        server.sendData(client, "Reward.AddNonRewardItem", {
+          itemDefId: itemDefId,
+          iconId: server.getItemDefinition(itemDefId).IMAGE_SET_ID,
+          count: count,
+        });
+      }
+      this.equipItem(server, item, true);
+    } else {
+      for (const container of Object.values(this._containers)) {
+        const itemDefinition = server.getItemDefinition(item.itemDefinitionId);
+        if (!itemDefinition) return;
+
+        const availableBulk = container.getAvailableBulk(server),
+          itemBulk = itemDefinition.BULK,
+          lootableItemsCount = Math.floor(availableBulk / itemBulk);
+
+        if (lootableItemsCount <= 0) continue;
+
+        // use count param if lootableCount is higher, otherwise use lootableItemsCount or stackCount depending on which is lower
+        const lootCount =
+          count < lootableItemsCount
+            ? count
+            : lootableItemsCount > item.stackCount
+            ? item.stackCount
+            : lootableItemsCount;
+
+        sourceContainer.transferItem(server, container, item, 0, lootCount);
+        return;
+      }
+
+      if (client)
+        server.sendData(client, "Character.NoSpaceNotification", {
+          characterId: client.character.characterId,
+        });
+    }
+  }
+
+  transferItemFromLoadout(
+    server: ZoneServer2016,
+    targetContainer: LoadoutContainer,
+    loadoutItem: LoadoutItem
+  ) {
+    const client = server.getClientByContainerAccessor(this);
+    if (!client) return;
+
+    // to container
+    if (!targetContainer.getHasSpace(server, loadoutItem.itemDefinitionId, 1)) {
+      server.containerError(client, ContainerErrors.NO_SPACE);
+      return;
+    }
+    if (!server.removeLoadoutItem(this, loadoutItem.slotId)) {
+      server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
+      return;
+    }
+    if (loadoutItem.weapon) {
+      const ammo = server.generateItem(
+        server.getWeaponAmmoId(loadoutItem.itemDefinitionId),
+        loadoutItem.weapon.ammoCount
+      );
+      if (
+        ammo &&
+        loadoutItem.weapon.ammoCount > 0 &&
+        loadoutItem.weapon.itemDefinitionId != Items.WEAPON_REMOVER
+      ) {
+        this.lootContainerItem(server, ammo, ammo.stackCount, true);
+      }
+      loadoutItem.weapon.ammoCount = 0;
+    }
+    server.addContainerItem(this, loadoutItem, targetContainer, false);
+  }
+
   lootContainerItem(
     server: ZoneServer2016,
     item?: BaseItem,
@@ -448,7 +541,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       itemStack.stackCount += count;
       if (!client) return;
 
-      server.updateContainerItem(client, itemStack, availableContainer);
+      server.updateContainerItem(this, itemStack, availableContainer);
       if (sendUpdate && client.character.initialized) {
         server.sendData(client, "Reward.AddNonRewardItem", {
           itemDefId: itemDefId,
@@ -490,6 +583,61 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
         );
       }
     });
+  }
+
+  equipContainerItem(
+    server: ZoneServer2016,
+    item: BaseItem,
+    slotId: number,
+    sourceCharacter: BaseFullCharacter = this
+  ) {
+    // equips an existing item from a container
+
+    const client = server.getClientByContainerAccessor(sourceCharacter);
+
+    if (
+      this._containers[slotId] &&
+      _.size(this._containers[slotId].items) != 0
+    ) {
+      if (client)
+        server.sendChatText(
+          client,
+          "[ERROR] Container must be empty to unequip!"
+        );
+      return;
+    }
+
+    const oldLoadoutItem = sourceCharacter._loadout[slotId],
+      container = sourceCharacter.getItemContainer(item.itemGuid);
+    if ((!oldLoadoutItem || !oldLoadoutItem.itemDefinitionId) && !container) {
+      if (client)
+        server.containerError(client, ContainerErrors.UNKNOWN_CONTAINER);
+      return;
+    }
+    if (!server.removeContainerItem(sourceCharacter, item, container, 1)) {
+      if (client)
+        server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
+      return;
+    }
+    if (oldLoadoutItem?.itemDefinitionId) {
+      // if target loadoutSlot is occupied
+      if (oldLoadoutItem.itemGuid == item.itemGuid) {
+        if (client)
+          server.sendChatText(client, "[ERROR] Item is already equipped!");
+        return;
+      }
+      if (!server.removeLoadoutItem(sourceCharacter, oldLoadoutItem.slotId)) {
+        if (client)
+          server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
+        return;
+      }
+      this.lootContainerItem(server, oldLoadoutItem, undefined, false);
+    }
+    if (item.weapon) {
+      clearTimeout(item.weapon.reloadTimer);
+      delete item.weapon.reloadTimer;
+    }
+    this.equipItem(server, item, true, slotId);
   }
 
   getDeathItems(server: ZoneServer2016) {
@@ -741,7 +889,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
 
   pGetLoadoutSlots() {
     return {
-      characterId: this.characterId,
+      characterId: "0x0000000000000001",
       loadoutId: this.loadoutId,
       loadoutData: {
         loadoutSlots: Object.values(this.getLoadoutSlots()).map(
@@ -811,7 +959,6 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
 
   pGetItemData(server: ZoneServer2016, item: BaseItem, containerDefId: number) {
     let durability: number = 0;
-    const isWeapon = server.isWeapon(item.itemDefinitionId);
     switch (true) {
       case server.isWeapon(item.itemDefinitionId):
         durability = 2000;
@@ -838,8 +985,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       currentDurability: durability ? item.currentDurability : 0,
       maxDurabilityFromDefinition: durability,
       unknownBoolean1: true,
-      ownerCharacterId:
-        isWeapon && item.itemDefinitionId !== 85 ? "" : this.characterId,
+      ownerCharacterId: "0x0000000000000001",
       unknownDword9: 1,
       weaponData: this.pGetItemWeaponData(server, item),
     };
@@ -881,7 +1027,6 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       unknownArray3: { data: {} },
       unknownArray4: { data: {} },
       unknownArray5: { data: {} },
-      unknownArray6: { data: {} },
       remoteWeapons: { data: {} },
       itemsData: {
         items: this.pGetInventoryItems(server),
