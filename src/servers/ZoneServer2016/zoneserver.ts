@@ -2980,23 +2980,22 @@ export class ZoneServer2016 extends EventEmitter {
     this.sendData(client, "AddLightweightNpc", lightWeight);
   }
 
-    private ADMIN_DISTANCE_THRESHOLD = 5000; // 5000 units
-    spawnCharacters(client: Client) {
-      for (const c in this._clients) {
-        const characterObj: Character = this._clients[c].character;
-        if (
-          client.character.characterId !== characterObj.characterId &&
-          characterObj.isReady &&
-          ((client.isAdmin && characterObj.isAlive && !characterObj.isSpectator) ||  // only show alive characters to admins
-            isPosInRadius(
-              this.ADMIN_DISTANCE_THRESHOLD, // reference as instance variable
-              client.character.state.position,
-              characterObj.state.position
-            )
-          ) &&
-          !client.spawnedEntities.includes(characterObj) &&
-          (characterObj.isHidden == client.character.isHidden ||
-            client.character.isSpectator) /* &&
+  spawnCharacters(client: Client) {
+    for (const c in this._clients) {
+      const characterObj: Character = this._clients[c].character;
+      if (
+        client.character.characterId != characterObj.characterId &&
+        characterObj.isReady &&
+        isPosInRadius(
+          characterObj.npcRenderDistance || this.charactersRenderDistance,
+          client.character.state.position,
+          characterObj.state.position
+        ) &&
+        !client.spawnedEntities.includes(characterObj) &&
+        characterObj.isAlive &&
+        !characterObj.isSpectator &&
+        (characterObj.isHidden == client.character.isHidden ||
+          client.character.isSpectator) /* &&
         client.banType != "hiddenplayers"*/
       ) {
         const vehicleId = this._clients[c].vehicle.mountedVehicle,
