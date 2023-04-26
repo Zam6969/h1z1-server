@@ -635,7 +635,7 @@ export const commands: Array<Command> = [
         return;
       }
       const banObject = {
-        ip: ip,
+        IP: server.getSoeClient(client.soeClientId)?.address || "",
         reason: reason,
         adminName: client.character.name ? client.character.name : "",
         timestamp: Date.now(),
