@@ -41,6 +41,7 @@ import { LoadoutContainer } from "../classes/loadoutcontainer";
 import { BaseItem } from "../classes/baseItem";
 import { DB_COLLECTIONS } from "../../../utils/enums";
 import { WorldDataManager } from "../managers/worlddatamanager";
+import { SOEClient } from "clients/soeclient";
 const itemDefinitions = require("./../../../../data/2016/dataSources/ServerItemDefinitions.json");
 
 export const commands: Array<Command> = [
@@ -609,6 +610,38 @@ export const commands: Array<Command> = [
       server.sendBanreportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN BANNED`, ``, obj);
       server.banClient(targetClient,reason,"normal",client.character.name ? client.character.name : "",time
       );
+    },
+  },
+  {
+    name: "banip",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: async (
+      server: ZoneServer2016,
+      client: Client,
+      args: Array<string>
+    ) => {
+      if (!args[0]) {
+        server.sendChatText(
+          client,
+          `Correct usage: /banip {ip} {reason}`
+        );
+        return;
+      }
+      const ip = args[0];
+      const reason = args.slice(1).join(" ");
+      const bannedIPs = await server._db?.collection(DB_COLLECTIONS.BANNED).findOne({ ip: ip });
+      if (bannedIPs) {
+        server.sendChatText(client, "This IP is already banned.");
+        return;
+      }
+      const banObject = {
+        ip: ip,
+        reason: reason,
+        adminName: client.character.name ? client.character.name : "",
+        timestamp: Date.now(),
+      };
+      server._db?.collection(DB_COLLECTIONS.BANNED).insertOne(banObject);
+      server.sendChatText(client, `IP ${ip} has been banned.`);
     },
   },
   {
