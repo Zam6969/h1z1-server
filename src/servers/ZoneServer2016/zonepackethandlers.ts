@@ -67,7 +67,11 @@ import { DB_COLLECTIONS } from "../../utils/enums";
 import { LootableConstructionEntity } from "./entities/lootableconstructionentity";
 import { Character2016 } from "./entities/character";
 import { Crate } from "./entities/crate";
-import { OBSERVER_GUID } from "../../utils/constants";
+import {
+  EXTERNAL_CONTAINER_GUID,
+  LOADOUT_CONTAINER_GUID,
+  OBSERVER_GUID,
+} from "../../utils/constants";
 import { BaseLootableEntity } from "./entities/baselootableentity";
 import { Destroyable } from "./entities/destroyable";
 import { Lootbag } from "./entities/lootbag";
@@ -1236,12 +1240,11 @@ export class ZonePacketHandlers {
     client: Client,
     packet: any
   ) {
-    if (packet.data.characterId == "0x0000000000000001") {
-      console.log("\n\n\n\n\\n\n\nASDSDASDASDSDAS\n\n\n\n\n\n");
+    if (packet.data.characterId == EXTERNAL_CONTAINER_GUID) {
       server.sendData(client, "LightweightToFullNpc", {
         transientId: 0,
         attachmentData: {},
-        characterId: "0x0000000000000001",
+        characterId: EXTERNAL_CONTAINER_GUID,
         resources: {
           data: {},
         },
@@ -1559,9 +1562,20 @@ export class ZonePacketHandlers {
     // temporarily block most use options from external containers
     switch (itemUseOption) {
       case ItemUseOptions.LOOT:
+      case ItemUseOptions.LOOT_BATTERY:
+      case ItemUseOptions.LOOT_SPARKS:
+      case ItemUseOptions.LOOT_VEHICLE_LOADOUT:
       case ItemUseOptions.DROP:
       case ItemUseOptions.DROP_BATTERY:
       case ItemUseOptions.DROP_SPARKS:
+      case ItemUseOptions.HOTWIRE_OFFROADER:
+      case ItemUseOptions.HOTWIRE_PICKUP:
+      case ItemUseOptions.HOTWIRE_POLICE:
+      case ItemUseOptions.HOTWIRE_ATV:
+      case ItemUseOptions.HOTWIRE_ATV_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_OFFROADER_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_PICKUP_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_POLICE_NO_PARTS:
         break;
       default:
         if (!(character instanceof Character2016)) {
@@ -1752,6 +1766,62 @@ export class ZonePacketHandlers {
 
         sourceContainer.transferItem(server, targetContainer, item, 0, count);
         break;
+
+      case ItemUseOptions.LOOT_BATTERY:
+      case ItemUseOptions.LOOT_SPARKS:
+      case ItemUseOptions.LOOT_VEHICLE_LOADOUT:
+        const sourceCharacter = client.character.mountedContainer;
+        if (!sourceCharacter) return;
+        const loadoutItem = sourceCharacter.getLoadoutItem(itemGuid);
+        if (loadoutItem) {
+          const container = client.character.getAvailableContainer(
+            server,
+            loadoutItem.itemDefinitionId,
+            1
+          );
+          if (!container) {
+            server.sendData(client, "Character.NoSpaceNotification", {
+              characterId: client.character.characterId,
+            });
+            return;
+          }
+          sourceCharacter.transferItemFromLoadout(
+            server,
+            container,
+            loadoutItem
+          );
+          if (sourceCharacter instanceof Vehicle2016) {
+            sourceCharacter.checkEngineRequirements(server);
+          }
+          return;
+        }
+        break;
+      case ItemUseOptions.HOTWIRE_OFFROADER:
+      case ItemUseOptions.HOTWIRE_PICKUP:
+      case ItemUseOptions.HOTWIRE_POLICE:
+      case ItemUseOptions.HOTWIRE_ATV:
+        const vehicle = server._vehicles[client.vehicle.mountedVehicle || ""];
+        if (!vehicle) return;
+        vehicle.hotwire(server);
+        break;
+      case ItemUseOptions.HOTWIRE_ATV_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_OFFROADER_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_PICKUP_NO_PARTS:
+      case ItemUseOptions.HOTWIRE_POLICE_NO_PARTS:
+        const v = server._vehicles[client.vehicle.mountedVehicle || ""];
+        if (!v) return;
+        if (!v.hasFuel()) {
+          server.sendAlert(
+            client,
+            "This vehicle will not run without fuel.  It can be created from animal fat or from corn based ethanol."
+          );
+          return;
+        }
+        server.sendAlert(
+          client,
+          "Parts may be required. Open vehicle loadout."
+        );
+        break;
       default:
         server.sendChatText(
           client,
@@ -1789,6 +1859,7 @@ export class ZonePacketHandlers {
       count,
       newSlotId,
     } = packet.data;
+    const sourceCharacterId = characterId;
     if (client.character.mountedContainer) {
       if (
         !isPosInRadiusWithY(
@@ -1802,9 +1873,12 @@ export class ZonePacketHandlers {
         return;
       }
     }
-    if (characterId == client.character.characterId) {
+
+    if (sourceCharacterId == client.character.characterId) {
+      const sourceCharacter = client.character;
+
       // from client container
-      if (characterId == targetCharacterId) {
+      if (sourceCharacterId == targetCharacterId) {
         // from / to client container
         const sourceContainer = client.character.getItemContainer(itemGuid),
           targetContainer =
@@ -1826,7 +1900,7 @@ export class ZonePacketHandlers {
               item.weapon.ammoCount > 0 &&
               item.weapon.itemDefinitionId != Items.WEAPON_REMOVER
             ) {
-              client.character.lootContainerItem(
+              sourceCharacter.lootContainerItem(
                 server,
                 ammo,
                 ammo.stackCount,
@@ -1844,7 +1918,7 @@ export class ZonePacketHandlers {
               newSlotId,
               count
             );
-          } else if (containerGuid == "0xffffffffffffffff") {
+          } else if (containerGuid == LOADOUT_CONTAINER_GUID) {
             // to loadout
             /*if (
               server.validateLoadoutSlot(
@@ -1853,7 +1927,7 @@ export class ZonePacketHandlers {
                 client.character.loadoutId
               )
             ) {*/
-            client.character.equipContainerItem(server, item, newSlotId);
+            sourceCharacter.equipContainerItem(server, item, newSlotId);
             //}
           } else {
             // invalid
@@ -1863,18 +1937,18 @@ export class ZonePacketHandlers {
           // from loadout or invalid
 
           // loadout
-          const loadoutItem = client.character.getLoadoutItem(itemGuid);
+          const loadoutItem = sourceCharacter.getLoadoutItem(itemGuid);
           if (!loadoutItem) {
             server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
             return;
           }
           if (targetContainer) {
-            client.character.transferItemFromLoadout(
+            sourceCharacter.transferItemFromLoadout(
               server,
               targetContainer,
               loadoutItem
             );
-          } else if (containerGuid == "0xffffffffffffffff") {
+          } else if (containerGuid == LOADOUT_CONTAINER_GUID) {
             // to loadout
             const loadoutItem = client.character.getLoadoutItem(itemGuid);
             if (!loadoutItem) {
@@ -1893,15 +1967,15 @@ export class ZonePacketHandlers {
         }
       } else {
         // to external container
-        const sourceContainer = client.character.getItemContainer(itemGuid),
-          targetCharacter = client.character.mountedContainer;
+        const sourceContainer = sourceCharacter.getItemContainer(itemGuid),
+          targetCharacter = sourceCharacter.mountedContainer;
 
         if (
           !targetCharacter ||
           !(targetCharacter instanceof BaseLootableEntity) ||
           !isPosInRadius(
             targetCharacter.interactionDistance,
-            client.character.state.position,
+            sourceCharacter.state.position,
             targetCharacter.state.position
           )
         ) {
@@ -1915,14 +1989,14 @@ export class ZonePacketHandlers {
           return;
         }
 
-        const loadoutItem = client.character.getLoadoutItem(itemGuid);
+        const loadoutItem = sourceCharacter.getLoadoutItem(itemGuid);
         if (loadoutItem) {
-          client.character.transferItemFromLoadout(
+          sourceCharacter.transferItemFromLoadout(
             server,
             targetContainer,
             loadoutItem
           );
-          client.character.mountContainer(server, targetCharacter);
+          sourceCharacter.mountContainer(server, targetCharacter);
           return;
         }
 
@@ -1931,32 +2005,32 @@ export class ZonePacketHandlers {
           return;
         }
 
-        if (containerGuid == "0xffffffffffffffff") {
+        const item = sourceContainer.items[itemGuid];
+        if (!item) {
+          server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
+          return;
+        }
+
+        if (containerGuid == LOADOUT_CONTAINER_GUID) {
           // to loadout
-          /*const item = sourceContainer.items[itemGuid];
-          if (!item) {
-            server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
-            return;
-          }
-          
-          
           if (
-            server.validateLoadoutSlot(
+            !server.validateLoadoutSlot(
               item.itemDefinitionId,
               newSlotId,
               targetCharacter.loadoutId
             )
-          ) {
-            targetCharacter.equipContainerItem(server, item, newSlotId, client.character);
-          }
-          */
-          server.sendAlert(client, "Vehicle loadout is disabled for now.");
-          return;
-        }
+          )
+            return;
 
-        const item = sourceContainer.items[itemGuid];
-        if (!item) {
-          server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
+          targetCharacter.equipContainerItem(
+            server,
+            item,
+            newSlotId,
+            sourceCharacter
+          );
+          if (targetCharacter instanceof Vehicle2016) {
+            targetCharacter.checkEngineRequirements(server);
+          }
           return;
         }
 
@@ -1989,65 +2063,71 @@ export class ZonePacketHandlers {
         server.sendChatText(client, "Invalid source container 3!");
         return;
       }
+
       const item = sourceContainer.items[itemGuid];
-
-      if (Number(containerGuid)) {
-        const targetContainer =
-          client.character.getContainerFromGuid(containerGuid);
-
-        if (targetContainer) {
-          // to container
-
-          if (
-            !targetContainer.getHasSpace(server, item.itemDefinitionId, count)
-          ) {
-            server.sendData(client, "Character.NoSpaceNotification", {
-              characterId: client.character.characterId,
-            });
-            return;
-          }
-
-          sourceContainer.transferItem(
-            server,
-            targetContainer,
-            item,
-            newSlotId,
-            count
-          );
-        } else if (containerGuid == "0xffffffffffffffff") {
-          // to loadout
-          if (
-            server.validateLoadoutSlot(
-              item.itemDefinitionId,
-              newSlotId,
-              client.character.loadoutId
-            )
-          ) {
-            client.character.equipContainerItem(
-              server,
-              item,
-              newSlotId,
-              sourceCharacter
-            );
-          }
-        } else if (sourceCharacter.getContainerFromGuid(containerGuid)) {
-          // remount container if trying to move around items in one container since slotIds aren't setup yet
-          client.character.mountContainer(server, sourceCharacter);
-        } else {
-          // invalid
-          server.containerError(client, ContainerErrors.UNKNOWN_CONTAINER);
-        }
+      if (!item) {
+        server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
         return;
       }
 
-      client.character.lootItemFromContainer(
-        server,
-        sourceContainer,
-        item,
-        item.stackCount
-      );
-      // remount container to keep items from changing slotIds
-      client.character.mountContainer(server, sourceCharacter);
+      if (!Number(containerGuid)) {
+        client.character.lootItemFromContainer(
+          server,
+          sourceContainer,
+          item,
+          item.stackCount
+        );
+        // remount container to keep items from changing slotIds
+        //client.character.mountContainer(server, sourceCharacter);
+        return;
+      }
+
+      const targetContainer =
+        client.character.getContainerFromGuid(containerGuid);
+
+      if (targetContainer) {
+        // to container
+
+        if (
+          !targetContainer.getHasSpace(server, item.itemDefinitionId, count)
+        ) {
+          server.sendData(client, "Character.NoSpaceNotification", {
+            characterId: client.character.characterId,
+          });
+          return;
+        }
+
+        sourceContainer.transferItem(
+          server,
+          targetContainer,
+          item,
+          newSlotId,
+          count
+        );
+      } else if (containerGuid == LOADOUT_CONTAINER_GUID) {
+        // to loadout
+        if (
+          server.validateLoadoutSlot(
+            item.itemDefinitionId,
+            newSlotId,
+            client.character.loadoutId
+          )
+        ) {
+          client.character.equipContainerItem(
+            server,
+            item,
+            newSlotId,
+            sourceCharacter
+          );
+        }
+      } else if (sourceCharacter.getContainerFromGuid(containerGuid)) {
+        // remount container if trying to move around items in one container since slotIds aren't setup yet
+        client.character.mountContainer(server, sourceCharacter);
+      } else {
+        // invalid
+        server.containerError(client, ContainerErrors.UNKNOWN_CONTAINER);
+      }
+      return;
     }
   }
   LoadoutSelectSlot(server: ZoneServer2016, client: Client, packet: any) {

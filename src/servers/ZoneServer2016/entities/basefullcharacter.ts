@@ -30,6 +30,10 @@ import { LoadoutItem } from "../classes/loadoutItem";
 import { ZoneClient2016 } from "../classes/zoneclient";
 import { Weapon } from "../classes/weapon";
 import { _ } from "../../../utils/utils";
+import {
+  EXTERNAL_CONTAINER_GUID,
+  LOADOUT_CONTAINER_ID,
+} from "../../../utils/constants";
 
 const debugName = "ZoneServer",
   debug = require("debug")(debugName);
@@ -130,6 +134,16 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
     }
     return undefined;
   }
+
+  getLoadoutItemById(itemDefId: number): LoadoutItem | undefined {
+    for (const item of Object.values(this._loadout)) {
+      if (item.itemDefinitionId == itemDefId) {
+        return item;
+      }
+    }
+    return undefined;
+  }
+
   getActiveEquipmentSlot(item: BaseItem) {
     for (const equipment of Object.values(this._equipment)) {
       if (item.itemGuid == equipment.guid) {
@@ -268,12 +282,9 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       loadoutSlotId,
       this.characterId
     );
-    const client = server.getClientByCharId(this.characterId);
-    if (client && this._loadout[loadoutSlotId] && sendPacket) {
-      server.deleteItem(
-        this,
-        client.character._loadout[loadoutSlotId].itemGuid
-      );
+    const client = server.getClientByContainerAccessor(this);
+    if (this._loadout[loadoutSlotId] && sendPacket) {
+      server.deleteItem(this, this._loadout[loadoutSlotId].itemGuid);
     }
 
     if (def.ITEM_TYPE === 34) {
@@ -281,12 +292,17 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
         this._loadout[loadoutSlotId],
         def.PARAM1
       );
-      if (client && sendPacket) server.initializeContainerList(client);
+      if (client && sendPacket) server.initializeContainerList(client, this);
     }
 
     // probably will need to replicate server for vehicles / maybe npcs
     if (client && sendPacket)
-      server.addItem(client, this._loadout[loadoutSlotId], 101);
+      server.addItem(
+        client,
+        this._loadout[loadoutSlotId],
+        LOADOUT_CONTAINER_ID,
+        this
+      );
 
     if (!sendPacket) return;
     if (client && server.isWeapon(item.itemDefinitionId)) {
@@ -445,10 +461,12 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       server.containerError(client, ContainerErrors.NO_SPACE);
       return;
     }
+
     if (!server.removeLoadoutItem(this, loadoutItem.slotId)) {
       server.containerError(client, ContainerErrors.NO_ITEM_IN_SLOT);
       return;
     }
+
     if (loadoutItem.weapon) {
       const ammo = server.generateItem(
         server.getWeaponAmmoId(loadoutItem.itemDefinitionId),
@@ -463,7 +481,19 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       }
       loadoutItem.weapon.ammoCount = 0;
     }
-    server.addContainerItem(this, loadoutItem, targetContainer, false);
+
+    const targetCharacter = server.getEntity(
+      targetContainer.loadoutItemOwnerGuid
+    );
+
+    if (targetCharacter instanceof BaseFullCharacter) {
+      server.addContainerItem(
+        targetCharacter,
+        loadoutItem,
+        targetContainer,
+        true
+      );
+    }
   }
 
   lootContainerItem(
@@ -889,7 +919,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
 
   pGetLoadoutSlots() {
     return {
-      characterId: "0x0000000000000001",
+      characterId: EXTERNAL_CONTAINER_GUID,
       loadoutId: this.loadoutId,
       loadoutData: {
         loadoutSlots: Object.values(this.getLoadoutSlots()).map(
@@ -985,7 +1015,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
       currentDurability: durability ? item.currentDurability : 0,
       maxDurabilityFromDefinition: durability,
       unknownBoolean1: true,
-      ownerCharacterId: "0x0000000000000001",
+      ownerCharacterId: EXTERNAL_CONTAINER_GUID,
       unknownDword9: 1,
       weaponData: this.pGetItemWeaponData(server, item),
     };
@@ -999,7 +1029,7 @@ export class BaseFullCharacter extends BaseLightweightCharacter {
         }
       })
       .map((slot) => {
-        return this.pGetItemData(server, slot, 101);
+        return this.pGetItemData(server, slot, LOADOUT_CONTAINER_ID);
       });
     Object.values(this._containers).forEach((container) => {
       Object.values(container.items).forEach((item) => {

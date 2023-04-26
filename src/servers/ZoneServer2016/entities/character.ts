@@ -41,6 +41,10 @@ import { BaseLootableEntity } from "./baselootableentity";
 import { characterDefaultLoadout } from "../data/loadouts";
 import { EquipmentSetCharacterEquipmentSlot } from "types/zone2016packets";
 import { Vehicle2016 } from "../entities/vehicle";
+import {
+  EXTERNAL_CONTAINER_GUID,
+  LOADOUT_CONTAINER_ID,
+} from "../../../utils/constants";
 const stats = require("../../../../data/2016/sampleData/stats.json");
 
 interface CharacterStates {
@@ -626,6 +630,7 @@ export class Character2016 extends BaseFullCharacter {
     }
 
     if (
+      !(lootableEntity instanceof Vehicle2016) &&
       !isPosInRadius(
         lootableEntity.interactionDistance,
         this.state.position,
@@ -664,7 +669,7 @@ export class Character2016 extends BaseFullCharacter {
       objectCharacterId:
         lootableEntity instanceof Vehicle2016
           ? lootableEntity.characterId
-          : "0x0000000000000001",
+          : EXTERNAL_CONTAINER_GUID,
       mutatorCharacterId: client.character.characterId,
       dontOpenInventory:
         lootableEntity instanceof Vehicle2016 ? true : !!oldMount,
@@ -683,7 +688,7 @@ export class Character2016 extends BaseFullCharacter {
     server.initializeContainerList(client, lootableEntity);
 
     Object.values(lootableEntity._loadout).forEach((item) => {
-      server.addItem(client, item, 101, lootableEntity);
+      server.addItem(client, item, LOADOUT_CONTAINER_ID, lootableEntity);
     });
 
     Object.values(container.items).forEach((item) => {
@@ -697,8 +702,11 @@ export class Character2016 extends BaseFullCharacter {
 
     server.sendData(client, "Loadout.SetLoadoutSlots", {
       characterId:
-        /*lootableEntity instanceof Vehicle2016 ? lootableEntity.characterId :*/ "0x0000000000000001",
-      loadoutId: /*lootableEntity instanceof Vehicle2016 ? lootableEntity.loadoutId :*/ 5,
+        lootableEntity instanceof Vehicle2016
+          ? lootableEntity.characterId
+          : EXTERNAL_CONTAINER_GUID,
+      loadoutId:
+        lootableEntity instanceof Vehicle2016 ? lootableEntity.loadoutId : 5,
       loadoutData: {
         loadoutSlots: Object.values(lootableEntity.getLoadoutSlots()).map(
           (slotId: any) => {
@@ -711,10 +719,9 @@ export class Character2016 extends BaseFullCharacter {
   }
 
   dismountContainer(server: ZoneServer2016) {
-    /* TODO: NEED TO DELETE ITEMS AFTER DISMOUNT TO PREVENT POSSIBLE LAG */
-
     const client = server.getClientByCharId(this.characterId);
     if (!client || !this.mountedContainer) return;
+
     const container = this.mountedContainer.getContainer();
     if (!container) {
       server.containerError(client, ContainerErrors.NOT_CONSTRUCTED);
@@ -735,37 +742,9 @@ export class Character2016 extends BaseFullCharacter {
     delete this.mountedContainer;
     this.updateLoadout(server);
     server.initializeContainerList(client);
-  }
 
-  /*
-  getItemContainer(itemGuid: string): LoadoutContainer | undefined {
-    // returns the container that an item is contained in
-    let c;
-    for (const container of Object.values(this._containers)) {
-      if (container.items[itemGuid]) {
-        c = container;
-        break;
-      }
-    }
-    return c;
+    server.sendData(client, "AccessedCharacter.EndCharacterAccess", {});
   }
-
-  getContainerFromGuid(containerGuid: string): LoadoutContainer | undefined {
-    let c;
-    for (const container of Object.values(this._containers)) {
-      if (container.itemGuid == containerGuid) {
-        c = container;
-      }
-    }
-    if (
-      !c &&
-      this.mountedContainer?.getContainer()?.itemGuid == containerGuid
-    ) {
-      c = this.mountedContainer.getContainer();
-    }
-    return c;
-  }
-  */
 
   getStats() {
     return stats.map((stat: any) => {
