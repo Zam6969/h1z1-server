@@ -1228,10 +1228,18 @@ export const commands: Array<Command> = [
     },
   },
   {
-    name: "randomweather",
+    name: "temp",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      server.weatherManager.handleRandomCommand(server, client);
+      server.weatherManager.tempCommand(server, client, args);
+      if (!args[0]) {
+      server.sendChatText(
+        client,
+        "use /temp {temperature}"
+        );
+        return;
+      }
+    
     },
   },
   {

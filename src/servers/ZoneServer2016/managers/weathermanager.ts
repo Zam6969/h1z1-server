@@ -126,33 +126,32 @@ export class WeatherManager {
     }
   }
 
-  handleRandomCommand(server: ZoneServer2016, client: Client) {
+  tempCommand(server: ZoneServer2016, client: Client, args: Array<string>): void {
     if (this.dynamicEnabled) {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
-    server.sendChatText(client, `Randomized weather`);
-
-    function rnd_number(max: any, fixed: boolean = false) {
-      const num = Math.random() * max;
-      return Number(fixed ? num.toFixed(0) : num);
+  
+    let temp: number = 0;
+  
+    // Get the temperature string from the args array and convert it to a number
+    const tempString: string = args[0];
+    if (tempString === "hot") {
+      temp = 1;
+    } else if (tempString === "cold") {
+      temp = -1;
     }
-
+  
+    server.sendChatText(client, `Weather temperature set to ${temp}`);
+  
     this.weather = {
       ...this.weather,
-      //name: "sky_dome_600.dds", todo: use random template from a list
-      /*
-            unknownDword1: 0,
-            unknownDword2: 0,
-            skyBrightness1: 1,
-            skyBrightness2: 1,
-            */
       rain: 0,
-      temp: rnd_number(80, true),
-      colorGradient: rnd_number(1),
-      unknownDword8: rnd_number(1),
-      unknownDword9: rnd_number(1),
-      unknownDword10: rnd_number(1),
+      temp,
+      colorGradient: 0,
+      unknownDword8: 0,
+      unknownDword9: 0,
+      unknownDword10: 0,
       unknownDword11: 0,
       unknownDword12: 0,
       sunAxisX: 500,
@@ -161,7 +160,7 @@ export class WeatherManager {
       windDirectionX: 1,
       windDirectionY: 0.5,
       windDirectionZ: 1,
-      wind: rnd_number(5, true),
+      wind: 0,
       unknownDword20: 0,
       unknownDword21: 0,
       unknownDword22: 0,
@@ -172,15 +171,17 @@ export class WeatherManager {
       unknownDword27: 0,
       unknownDword28: 0,
       unknownDword29: 0,
-
+  
       AOSize: 0.5,
       AOGamma: 0.2,
       AOBlackpoint: 2,
-
+  
       unknownDword33: 0,
     };
+  
     this.sendUpdateToAll(server, client, true);
   }
+  
 
   startWeatherWorker(server: ZoneServer2016) {
     if (this.dynamicEnabled) {
