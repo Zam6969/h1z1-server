@@ -125,22 +125,13 @@ export class WeatherManager {
       }
     }
   }
-
   tempCommand(server: ZoneServer2016, client: Client, args: Array<string>): void {
     if (this.dynamicEnabled) {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
   
-    let temp: number = 0;
-  
-    // Get the temperature string from the args array and convert it to a number
-    const tempString: string = args[0];
-    if (tempString === "hot") {
-      temp = 1;
-    } else if (tempString === "cold") {
-      temp = -1;
-    }
+    const temp: number = Number(args[1]) || 30;
   
     server.sendChatText(client, `Weather temperature set to ${temp}`);
   
@@ -148,29 +139,29 @@ export class WeatherManager {
       ...this.weather,
       rain: 0,
       temp,
-      colorGradient: 0,
-      unknownDword8: 0,
-      unknownDword9: 0,
-      unknownDword10: 0,
-      unknownDword11: 0,
+      colorGradient: 5,
+      unknownDword8: 0.25, //clouds cause the screen flickering
+      unknownDword9: 0.25,
+      unknownDword10: 0.25,
+      unknownDword11: 0.25,
       unknownDword12: 0,
-      sunAxisX: 500,
-      sunAxisY: 500,
+      sunAxisX: 0,
+      sunAxisY: 0,
       unknownDword15: 0,
       windDirectionX: 1,
       windDirectionY: 0.5,
-      windDirectionZ: 1,
-      wind: 0,
+      windDirectionZ: 0,
+      wind: 3,
       unknownDword20: 0,
-      unknownDword21: 0,
-      unknownDword22: 0,
-      unknownDword23: 0,
-      unknownDword24: 0,
-      unknownDword25: 0,
-      unknownDword26: 0,
-      unknownDword27: 0,
-      unknownDword28: 0,
-      unknownDword29: 0,
+      unknownDword21: 1,
+      unknownDword22: 0.3,
+      unknownDword23: 0.002,
+      unknownDword24: 0.002,
+      unknownDword25: 1000,
+      unknownDword26: 0.001,
+      unknownDword27: 0.5,
+      unknownDword28: 0.002,
+      unknownDword29: 8000,
   
       AOSize: 0.5,
       AOGamma: 0.2,
@@ -181,6 +172,8 @@ export class WeatherManager {
   
     this.sendUpdateToAll(server, client, true);
   }
+  
+  
   
 
   startWeatherWorker(server: ZoneServer2016) {
