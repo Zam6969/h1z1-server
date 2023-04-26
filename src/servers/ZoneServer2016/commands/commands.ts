@@ -641,7 +641,7 @@ export const commands: Array<Command> = [
         timestamp: Date.now(),
       };
       server._db?.collection(DB_COLLECTIONS.BANNED).insertOne(banObject);
-      server.sendChatText(client, `IP ${ip} has been banned.`);
+      server.sendAlertToAll('A Player has been banned by ${client.character.name} for ${reason}');
     },
   },
   {
