@@ -2126,6 +2126,7 @@ export const commands: Array<Command> = [
       }
 
       client.character.mutedCharacters.push(targetClient.character.characterId);
+      server.sendAlertToAll(`${targetClient.character.name} HAS BEEN MUTED!`);
       server.sendChatText(
         client,
         `You have muted ${targetClient.character.name}.`
@@ -2175,6 +2176,7 @@ export const commands: Array<Command> = [
         ),
         1
       );
+      server.sendAlertToAll(`${targetClient.character.name} HAS BEEN UNMUTED!`);
       server.sendChatText(
         client,
         `You have unmuted ${targetClient.character.name}.`
@@ -2228,6 +2230,7 @@ export const commands: Array<Command> = [
           } until ${server.getDateString(time)}`
         );
       } else {
+        server.sendAlertToAll(`${targetClient.character.name} HAS BEEN MUTED! PERMANENTLY!`);
         server.sendChatText(
           client,
           `You have muted ${targetClient.character.name} permanently`
@@ -2268,12 +2271,14 @@ export const commands: Array<Command> = [
           )
         )?.value as unknown as ClientMute;
       if (mutedClient) {
+        
         server.sendChatText(client, `Removed mute on user ${mutedClient.name}`);
         const targetClient = server.getClientByNameOrLoginSession(
           mutedClient.loginSessionId
         );
         if (targetClient && targetClient instanceof Client) {
           server.sendAlert(targetClient, "You have been unmuted!");
+          server.sendAlertToAll(`${targetClient.character.name} HAS BEEN UNMUTED!`);
         }
       } else {
         server.sendChatText(

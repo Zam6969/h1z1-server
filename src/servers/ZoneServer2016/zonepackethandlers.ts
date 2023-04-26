@@ -544,9 +544,15 @@ export class ZonePacketHandlers {
       server.sendChatText(client, "You are muted!");
       return;
     }
-
+    
     if (!client.radio) {
+      
       server.chatManager.sendChatToAllInRange(server, client, message, 300);
+     /* if (message.toLowerCase().includes("nigger".toLowerCase())) {  //todo And a filter list.
+        server.chatManager.muteClient(server,client,'Racisim','',10000);
+        server.kickPlayer(client);
+        server.sendAlertToAll(`kicking ${client.character.name} Racisim`);
+      }*/
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Chat` },
