@@ -131,7 +131,7 @@ export class WeatherManager {
       server.sendChatText(client, "Dynamic weather removed !");
     }
   
-    const temp: number = Number(args[1]) || 30;
+    const temp: number = Number(args[1]);
   
     server.sendChatText(client, `Weather temperature set to ${temp}`);
   
@@ -139,7 +139,7 @@ export class WeatherManager {
       ...this.weather,
       rain: 0,
       temp,
-      colorGradient: 5,
+      colorGradient: Number((this.skyColor / 400).toFixed(5)),
       unknownDword8: 0.25, //clouds cause the screen flickering
       unknownDword9: 0.25,
       unknownDword10: 0.25,
