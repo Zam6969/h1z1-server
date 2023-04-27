@@ -609,7 +609,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.BATTERY,
-        weight: 1,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1,
@@ -745,7 +745,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SPARKPLUGS,
-        weight: 1,
+        weight: 13,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1154,7 +1154,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.BATTERY,
-        weight: 1,
+        weight: 13,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1162,7 +1162,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SPARKPLUGS,
-        weight: 1,
+        weight: 13,
         spawnCount: {
           min: 1,
           max: 1,
