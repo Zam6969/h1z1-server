@@ -130,7 +130,7 @@ export class WeatherManager {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
-    const temp: number = (args[1]);
+    const temp = (args[1]);
     server.sendChatText(client, `Weather temperature set to ${temp}`);
   
     this.weather = {
