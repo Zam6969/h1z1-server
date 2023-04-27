@@ -1230,7 +1230,7 @@ export const commands: Array<Command> = [
   {
     name: "temp",
     permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+    execute: (server: ZoneServer2016, client: Client, args: Array<number>) => {
       server.weatherManager.tempCommand(server, client, args);
       if (!args[0]) {
       server.sendChatText(
@@ -1239,7 +1239,7 @@ export const commands: Array<Command> = [
         );
         return;
       }
-      const temp: number = Number(args[1]);
+      const temp = Number(args[1]);
     },
   },
   {
