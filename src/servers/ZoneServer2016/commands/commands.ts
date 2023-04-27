@@ -1239,7 +1239,7 @@ export const commands: Array<Command> = [
         );
         return;
       }
-    
+      const temp: number = Number(args[1]);
     },
   },
   {
