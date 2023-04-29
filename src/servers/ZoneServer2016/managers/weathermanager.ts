@@ -136,8 +136,8 @@ export class WeatherManager {
     this.weather = {
       ...this.weather,
       rain: 0,
-      temp,
-      colorGradient: Number((this.skyColor / 400).toFixed(5)),
+      temp: 28,
+      colorGradient: temp,
       unknownDword8: 0.25, //clouds cause the screen flickering
       unknownDword9: 0.25,
       unknownDword10: 0.25,
@@ -160,12 +160,10 @@ export class WeatherManager {
       unknownDword27: 0.5,
       unknownDword28: 0.002,
       unknownDword29: 8000,
-  
-      AOSize: 0.5,
-      AOGamma: 0.2,
-      AOBlackpoint: 2,
-  
-      unknownDword33: 0,
+      AOSize: 0.1,
+      AOGamma: 0.8,
+      AOBlackpoint: 0.2,
+      unknownDword33: 0.5,
     };
   
     this.sendUpdateToAll(server, client, true);
