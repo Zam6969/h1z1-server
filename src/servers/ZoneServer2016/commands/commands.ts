@@ -1230,7 +1230,7 @@ export const commands: Array<Command> = [
   {
     name: "temp",
     permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<number>) => {
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
       server.sendChatText(
         client,
