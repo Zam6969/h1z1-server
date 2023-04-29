@@ -125,12 +125,12 @@ export class WeatherManager {
       }
     }
   }
-  tempCommand(server: ZoneServer2016, client: Client, args: Array<number>): void {
+  tempCommand(server: ZoneServer2016, client: Client, args: Array<string>): void {
     if (this.dynamicEnabled) {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
-    const temp = (args[1]);
+    const temp: number = Number(args[0]);
     server.sendChatText(client, `Weather temperature set to ${temp}`);
   
     this.weather = {
