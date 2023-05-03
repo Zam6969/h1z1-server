@@ -155,6 +155,7 @@ export class ZonePacketHandlers {
       setTimeout(() => {
       if (client.isAdmin) {
         server.setGodMode(client, true);
+        client.isDebugMode = !client.isDebugMode;
         server.sendChatTextToAdmins(`${client.character.name} has joined the server!`);
         const obj = [
           { title: 'Name', info: `${client.character.name}` },
