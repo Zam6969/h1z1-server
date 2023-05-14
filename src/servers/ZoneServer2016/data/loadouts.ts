@@ -30,23 +30,19 @@ export const characterDefaultLoadout = [
   { item: Items.MAP },
   { item: Items.COMPASS },
   { item: Items.GAUZE, count: 5 },
-  { item: Items.FLARE,},
+
 ];
 
 export const characterKitLoadout = [
   { item: Items.BACKPACK_RASTA },
   { item: Items.WEAPON_308 },
   { item: Items.WEAPON_SHOTGUN },
-  { item: Items.WEAPON_AR15 },
   { item: Items.FIRST_AID, count: 10 },
   { item: Items.BANDAGE_DRESSED, count: 10 },
-  { item: Items.AMMO_12GA, count: 60 },
-  { item: Items.AMMO_308, count: 50 },
-  { item: Items.AMMO_223, count: 120 },
-  { item: Items.KEVLAR_DEFAULT },
-  { item: Items.HELMET_MOTORCYCLE },
-  { item: Items.KEVLAR_DEFAULT },
-  { item: Items.HELMET_MOTORCYCLE },
+  { item: Items.AMMO_12GA, count: 12 },
+  { item: Items.AMMO_308, count: 15 },
+  
+  { item: Items.HOLIDAY_HAT },
   { item: Items.CONVEYS_BLUE },
 ];
 export const characterskinsloadout = [

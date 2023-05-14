@@ -52,6 +52,7 @@ import { Synchronization } from "types/zone2016packets";
 import { VehicleCurrentMoveMode } from "types/zone2015packets";
 import {
   ClientBan,
+  UserVerification,
   ConstructionPermissions,
   DamageInfo,
   fireHint,
@@ -142,7 +143,7 @@ export class ZonePacketHandlers {
     server.sendData(client, "ZoneDoneSendingInitialData", {}); // Required for WaitForWorldReady
   }
 
-  ClientFinishedLoading(server: ZoneServer2016, client: Client, packet: any) {
+  async ClientFinishedLoading(server: ZoneServer2016, client: Client, packet: any) {
     if (!server.hookManager.checkHook("OnClientFinishedLoading", client))
       return;
     server.tempGodMode(client, 15000);
@@ -194,6 +195,65 @@ export class ZonePacketHandlers {
             server.sendAlert(client, server.adminMessage);
         }
       }, 10000);
+      console.log(client.loginSessionId)
+      const userVerification: UserVerification = (await server._db
+        ?.collection(DB_COLLECTIONS.VERIFIED)
+        .findOne({ guid: client.loginSessionId })) as unknown as UserVerification;
+      if (userVerification?.isVerified) {
+        
+        //client.banType = hwidBanned.banType;
+        //server.enforceBan(client);
+      } else { 
+        server.sendChatText(
+          client,
+          `You are linked to discord!`
+        );
+        var verifycode: number;
+        if(userVerification) {
+          verifycode = userVerification?.verifyCode;
+      } else { 
+        const object: UserVerification = {
+          guid: client.loginSessionId!,
+          discordId: null!,
+          verifyCode: Math.floor(100000 + Math.random() * 9000000),
+          isVerified: false
+
+        };
+        console.log(object)
+        verifycode = object.verifyCode;
+        server._db?.collection(DB_COLLECTIONS.VERIFIED).insertOne(object);
+      }
+      var spamMsg = `You must verify your account on discord at https://discord.gg/JsReborn in the #verify channel. Code: ${verifycode}`
+      setTimeout(() => {
+        var test = setInterval(() => {
+          server.sendChatText(
+            client,
+            spamMsg
+          );
+          server.sendAlert(
+            client,
+            spamMsg
+          );
+        }, 1000)
+
+        server.sendChatText(
+          client,
+          `You have been Disconnected.`
+        );
+        server.sendAlert(
+          client,
+          `You have been Disconnected.`
+        );
+          setTimeout(() => {
+            server.sendData(client, "CharacterSelectSessionResponse", {
+              status: 1,
+              sessionId: client.loginSessionId,
+            });
+            server.deleteClient(client);
+            clearInterval(test);
+          }, 25000)
+        }, 3000)
+      }
       if (client.banType != "") {
         server.sendChatTextToAdmins(
           `Silently banned ${client.character.name} has joined the server !`
