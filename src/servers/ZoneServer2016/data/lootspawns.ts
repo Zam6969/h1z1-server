@@ -1273,6 +1273,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         },
       },
       {
+        item: Items.SWIZZLE,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.CODED_MESSAGE,
         weight: 20,
         spawnCount: {
@@ -1370,6 +1378,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         },
       },
       {
+        item: Items.GRENADE_SMOKE,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.WEAPON_BINOCULARS,
         weight: 5,
         spawnCount: {
@@ -1458,6 +1474,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       {
         item: Items.WEAPON_CROSSBOW,
         weight: 100,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.GRENADE_SMOKE,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1622,6 +1646,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         },
       },
       {
+        item: Items.GRENADE_SMOKE,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.WEAPON_MAGNUM,
         weight: 100,
         spawnCount: {
@@ -1687,6 +1719,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       {
         item: Items.DUCT_TAPE,
         weight: 100,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.GRENADE_SMOKE,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1,
@@ -1962,6 +2002,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.GRENADE_SMOKE,
+        weight: 5,
+        spawnCount: {
+          min: 1,
+          max: 3,
+        },
+      },
+      {
         item: Items.CODED_MESSAGE,
         weight: 10,
         spawnCount: {
@@ -2002,6 +2050,14 @@ export const containerLootSpawners: {
       {
         item: Items.WEAPON_AK47,
         weight: 15,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
+        item: Items.GRENADE_SMOKE,
+        weight: 1,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2161,6 +2217,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.SWIZZLE,
+        weight: 2,
+        spawnCount: {
+          min: 1,
+          max: 1,
+        },
+      },
+      {
         item: Items.SUGAR,
         weight: 10,
         spawnCount: {
@@ -2239,6 +2303,14 @@ export const containerLootSpawners: {
         },
       },
       {
+        item: Items.SWIZZLE,
+        weight: 30,
+        spawnCount: {
+          min: 1,
+          max: 2,
+        },
+      },
+      {
         item: Items.FIRST_AID,
         weight: 15,
         spawnCount: {
@@ -2304,6 +2376,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 1,
+        },
+      },
+      {
+        item: Items.SWIZZLE,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 2,
         },
       },
       {
