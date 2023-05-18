@@ -290,7 +290,6 @@ export const commands: Array<Command> = [
         }
       }
       server.sendData(client, "Spectator.Enable", {});
-      server.sendCharacterData(client);
     },
   },
   {

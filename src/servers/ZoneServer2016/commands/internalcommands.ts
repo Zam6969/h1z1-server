@@ -108,7 +108,6 @@ export const internalCommands: Array<Command> = [
         }
         return;
       }
-      server.sendCharacterData(client);
       server.sendAlert(
         client,
         `Set spectate/vanish state to ${client.character.isSpectator}`
