@@ -66,6 +66,8 @@ function getVehicleName(ModelId: number) {
 
 function getVehicleLoadoutId(vehicleId: number) {
   switch (vehicleId) {
+    case VehicleIds.IGNITION_OFFROADER:
+      return LoadoutIds.VEHICLE_OFFROADER;
     case VehicleIds.OFFROADER:
       return LoadoutIds.VEHICLE_OFFROADER;
     case VehicleIds.PICKUP:
@@ -159,6 +161,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       case VehicleIds.OFFROADER:
       case VehicleIds.PICKUP:
       case VehicleIds.POLICECAR:
+      case VehicleIds.IGNITION_OFFROADER:
         this.seats = {
           0: "",
           1: "",
@@ -220,6 +223,14 @@ export class Vehicle2016 extends BaseLootableEntity {
         break;
       case VehicleIds.OFFROADER:
       default:
+        this.destroyedEffect = 135;
+        this.destroyedModel = 7226;
+        this.minorDamageEffect = 182;
+        this.majorDamageEffect = 181;
+        this.criticalDamageEffect = 180;
+        this.supercriticalDamageEffect = 5227;
+        break;
+      case VehicleIds.IGNITION_OFFROADER:
         this.destroyedEffect = 135;
         this.destroyedModel = 7226;
         this.minorDamageEffect = 182;
