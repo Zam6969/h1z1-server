@@ -16,10 +16,10 @@ import { ZoneServer2016 } from "../zoneserver";
 
 export enum PermissionLevels {
   DEFAULT = 0,
+  VIP = 0.1,
   MODERATOR = 1,
   ADMIN = 2,
   DEV = 3,
-  VIP = 4,
 }
 
 export interface Command {
