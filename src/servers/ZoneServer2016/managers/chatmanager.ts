@@ -28,7 +28,7 @@ export class ChatManager {
         server.sendData(client, "Chat.ChatText", {
           message: " ",
           unknownDword1: 0,
-          color: [255, 255, 255, 0],
+          color: [255, 192, 203, 0],
           unknownDword2: 13951728,
           unknownByte3: 0,
           unknownByte4: 1,
@@ -38,7 +38,7 @@ export class ChatManager {
     server.sendData(client, "Chat.ChatText", {
       message: message,
       unknownDword1: 0,
-      color: [255, 255, 255, 0],
+      color: [255, 192, 203, 0],
       unknownDword2: 13951728,
       unknownByte3: 0,
       unknownByte4: 1,
@@ -89,7 +89,7 @@ export class ChatManager {
       {
         message: `${client.character.name}: ${message}`,
         unknownDword1: 0,
-        color: [255, 255, 255, 0],
+        color: [255, 192, 203, 0],
         unknownDword2: 13951728,
         unknownByte3: 0,
         unknownByte4: 1,
@@ -108,7 +108,7 @@ export class ChatManager {
         server.sendData(c, "Chat.ChatText", {
           message: `[RADIO: ${client.character.name}]: ${message}`,
           unknownDword1: 0,
-          color: [255, 255, 255, 0],
+          color: [147, 196, 125, 0],
           unknownDword2: 13951728,
           unknownByte3: 0,
           unknownByte4: 1,
