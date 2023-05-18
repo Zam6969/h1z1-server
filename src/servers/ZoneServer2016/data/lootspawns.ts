@@ -1274,7 +1274,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SWIZZLE,
-        weight: 10,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2218,7 +2218,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.SWIZZLE,
-        weight: 2,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1,
@@ -2333,22 +2333,6 @@ export const containerLootSpawners: {
         },
       },
       {
-        item: Items.METAL_PIPE,
-        weight: 37,
-        spawnCount: {
-          min: 1,
-          max: 2,
-        },
-      },
-      {
-        item: Items.WEAPON_PIPE,
-        weight: 37,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
-      {
         item: Items.WEAPON_WRENCH,
         weight: 37,
         spawnCount: {
@@ -2380,7 +2364,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.SWIZZLE,
-        weight: 10,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 2,
@@ -2404,30 +2388,6 @@ export const containerLootSpawners: {
       },
       {
         item: Items.BANDAGE,
-        weight: 10,
-        spawnCount: {
-          min: 1,
-          max: 2,
-        },
-      },
-      {
-        item: Items.SALINE,
-        weight: 5,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
-      {
-        item: Items.SYRINGE_EMPTY,
-        weight: 10,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
-      {
-        item: Items.VITAMINS,
         weight: 10,
         spawnCount: {
           min: 1,
@@ -2488,22 +2448,7 @@ export const containerLootSpawners: {
           max: 2,
         },
       },
-      {
-        item: Items.SALINE,
-        weight: 5,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
-      {
-        item: Items.SYRINGE_EMPTY,
-        weight: 10,
-        spawnCount: {
-          min: 1,
-          max: 1,
-        },
-      },
+
       {
         item: Items.VITAMINS,
         weight: 10,
