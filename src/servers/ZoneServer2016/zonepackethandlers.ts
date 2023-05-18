@@ -27,7 +27,7 @@ import {
   eul2quat,
   getDistance,
   getDistance1d,
-  isPosInRadiusWithY,
+  isPosInRadiusWithY
 } from "../../utils/utils";
 
 import { CraftManager } from "./managers/craftmanager";
@@ -41,21 +41,21 @@ import {
   ResourceTypes,
   ItemUseOptions,
   Stances,
-  LoadoutSlots,
+  LoadoutSlots
 } from "./models/enums";
 import { BaseFullCharacter } from "./entities/basefullcharacter";
 import { BaseLightweightCharacter } from "./entities/baselightweightcharacter";
 import { ConstructionParentEntity } from "./entities/constructionparententity";
 import { ConstructionDoor } from "./entities/constructiondoor";
 import { CommandHandler } from "./commands/commandhandler";
-import { Synchronization } from "types/zone2016packets";
+import { ChatChat, Synchronization } from "types/zone2016packets";
 import { VehicleCurrentMoveMode } from "types/zone2015packets";
 import {
   ClientBan,
   UserVerification,
   ConstructionPermissions,
   DamageInfo,
-  fireHint,
+  fireHint
 } from "types/zoneserver";
 import { positionUpdate } from "types/savedata";
 import { GameTimeSync } from "types/zone2016packets";
@@ -71,7 +71,7 @@ import { Crate } from "./entities/crate";
 import {
   EXTERNAL_CONTAINER_GUID,
   LOADOUT_CONTAINER_GUID,
-  OBSERVER_GUID,
+  OBSERVER_GUID
 } from "../../utils/constants";
 import { BaseLootableEntity } from "./entities/baselootableentity";
 import { Destroyable } from "./entities/destroyable";
@@ -106,7 +106,7 @@ export class ZonePacketHandlers {
     server.setGodMode(client, true);
 
     server.sendData(client, "ClientUpdate.DoneSendingPreloadCharacters", {
-      done: true,
+      done: true
     }); // Required for WaitForWorldReady
 
     // Required for WaitForWorldReady
@@ -127,7 +127,7 @@ export class ZonePacketHandlers {
       guid2: "0x0000000000000000",
       guid3: "0x0000000040000000",
       guid4: "0x0000000000000000",
-      gameTime: (server.getServerTime() & 0xffffffff) >>> 0,
+      gameTime: (server.getServerTime() & 0xffffffff) >>> 0
     });
 
     server.sendRawData(client, server.projectileDefinitionsCache);
@@ -263,31 +263,31 @@ export class ZonePacketHandlers {
       client.pingTimer?.refresh();
 
       server.sendData(client, "Command.AddWorldCommand", {
-        command: "help",
+        command: "help"
       });
       Object.values(this.commandHandler.commands).forEach((command) => {
         server.sendData(client, "Command.AddWorldCommand", {
-          command: command.name,
+          command: command.name
         });
       });
 
       server.sendData(client, "Character.WeaponStance", {
         // activates weaponstance key
         characterId: client.character.characterId,
-        stance: 1,
+        stance: 1
       });
       client.character.updateEquipment(server); // needed or third person character will be invisible
       client.character.updateLoadout(server); // needed or all loadout context menu entries aren't shown
       // clear /hax run since switching servers doesn't automatically clear it
       server.sendData(client, "Command.RunSpeed", {
-        runSpeed: 0,
+        runSpeed: 0
       });
       client.character.isReady = true;
     }
     if (!client.character.isAlive || client.character.isRespawning) {
       // try to fix stuck on death screen
       server.sendData(client, "Character.StartMultiStateDeath", {
-        characterId: client.character.characterId,
+        characterId: client.character.characterId
       });
     }
     server.spawnWorkAroundLightWeight(client);
@@ -340,7 +340,7 @@ export class ZonePacketHandlers {
             continue;
           const damageInfo: DamageInfo = {
             entity: `${objVehicle.characterId} collision`,
-            damage: 1000000,
+            damage: 1000000
           };
           destroyable.OnProjectileHit(server, damageInfo);
         }
@@ -365,14 +365,14 @@ export class ZonePacketHandlers {
       if (damage <= 800) return;
       client.character.damage(server, {
         entity: "Server.CollisionDamage",
-        damage: damage,
+        damage: damage
       });
     } else if (vehicle) {
       // leave old system with this damage threshold to damage flipped vehicles
       if (damage > 5000 && damage < 5500) {
         vehicle.damage(server, {
           entity: "Server.CollisionDamage",
-          damage: damage / 50,
+          damage: damage / 50
         });
       }
     }
@@ -442,15 +442,15 @@ export class ZonePacketHandlers {
     const obj = [
       {
         title: "Reported player:",
-        info: `name: ${targetClient.character.name}, id:${targetClient.loginSessionId}`,
+        info: `name: ${targetClient.character.name}, id:${targetClient.loginSessionId}`
       },
       {
         title: "Reported player position:",
-        info: `${targetClient.character.state.position[0]}   ${targetClient.character.state.position[1]}   ${targetClient.character.state.position[2]}`,
+        info: `${targetClient.character.state.position[0]}   ${targetClient.character.state.position[1]}   ${targetClient.character.state.position[2]}`
       },
       {
         title: "Distance between players:",
-        info: `${client.lastDeathReport?.distance}`,
+        info: `${client.lastDeathReport?.distance}`
       },
       {
         title: "Reported player pvp stats:",
@@ -471,19 +471,19 @@ export class ZonePacketHandlers {
         ).toFixed(0)}% | legs ${(
           (targetClient.pvpStats.legs * 100) /
           targetClient.pvpStats.shotsHit
-        ).toFixed(0)}%`,
+        ).toFixed(0)}%`
       },
       { title: "Reported player suspicious processes:", info: `:${logs}` },
       {
         title: "Reported by:",
-        info: `name: ${client.character.name}, id: ${client.loginSessionId}`,
+        info: `name: ${client.character.name}, id: ${client.loginSessionId}`
       },
       {
         title: "Position:",
-        info: `${client.character.state.position[0]}   ${client.character.state.position[1]}   ${client.character.state.position[2]}`,
+        info: `${client.character.state.position[0]}   ${client.character.state.position[1]}   ${client.character.state.position[2]}`
       },
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
-      { title: "Total reports this session:", info: `${targetClient.reports}` },
+      { title: "Total reports this session:", info: `${targetClient.reports}` }
     ];
     server.sendChatTextToAdmins(`${targetClient.character.name} HAS BEEN REPORTED BY ${client.character.name}`); 
     server.sendReportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN REPORTED`, ``, obj);
@@ -508,7 +508,7 @@ export class ZonePacketHandlers {
     packet: any
   ) {
     server.sendData(client, "LobbyGameDefinition.DefinitionsResponse", {
-      definitionsData: { data: "" },
+      definitionsData: { data: "" }
     });
   }
   KeepAlive(server: ZoneServer2016, client: Client, packet: any) {
@@ -524,7 +524,7 @@ export class ZonePacketHandlers {
           client.firstReleased = false;
           server.sendData(client, "ClientUpdate.UpdateLocation", {
             position: client.startingPos,
-            triggerLoadingScreen: false,
+            triggerLoadingScreen: false
           });
           client.character.state.position = client.startingPos;
         }
@@ -562,7 +562,7 @@ export class ZonePacketHandlers {
               server._worldId,
               {
                 type: "suspicious software",
-                suspicious: server.fairPlayManager._suspiciousList[x],
+                suspicious: server.fairPlayManager._suspiciousList[x]
               }
             );
           }
@@ -597,13 +597,26 @@ export class ZonePacketHandlers {
           populationTargetPercent: [],
           name: "Z1", // could use this field to load a specific TileInfo
           hexSize: 100,
-          isProductionZone: 1,
-        },
-      ],
+          isProductionZone: 1
+        }
+      ]
     });
   }
-  async ChatChat(server: ZoneServer2016, client: Client, packet: any) {
+  async ChatChat(
+    server: ZoneServer2016,
+    client: Client,
+    packet: { data: ChatChat }
+  ) {
     const { channel, message } = packet.data; // leave channel for later
+
+    if (!server._soloMode) {
+      server._db.collection(DB_COLLECTIONS.CHAT).insertOne({
+        loginSessionId: client.loginSessionId,
+        characterName: client.character.name,
+        serverId: server._worldId,
+        message
+      });
+    }
 
     if (await server.chatManager.checkMute(server, client)) {
       server.sendChatText(client, "You are muted!");
@@ -612,7 +625,12 @@ export class ZonePacketHandlers {
     
     if (!client.radio) {
       
-      server.chatManager.sendChatToAllInRange(server, client, message, 300);
+      server.chatManager.sendChatToAllInRange(
+        server,
+        client,
+        message as string,
+        300
+      );
      /* if (message.toLowerCase().includes("nigger".toLowerCase())) {  //todo And a filter list.
         server.chatManager.muteClient(server,client,'Racisim','',10000);
         server.kickPlayer(client);
@@ -625,7 +643,11 @@ export class ZonePacketHandlers {
       ];
       server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
     } else if (client.radio) {
-      server.chatManager.sendChatToAllWithRadio(server, client, message);
+      server.chatManager.sendChatToAllWithRadio(
+        server,
+        client,
+        message as string
+      );
       const obj = [
         { title: 'Name', info: `${client.character.name}` },
         { title: 'type', info: `Radio` },
@@ -666,7 +688,7 @@ export class ZonePacketHandlers {
       ...packet.data,
       serverTime: serverTime,
       serverTime2: serverTime,
-      time3: Int64String(Number(packet.data.clientTime)) + 2,
+      time3: Int64String(Number(packet.data.clientTime)) + 2
     };
     server.sendData(client, "Synchronization", reflectedPacket);
     if (client.isSynced) return;
@@ -719,7 +741,7 @@ export class ZonePacketHandlers {
     const timerTime = 10000;
     server.sendData(client, "ClientUpdate.StartTimer", {
       stringId: 0,
-      time: timerTime,
+      time: timerTime
     });
     if (client.hudTimer != null) {
       clearTimeout(client.hudTimer);
@@ -736,7 +758,7 @@ export class ZonePacketHandlers {
   ) {
     server.sendData(client, "CharacterSelectSessionResponse", {
       status: 1,
-      sessionId: client.loginSessionId,
+      sessionId: client.loginSessionId
     });
   }
   ProfileStatsGetPlayerProfileStats(
@@ -788,7 +810,7 @@ export class ZonePacketHandlers {
       unknownFloat9: 9,
       unknownFloat10: 10,
       unknownFloat11: 11,
-      unknownFloat12: 12,
+      unknownFloat12: 12
     });
   }
   PlayerUpdateManagedPosition(
@@ -812,7 +834,7 @@ export class ZonePacketHandlers {
         packet.data.positionUpdate.position[0],
         400,
         packet.data.positionUpdate.position[2],
-        1,
+        1
       ]);
       server._airdrop.plane.positionUpdate.orientation =
         packet.data.positionUpdate.orientation;
@@ -839,11 +861,11 @@ export class ZonePacketHandlers {
               if (!client.firstLoading && !client.isLoading) {
                 server.sendData(server._clients[a], "AddLightweightVehicle", {
                   ...server._airdrop.cargo.pGetLightweightVehicle(),
-                  unknownGuid1: server.generateGuid(),
+                  unknownGuid1: server.generateGuid()
                 });
                 server.sendData(client, "Character.MovementVersion", {
                   characterId: server._airdrop.cargo.characterId,
-                  version: 6,
+                  version: 6
                 });
                 server.sendData(
                   client,
@@ -857,11 +879,11 @@ export class ZonePacketHandlers {
                   acceleration: 0,
                   speed: 0,
                   turn: 5,
-                  yRot: 0,
+                  yRot: 0
                 });
                 server.sendData(client, "Character.ManagedObject", {
                   objectCharacterId: server._airdrop.cargo.characterId,
-                  characterId: client.character.characterId,
+                  characterId: client.character.characterId
                 });
               }
             }
@@ -885,7 +907,7 @@ export class ZonePacketHandlers {
         server._airdrop.cargo.state.position[0],
         packet.data.positionUpdate.position[1],
         server._airdrop.cargo.state.position[2],
-        1,
+        1
       ]);
       server._airdrop.cargo.positionUpdate.orientation =
         packet.data.positionUpdate.orientation;
@@ -930,7 +952,7 @@ export class ZonePacketHandlers {
           false
         );
         server.sendData(client, "Character.StartMultiStateDeath", {
-          characterId: client.character.characterId,
+          characterId: client.character.characterId
         });
         client.blockedPositionUpdates = 0;
         return;
@@ -985,7 +1007,7 @@ export class ZonePacketHandlers {
             packet.data.positionUpdate.position[0],
             packet.data.positionUpdate.position[1],
             packet.data.positionUpdate.position[2],
-            1,
+            1
           ]);
           const c = server.getClientByCharId(passenger);
           if (c) c.startLoc = packet.data.positionUpdate.position[1];
@@ -1010,7 +1032,7 @@ export class ZonePacketHandlers {
         packet.data.positionUpdate.position[0],
         packet.data.positionUpdate.position[1] - 0.4,
         packet.data.positionUpdate.position[2],
-        1,
+        1
       ]);
       // disabled, dont think we need it and wastes alot of resources
       /*if (client.vehicle.mountedVehicle === characterId) {
@@ -1034,7 +1056,7 @@ export class ZonePacketHandlers {
       "PlayerUpdatePosition",
       {
         transientId: packet.data.transientId,
-        positionUpdate: packet.data.positionUpdate,
+        positionUpdate: packet.data.positionUpdate
       }
     );
     //}
@@ -1063,7 +1085,7 @@ export class ZonePacketHandlers {
       packet.data.guid,
       "Vehicle.StateData",
       {
-        ...packet.data,
+        ...packet.data
       }
     );
   }
@@ -1090,7 +1112,7 @@ export class ZonePacketHandlers {
           false
         );
         server.sendData(client, "Character.StartMultiStateDeath", {
-          characterId: client.character.characterId,
+          characterId: client.character.characterId
         });
         return;
       }
@@ -1115,7 +1137,7 @@ export class ZonePacketHandlers {
         );
         server.sendData(client, "ClientUpdate.UpdateLocation", {
           position: pos,
-          triggerLoadingScreen: true,
+          triggerLoadingScreen: true
         });
       }
       if (
@@ -1200,7 +1222,7 @@ export class ZonePacketHandlers {
         packet.data.position[0],
         packet.data.position[1],
         packet.data.position[2],
-        0,
+        0
       ]);
       if (
         client.hudTimer != null &&
@@ -1242,7 +1264,7 @@ export class ZonePacketHandlers {
           packet.data.vehicle_position[0],
           packet.data.vehicle_position[1],
           packet.data.vehicle_position[2],
-          0,
+          0
         ]);
     }
     if (packet.data.rotation) {
@@ -1250,14 +1272,14 @@ export class ZonePacketHandlers {
         packet.data.rotation[0],
         packet.data.rotation[1],
         packet.data.rotation[2],
-        packet.data.rotation[3],
+        packet.data.rotation[3]
       ]);
       client.character.state.yaw = packet.data.rotationRaw[0];
       client.character.state.lookAt = new Float32Array([
         packet.data.lookAt[0],
         packet.data.lookAt[1],
         packet.data.lookAt[2],
-        packet.data.lookAt[3],
+        packet.data.lookAt[3]
       ]);
     }
     if (
@@ -1267,7 +1289,7 @@ export class ZonePacketHandlers {
     ) {
       server.sendDataToAll("PlayerUpdatePosition", {
         transientId: client.character.transientId,
-        positionUpdate: packet.data,
+        positionUpdate: packet.data
       });
     }
   }
@@ -1283,7 +1305,7 @@ export class ZonePacketHandlers {
     server.dropAllManagedObjects(client);
     server.sendData(client, "ClientUpdate.UpdateLocation", {
       position: [packet.data.x, 355, packet.data.y, 1],
-      triggerLoadingScreen: false,
+      triggerLoadingScreen: false
     });
     server.sendData(client, "ClientUpdate.UpdateManagedLocation", {
       characterId: OBSERVER_GUID,
@@ -1291,9 +1313,9 @@ export class ZonePacketHandlers {
         packet.data.x,
         client.character.state.position[1],
         packet.data.y,
-        1,
+        1
       ],
-      triggerLoadingScreen: false,
+      triggerLoadingScreen: false
     });
   }
   CharacterFullCharacterDataRequest(
@@ -1307,7 +1329,7 @@ export class ZonePacketHandlers {
         attachmentData: {},
         characterId: EXTERNAL_CONTAINER_GUID,
         resources: {
-          data: {},
+          data: {}
         },
         effectTags: [],
         unknownData1: {},
@@ -1319,12 +1341,12 @@ export class ZonePacketHandlers {
         unknownArray5: { data: {} },
         remoteWeapons: {
           isVehicle: false,
-          data: {},
+          data: {}
         },
         itemsData: {
           items: {},
-          unknownDword1: 0,
-        },
+          unknownDword1: 0
+        }
       });
       return;
     }
@@ -1405,13 +1427,13 @@ export class ZonePacketHandlers {
         useContainers: false,
         build: false,
         demolish: false,
-        visit: true,
+        visit: true
       };
     } else {
       client.character.lastLockFailure = now;
       const damageInfo: DamageInfo = {
         entity: "Server.InvalidLockCode",
-        damage: 1000,
+        damage: 1000
       };
       client.character.damage(server, damageInfo);
     }
@@ -1475,7 +1497,7 @@ export class ZonePacketHandlers {
     ) {
       server.sendData(client, "Replication.NpcComponent", {
         transientId: entity.transientId,
-        nameId: entity.nameId,
+        nameId: entity.nameId
       });
       client.sentInteractionData.push(entity);
       if (
@@ -1485,7 +1507,7 @@ export class ZonePacketHandlers {
         )
       ) {
         server.sendData(client, "Replication.InteractionComponent", {
-          transientId: entity.transientId,
+          transientId: entity.transientId
         });
       }
     }
@@ -1503,7 +1525,7 @@ export class ZonePacketHandlers {
     const array = new Float32Array([
       packet.data.rotation1[3],
       packet.data.rotation1[1],
-      packet.data.rotation2[2],
+      packet.data.rotation2[2]
     ]);
     const matrix = quat2matrix(array);
     const euler = [
@@ -1512,7 +1534,7 @@ export class ZonePacketHandlers {
         -matrix[6],
         Math.sqrt(Math.pow(matrix[7], 2) + Math.pow(matrix[8], 2))
       ),
-      Math.atan2(matrix[3], matrix[0]),
+      Math.atan2(matrix[3], matrix[0])
     ];
     let final;
     if (euler[0] >= 0) {
@@ -1560,14 +1582,14 @@ export class ZonePacketHandlers {
           HUD_IMAGE_SET_ID: itemDef.IMAGE_SET_ID,
           ITEM_TYPE_1: itemDef.ITEM_TYPE,
           flags1: {
-            ...itemDef,
+            ...itemDef
           },
           flags2: {
-            ...itemDef,
+            ...itemDef
           },
-          stats: [],
-        },
-      },
+          stats: []
+        }
+      }
     });
     if (server.isContainer(itemDef.ID)) {
       // Fixes containers missing an itemdefinition not showing in inventory
@@ -1585,14 +1607,14 @@ export class ZonePacketHandlers {
       "Character.WeaponStance",
       {
         characterId: client.character.characterId,
-        stance: packet.data.stance,
+        stance: packet.data.stance
       }
     );
   }
   CommandRedeploy(server: ZoneServer2016, client: Client, packet: any) {
     const damageInfo: DamageInfo = {
       entity: "",
-      damage: 0,
+      damage: 0
     };
     server.killCharacter(client, damageInfo);
   }
@@ -1607,7 +1629,7 @@ export class ZonePacketHandlers {
   CommandSuicide(server: ZoneServer2016, client: Client, packet: any) {
     server.killCharacter(client, {
       entity: client.character.characterId,
-      damage: 9999,
+      damage: 9999
     });
   }
   //#region ITEMS
@@ -1860,7 +1882,7 @@ export class ZonePacketHandlers {
           );
           if (!container) {
             server.sendData(client, "Character.NoSpaceNotification", {
-              characterId: client.character.characterId,
+              characterId: client.character.characterId
             });
             return;
           }
@@ -1926,7 +1948,7 @@ export class ZonePacketHandlers {
     }
     server.sendData(client, "Construction.PlacementResponse", {
       itemDefinitionId: packet.data.itemDefinitionId,
-      model: modelId,
+      model: modelId
     });
   }
   ContainerMoveItem(server: ZoneServer2016, client: Client, packet: any) {
@@ -1936,7 +1958,7 @@ export class ZonePacketHandlers {
       itemGuid,
       targetCharacterId,
       count,
-      newSlotId,
+      newSlotId
     } = packet.data;
     const sourceCharacterId = characterId;
     if (client.character.mountedContainer) {
@@ -2171,7 +2193,7 @@ export class ZonePacketHandlers {
           !targetContainer.getHasSpace(server, item.itemDefinitionId, count)
         ) {
           server.sendData(client, "Character.NoSpaceNotification", {
-            characterId: client.character.characterId,
+            characterId: client.character.characterId
           });
           return;
         }
@@ -2285,7 +2307,7 @@ export class ZonePacketHandlers {
         permissions: Object.values(foundation.permissions).filter(
           (perm: ConstructionPermissions) =>
             perm.characterId != foundation.ownerCharacterId
-        ),
+        )
       }
     );
   }
@@ -2323,7 +2345,7 @@ export class ZonePacketHandlers {
         useContainers: false,
         build: false,
         demolish: false,
-        visit: false,
+        visit: false
       };
     }
     switch (packet.data.permissionSlot) {
@@ -2359,7 +2381,7 @@ export class ZonePacketHandlers {
         permissions: Object.values(foundation.permissions).filter(
           (perm: ConstructionPermissions) =>
             perm.characterId != foundation.ownerCharacterId
-        ),
+        )
       }
     );
   }
@@ -2436,9 +2458,9 @@ export class ZonePacketHandlers {
                         new Float32Array([
                           vehicle.positionUpdate.orientation,
                           vehicle.positionUpdate.sideTilt,
-                          vehicle.positionUpdate.frontTilt,
+                          vehicle.positionUpdate.frontTilt
                         ])
-                      ),
+                      )
                     });
                   }
                 }
@@ -2460,7 +2482,7 @@ export class ZonePacketHandlers {
               const allowedSpawners = [
                 "Wrecked Van",
                 "Wrecked Car",
-                "Wrecked Truck",
+                "Wrecked Truck"
               ];
               if (!client.character.temporaryScrapSoundTimeout) {
                 server.sendCompositeEffectToAllInRange(
@@ -2540,7 +2562,7 @@ export class ZonePacketHandlers {
                       );
                       const damageInfo: DamageInfo = {
                         entity: "Server.DemoHammer",
-                        damage: 250000,
+                        damage: 250000
                       };
                       if (entity instanceof ConstructionParentEntity) {
                         entity.damageSimpleNpc(
@@ -2621,7 +2643,7 @@ export class ZonePacketHandlers {
                 );
                 const damageInfo: DamageInfo = {
                   entity: "Server.WorkAroundMelee",
-                  damage: 1250,
+                  damage: 1250
                 };
                 entity.OnProjectileHit(server, damageInfo);
               }
@@ -2653,7 +2675,7 @@ export class ZonePacketHandlers {
                 );
                 const damageInfo: DamageInfo = {
                   entity: "Server.WorkAroundMelee",
-                  damage: 700,
+                  damage: 700
                 };
                 entity.OnProjectileHit(server, damageInfo);
               }
@@ -2678,8 +2700,8 @@ export class ZonePacketHandlers {
                 state: {
                   firestate: 64,
                   transientId: client.character.transientId,
-                  position: client.character.state.position,
-                },
+                  position: client.character.state.position
+                }
               }
             );
           }
@@ -2709,8 +2731,8 @@ export class ZonePacketHandlers {
               state: {
                 firestate: p.packet.firestate,
                 transientId: client.character.transientId,
-                position: client.character.state.position,
-              },
+                position: client.character.state.position
+              }
             }
           );
           if (weaponItem.weapon.ammoCount)
@@ -2792,7 +2814,7 @@ export class ZonePacketHandlers {
               rotation: client.character.state.yaw,
               hitNumber: hitNumber,
               weaponItem: weaponItem,
-              timeStamp: p.gameTime,
+              timeStamp: p.gameTime
             };
             client.fireHints[p.packet.sessionProjectileCount + x] = fireHint;
             setTimeout(() => {
@@ -2853,8 +2875,8 @@ export class ZonePacketHandlers {
               state: {
                 firestate: 0,
                 transientId: client.character.transientId,
-                position: client.character.state.position,
-              },
+                position: client.character.state.position
+              }
             }
           );
           server.sendRemoteWeaponUpdateDataToAllOthers(
@@ -2923,7 +2945,7 @@ export class ZonePacketHandlers {
                   weaponItem.itemGuid,
                   "Update.ReloadLoopEnd",
                   {
-                    endLoop: true,
+                    endLoop: true
                   }
                 );
                 client.character.clearReloadTimeout();
@@ -2938,7 +2960,7 @@ export class ZonePacketHandlers {
                   weaponItem.itemGuid,
                   "Update.ReloadLoopEnd",
                   {
-                    endLoop: true,
+                    endLoop: true
                   }
                 );
                 client.character.clearReloadTimeout();
@@ -2994,7 +3016,7 @@ export class ZonePacketHandlers {
             "Update.SwitchFireMode",
             {
               firegroupIndex: p.packet.firegroupIndex,
-              firemodeIndex: p.packet.firemodeIndex,
+              firemodeIndex: p.packet.firemodeIndex
             }
           );
           break;
@@ -3067,7 +3089,7 @@ export class ZonePacketHandlers {
             weaponItem.itemGuid,
             "Update.AimBlocked",
             {
-              aimBlocked: p.packet.aimBlocked,
+              aimBlocked: p.packet.aimBlocked
             }
           );
           break;
@@ -3081,7 +3103,7 @@ export class ZonePacketHandlers {
               characterId: p.packet.characterId,
               position: p.packet.position,
               rotation: p.packet.rotation,
-              gameTime: p.gameTime,
+              gameTime: p.gameTime
             };
           }
           break;

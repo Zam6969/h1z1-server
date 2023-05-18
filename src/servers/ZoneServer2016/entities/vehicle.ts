@@ -18,7 +18,7 @@ import {
   ResourceIds,
   ResourceTypes,
   VehicleIds,
-  StringIds,
+  StringIds
 } from "../models/enums";
 import { ZoneClient2016 } from "../classes/zoneclient";
 import { ZoneServer2016 } from "../zoneserver";
@@ -124,7 +124,7 @@ export class Vehicle2016 extends BaseLootableEntity {
   currentDamageEffect: number = 0;
   oldPos: { position: Float32Array; time: number } = {
     position: new Float32Array(),
-    time: 0,
+    time: 0
   };
   droppedManagedClient?: ZoneClient2016; // for temporary fix
   isMountable: boolean = true;
@@ -141,13 +141,13 @@ export class Vehicle2016 extends BaseLootableEntity {
     super(characterId, transientId, actorModelId, position, rotation, server);
     this._resources = {
       [ResourceIds.CONDITION]: 100000,
-      [ResourceIds.FUEL]: 7500,
+      [ResourceIds.FUEL]: 7500
     };
     this.state = {
       position: position,
       rotation: rotation,
       lookAt: new Float32Array([0, 0, 0, 1]),
-      yaw: 0,
+      yaw: 0
     };
     this.vehicleId = vehicleId;
     if (!this.actorModelId) this.actorModelId = getActorModelId(this.vehicleId);
@@ -167,18 +167,18 @@ export class Vehicle2016 extends BaseLootableEntity {
           1: "",
           2: "",
           3: "",
-          4: "",
+          4: ""
         };
         break;
       case VehicleIds.ATV:
         this.seats = {
           0: "",
-          1: "",
+          1: ""
         };
         break;
       default:
         this.seats = {
-          0: "",
+          0: ""
         };
         break;
     }
@@ -192,7 +192,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       vehicle: this,
       get position() {
         return this.vehicle.state.position;
-      },
+      }
     };
     this.nameId = getVehicleName(this.actorModelId);
 
@@ -286,11 +286,11 @@ export class Vehicle2016 extends BaseLootableEntity {
       npcData: {
         ...this.pGetLightweight(),
         position: this.state.position,
-        vehicleId: this.vehicleId,
+        vehicleId: this.vehicleId
       },
       positionUpdate: {
-        ...this.positionUpdate,
-      },
+        ...this.positionUpdate
+      }
     };
   }
 
@@ -300,7 +300,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       attachmentData: this.pGetAttachmentSlots(),
       characterId: this.characterId,
       resources: {
-        data: this.pGetResources(),
+        data: this.pGetResources()
       },
       effectTags: [],
       unknownData1: {},
@@ -312,24 +312,24 @@ export class Vehicle2016 extends BaseLootableEntity {
       unknownArray5: { data: {} },
       remoteWeapons: {
         isVehicle: true,
-        data: {},
+        data: {}
       },
       itemsData: {
         items: this.pGetInventoryItems(server),
-        unknownDword1: 0,
-      },
+        unknownDword1: 0
+      }
     };
   }
 
   pGetFullVehicle(server: ZoneServer2016) {
     return {
       npcData: {
-        ...this.pGetFull(server),
+        ...this.pGetFull(server)
       },
       positionUpdate: {
         ...this.positionUpdate,
         sequenceTime: server.getGameTime(),
-        position: this.state.position, // trying to fix invisible characters/vehicles until they move
+        position: this.state.position // trying to fix invisible characters/vehicles until they move
       },
       unknownArray1: [],
       unknownArray2: [],
@@ -338,17 +338,17 @@ export class Vehicle2016 extends BaseLootableEntity {
       unknownArray5: [
         {
           unknownData1: {
-            unknownData1: {},
-          },
-        },
+            unknownData1: {}
+          }
+        }
       ],
       unknownArray6: [],
       unknownArray7: [],
       unknownArray8: [
         {
-          unknownArray1: [],
-        },
-      ],
+          unknownArray1: []
+        }
+      ]
     };
   }
 
@@ -357,10 +357,10 @@ export class Vehicle2016 extends BaseLootableEntity {
       return {
         characterId: passenger,
         identity: {
-          characterName: server._characters[passenger].name,
+          characterName: server._characters[passenger].name
         },
         unknownString1: server._characters[passenger].name,
-        unknownByte1: 1,
+        unknownByte1: 1
       };
     });
   }
@@ -512,7 +512,7 @@ export class Vehicle2016 extends BaseLootableEntity {
           "Command.PlayDialogEffect",
           {
             characterId: this.characterId,
-            effectId: damageeffect,
+            effectId: damageeffect
           }
         );
         if (!this.damageTimeout && startDamageTimeout) {
@@ -556,7 +556,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       "Vehicle.Engine",
       {
         vehicleCharacterId: this.characterId,
-        engineOn: true,
+        engineOn: true
       }
     );
     this.engineOn = true;
@@ -570,7 +570,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       "Vehicle.Engine",
       {
         vehicleCharacterId: this.characterId,
-        engineOn: false,
+        engineOn: false
       }
     );
     this.engineOn = false;
@@ -698,9 +698,9 @@ export class Vehicle2016 extends BaseLootableEntity {
           (slotId: any) => {
             return this.pGetLoadoutSlot(slotId);
           }
-        ),
+        )
       },
-      currentSlotId: this.currentLoadoutSlot,
+      currentSlotId: this.currentLoadoutSlot
     };
   }
 
@@ -720,7 +720,7 @@ export class Vehicle2016 extends BaseLootableEntity {
     if (!client.vehicle.mountedVehicle) {
       server.sendData(client, "Command.InteractionString", {
         guid: this.characterId,
-        stringId: 15,
+        stringId: 15
       });
     }
   }
@@ -744,7 +744,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       guid: item.itemGuid,
       count: item.stackCount,
       itemSubData: {
-        hasSubData: false,
+        hasSubData: false
       },
       containerGuid: item.containerGuid,
       containerDefinitionId: containerDefId,
@@ -755,7 +755,7 @@ export class Vehicle2016 extends BaseLootableEntity {
       unknownBoolean1: true,
       ownerCharacterId: this.characterId,
       unknownDword9: 1,
-      weaponData: this.pGetItemWeaponData(server, item),
+      weaponData: this.pGetItemWeaponData(server, item)
     };
   }
 
@@ -774,7 +774,7 @@ export class Vehicle2016 extends BaseLootableEntity {
     Object.values(this._loadout).forEach((item) => {
       server.sendData(client, "ClientUpdate.ItemAdd", {
         characterId: this.characterId,
-        data: this.pGetItemData(server, item, LOADOUT_CONTAINER_ID),
+        data: this.pGetItemData(server, item, LOADOUT_CONTAINER_ID)
       });
     });
     this.updateLoadout(server);
@@ -786,7 +786,7 @@ export class Vehicle2016 extends BaseLootableEntity {
         vehicleGuid: this.characterId, // vehicle guid
         seatId: seatId,
         isDriver: seatId === "0" ? 1 : 0, //isDriver
-        identity: {},
+        identity: {}
       });
       delete this.droppedManagedClient;
     }
@@ -796,9 +796,9 @@ export class Vehicle2016 extends BaseLootableEntity {
         type: 1,
         value: {
           characterId: this.characterId,
-          characterResources: this.pGetResources(),
-        },
-      },
+          characterResources: this.pGetResources()
+        }
+      }
     });
     // disable this workaround for now
     /*for (const a in this.seats) {
@@ -817,14 +817,14 @@ export class Vehicle2016 extends BaseLootableEntity {
     if (this.currentDamageEffect != 0) {
       server.sendData(client, "Command.PlayDialogEffect", {
         characterId: this.characterId,
-        effectId: this.currentDamageEffect,
+        effectId: this.currentDamageEffect
       });
     }
     // has to be sent or vehicle will lose sound after fullVehicle packet
     if (this.engineOn) {
       server.sendData(client, "Vehicle.Engine", {
         vehicleCharacterId: this.characterId,
-        engineOn: true,
+        engineOn: true
       });
     }
 
@@ -850,7 +850,7 @@ export class Vehicle2016 extends BaseLootableEntity {
         destroyedEffect: this.destroyedEffect,
         destroyedModel: this.destroyedModel,
         unknown3: 0,
-        disableWeirdPhysics: false,
+        disableWeirdPhysics: false
       }
     );
     const deleted = server.deleteEntity(this.characterId, server._vehicles);

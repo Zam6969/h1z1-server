@@ -448,7 +448,7 @@ export class WeatherManager {
       AOSize: 0.1,
       AOGamma: 0.8,
       AOBlackpoint: 0.2,
-      unknownDword33: 0.5,
+      unknownDword33: 0.5
     };
     return weather;
   }
