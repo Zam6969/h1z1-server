@@ -87,7 +87,7 @@ export class ChatManager {
       client.character.state.position,
       "Chat.ChatText",
       {
-        message: `${client.character.name} ${message}`,
+        message: `${client.character.name}> ${message}`,
         unknownDword1: 0,
         color: [255, 192, 203, 0],
         unknownDword2: 13951728,
@@ -106,7 +106,7 @@ export class ChatManager {
       const c = server._clients[a];
       if (c.radio) {
         server.sendData(c, "Chat.ChatText", {
-          message: `[RADIO: ${client.character.name}]: ${message}`,
+          message: `[RADIO: ${client.character.name}]> ${message}`,
           unknownDword1: 0,
           color: [147, 196, 125, 0],
           unknownDword2: 13951728,
