@@ -59,6 +59,8 @@ export class ConstructionManager {
     Items.IED,
     Items.LANDMINE,
     Items.SNARE,
+    Items.WEAPON_TORCH,
+    Items.WEAPON_TORCH_ETHANOL,
   ];
 
   /* MANAGED BY CONFIGMANAGER */
