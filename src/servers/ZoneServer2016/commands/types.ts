@@ -19,6 +19,7 @@ export enum PermissionLevels {
   MODERATOR = 1,
   ADMIN = 2,
   DEV = 3,
+  VIP = 4,
 }
 
 export interface Command {

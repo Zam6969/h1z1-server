@@ -2481,7 +2481,7 @@ export class ZonePacketHandlers {
                 if (chance <= 60) {
                   client.character.lootItem(
                     server,
-                    server.generateItem(Items.METAL_SCRAP)
+                    server.generateItem(Items.METAL_SCRAP, 4)
                   );
                   server.damageItem(client, weaponItem, 50);
                 }
