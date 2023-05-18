@@ -87,7 +87,7 @@ export class ChatManager {
       client.character.state.position,
       "Chat.ChatText",
       {
-        message: `${client.character.name}: ${message}`,
+        message: `${client.character.name} ${message}`,
         unknownDword1: 0,
         color: [255, 192, 203, 0],
         unknownDword2: 13951728,
