@@ -173,6 +173,9 @@ export enum VehicleIds {
   ATV = 5,
   PARACHUTE = 13,
   SPECTATE = 1337,
+  IGNITION_OFFROADER = 15,
+  IGNITION_ATV = 16,
+
 }
 
 export enum Characters {
