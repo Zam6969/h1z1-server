@@ -95,7 +95,7 @@ const dev: any = {
     }
     server.sendChatText(client, `Deleted ${counter} small shacks`);
   },
-  
+
   zombiemove: function (
     server: ZoneServer2016,
     client: Client,
@@ -124,7 +124,7 @@ const dev: any = {
       } as CharacterSeekTarget);
     }, 5000);
   },
-  
+
   stats: function (
     server: ZoneServer2016,
     client: Client,

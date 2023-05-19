@@ -29,7 +29,7 @@ import { ZoneClient2016 as Client } from "../classes/zoneclient";
 import {
   characterBuildKitLoadout,
   characterKitLoadout,
-  characterskinsloadout,
+  characterskinsloadout
 } from "../data/loadouts";
 import { EquipSlots, Items, ResourceIds, ResourceTypes } from "../models/enums";
 import { ZoneServer2016 } from "../zoneserver";
@@ -71,17 +71,14 @@ export const commands: Array<Command> = [
         client,
         `Spawned entities count : ${client.spawnedEntities.length}`
       );
-    },
+    }
   },
   {
     name: "discord",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      server.sendChatText(
-        client,
-        `Discord Link: Discord.gg/JsReborn`
-      );
-    },
+      server.sendChatText(client, `Discord Link: Discord.gg/JsReborn`);
+    }
   },
   {
     name: "rules",
@@ -104,9 +101,9 @@ export const commands: Array<Command> = [
         9.No cheating at all 
         10.No pretending to be admin
         11.No doxing another player
-        12.No Custom Packs that Give you a Advantage.`,
+        12.No Custom Packs that Give you a Advantage.`
       );
-    },
+    }
   },
   {
     name: "serverinfo",
@@ -458,9 +455,17 @@ export const commands: Array<Command> = [
         position: client.character.state.position,
         triggerLoadingScreen: true
       });
-      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has tphere ${targetClient.character.name}`, ``, []);
-      server.sendChatText(client,`Teleporting ${targetClient.character.name} to your location`
-      
+      server.sendAdminDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} has tphere ${targetClient.character.name}`,
+        ``,
+        []
+      );
+      server.sendChatText(
+        client,
+        `Teleporting ${targetClient.character.name} to your location`
       );
     }
   },
@@ -494,7 +499,14 @@ export const commands: Array<Command> = [
         position: targetClient.character.state.position,
         triggerLoadingScreen: true
       });
-      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has Tpto ${targetClient.character.name} `, ``, []);
+      server.sendAdminDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} has Tpto ${targetClient.character.name} `,
+        ``,
+        []
+      );
       server.sendChatText(
         client,
         `Teleporting to ${targetClient.character.name}'s location`
@@ -542,7 +554,14 @@ export const commands: Array<Command> = [
           } until ${server.getDateString(time)}`
         );
       } else {
-        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has You have silently banned ${targetClient.character.name} permemently, banType: ${banType}`, ``, []);
+        server.sendAdminDiscordHook(
+          client,
+          client,
+          "",
+          `${client.character.name} has You have silently banned ${targetClient.character.name} permemently, banType: ${banType}`,
+          ``,
+          []
+        );
         server.sendChatText(
           client,
           `You have silently banned ${targetClient.character.name} permemently, banType: ${banType}`
@@ -600,16 +619,28 @@ export const commands: Array<Command> = [
       }
       const reason = args.slice(2).join(" ");
       const obj = [
-        { title: 'Admin', info: `${client.character.name}` },
-        { title: 'Player', info: `${targetClient.character.name}` },
-        { title: 'Ban length', info: `${time}` },
-        { title: 'BanType', info: `Normal` },
-        { title: 'Reason', info: `${reason}` },
+        { title: "Admin", info: `${client.character.name}` },
+        { title: "Player", info: `${targetClient.character.name}` },
+        { title: "Ban length", info: `${time}` },
+        { title: "BanType", info: `Normal` },
+        { title: "Reason", info: `${reason}` }
       ];
-      server.sendBanreportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN BANNED`, ``, obj);
-      server.banClient(targetClient,reason,"normal",client.character.name ? client.character.name : "",time
+      server.sendBanreportDiscordHook(
+        client,
+        client,
+        "",
+        `${targetClient.character.name} HAS BEEN BANNED`,
+        ``,
+        obj
       );
-    },
+      server.banClient(
+        targetClient,
+        reason,
+        "normal",
+        client.character.name ? client.character.name : "",
+        time
+      );
+    }
   },
   {
     name: "banip",
@@ -620,15 +651,14 @@ export const commands: Array<Command> = [
       args: Array<string>
     ) => {
       if (!args[0]) {
-        server.sendChatText(
-          client,
-          `Correct usage: /banip {ip} {reason}`
-        );
+        server.sendChatText(client, `Correct usage: /banip {ip} {reason}`);
         return;
       }
       const ip = args[0];
       const reason = args.slice(1).join(" ");
-      const bannedIPs = await server._db?.collection(DB_COLLECTIONS.BANNED).findOne({ ip: ip });
+      const bannedIPs = await server._db
+        ?.collection(DB_COLLECTIONS.BANNED)
+        .findOne({ ip: ip });
       if (bannedIPs) {
         server.sendChatText(client, "This IP is already banned.");
         return;
@@ -637,41 +667,50 @@ export const commands: Array<Command> = [
         IP: server.getSoeClient(client.soeClientId)?.address || "",
         reason: reason,
         adminName: client.character.name ? client.character.name : "",
-        timestamp: Date.now(),
+        timestamp: Date.now()
       };
       server._db?.collection(DB_COLLECTIONS.BANNED).insertOne(banObject);
-      server.sendAlertToAll('A Player has been banned by ${client.character.name} for ${reason}');
-    },
+      server.sendAlertToAll(
+        "A Player has been banned by ${client.character.name} for ${reason}"
+      );
+    }
   },
   {
     name: "deepcover",
     permissionLevel: PermissionLevels.MODERATOR,
-    execute: async (server: ZoneServer2016, client: Client, args: Array<string>) => {
+    execute: async (
+      server: ZoneServer2016,
+      client: Client,
+      args: Array<string>
+    ) => {
       const newCharacterName = args[0];
-  
+
       // Validate the input to ensure that it is a single word without special characters
       const isValidInput = /^[a-zA-Z0-9_]+$/.test(newCharacterName);
       if (!isValidInput) {
-        server.sendChatText(client, "Invalid input. Please enter a single word without special characters.");
+        server.sendChatText(
+          client,
+          "Invalid input. Please enter a single word without special characters."
+        );
         return;
       }
-  
+
       // Update the client's character name
       client.character.name = newCharacterName;
-  
+
       // Wait for one second before running vanish command
-      await new Promise(resolve => setTimeout(resolve, 1000));
-  
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Set the client's isSpectator state
       client.character.isSpectator = !client.character.isSpectator;
-  
+
       // Remove the client's character from the game if in spectate mode
       if (client.character.isSpectator) {
         for (const a in server._clients) {
           const iteratedClient = server._clients[a];
           if (iteratedClient.spawnedEntities.includes(client.character)) {
             server.sendData(iteratedClient, "Character.RemovePlayer", {
-              characterId: client.character.characterId,
+              characterId: client.character.characterId
             });
             iteratedClient.spawnedEntities.splice(
               iteratedClient.spawnedEntities.indexOf(client.character),
@@ -681,16 +720,16 @@ export const commands: Array<Command> = [
         }
         server.sendData(client, "Spectator.Enable", {});
       }
-  
+
       // Wait for an additional second before running the second vanish command
-      await new Promise(resolve => setTimeout(resolve, 1000));
-  
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Set the client's isSpectator state again
       client.character.isSpectator = !client.character.isSpectator;
-  
+
       // Send a chat message to confirm the name change
       server.sendChatText(client, `Name changed to ${newCharacterName}`);
-    },
+    }
   },
   {
     name: "kick",
@@ -715,7 +754,14 @@ export const commands: Array<Command> = [
       }
       const reason = args[1] ? args.slice(1).join(" ") : "Undefined";
       for (let i = 0; i < 5; i++) {
-        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has kicked ${targetClient.character.name} from the server. Reason: ${reason}`, ``, []);
+        server.sendAdminDiscordHook(
+          client,
+          client,
+          "",
+          `${client.character.name} has kicked ${targetClient.character.name} from the server. Reason: ${reason}`,
+          ``,
+          []
+        );
         server.sendAlert(
           targetClient,
           `You are being kicked from the server. Reason: ${reason}`
@@ -749,7 +795,14 @@ export const commands: Array<Command> = [
       const name = args.join(" ").toString();
       const unBannedClient = await server.unbanClient(client, name);
       if (unBannedClient) {
-        server.sendAdminDiscordHook(client, client, "", `${client.character.name} has Removed ban on user ${unBannedClient.name}`, ``, []);
+        server.sendAdminDiscordHook(
+          client,
+          client,
+          "",
+          `${client.character.name} has Removed ban on user ${unBannedClient.name}`,
+          ``,
+          []
+        );
         server.sendChatText(
           client,
           `Removed ban on user ${unBannedClient.name}`
@@ -1231,14 +1284,11 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
-      server.sendChatText(
-        client,
-        "use /temp {temperature}"
-        );
+        server.sendChatText(client, "use /temp {temperature}");
         return;
       }
       server.weatherManager.tempCommand(server, client, args);
-    },
+    }
   },
   {
     name: "additem",
@@ -1300,7 +1350,18 @@ export const commands: Array<Command> = [
           server.sendChatText(client, "Client not found.");
           return;
         }
-        server.sendAdminDiscordHook(client, client, "", `Adding ${count}x item${count == 1 ? "" : "s"} with id ${itemDefId} to player ${targetClient ? targetClient.character.name : client.character.name}`, ``, []);
+        server.sendAdminDiscordHook(
+          client,
+          client,
+          "",
+          `Adding ${count}x item${
+            count == 1 ? "" : "s"
+          } with id ${itemDefId} to player ${
+            targetClient ? targetClient.character.name : client.character.name
+          }`,
+          ``,
+          []
+        );
         server.sendChatText(
           client,
           `Adding ${count}x item${
@@ -1314,7 +1375,16 @@ export const commands: Array<Command> = [
           item
         );
       } else {
-        server.sendAdminDiscordHook(client, client, "", `Adding ${count}x item${count == 1 ? "" : "s"} with id ${itemDefId} to player ${client.character.name}`, ``, []);
+        server.sendAdminDiscordHook(
+          client,
+          client,
+          "",
+          `Adding ${count}x item${
+            count == 1 ? "" : "s"
+          } with id ${itemDefId} to player ${client.character.name}`,
+          ``,
+          []
+        );
         server.sendChatText(
           client,
           `Adding ${count}x item${
@@ -1353,9 +1423,15 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       client.character.equipLoadout(server, characterKitLoadout);
-      server.sendAdminDiscordHook(client, client, "", `${client.character.name} has used /kit`, ``, []);
-
-    },
+      server.sendAdminDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} has used /kit`,
+        ``,
+        []
+      );
+    }
   },
   {
     name: "addallitems",
@@ -1793,7 +1869,7 @@ export const commands: Array<Command> = [
       );
       client.character.equipLoadout(server, characterBuildKitLoadout);
       server.sendChatText(client, `Build kit given`);
-    },
+    }
   },
   {
     name: "skins",
@@ -1809,7 +1885,7 @@ export const commands: Array<Command> = [
       );
       client.character.equipLoadout(server, characterskinsloadout);
       server.sendChatText(client, `skins kit given`);
-    },
+    }
   },
 
   {
@@ -2122,13 +2198,19 @@ export const commands: Array<Command> = [
       args.splice(0, 1);
       const message = args.join(" ");
       const obj = [
-        { title: 'Name', info: `${client.character.name}` },
-        { title: 'type', info: `Whisper` },
-        { title: 'to', info: `${targetClient.character.name}` },
-        { title: 'Message', info: `${message}` },
-
+        { title: "Name", info: `${client.character.name}` },
+        { title: "type", info: `Whisper` },
+        { title: "to", info: `${targetClient.character.name}` },
+        { title: "Message", info: `${message}` }
       ];
-      server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
+      server.sendChatDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} Sent a Message!`,
+        ``,
+        obj
+      );
       server.sendChatText(
         client,
         `[Whisper to ${targetClient.character.name}]: ${message}`
@@ -2278,7 +2360,9 @@ export const commands: Array<Command> = [
           } until ${server.getDateString(time)}`
         );
       } else {
-        server.sendAlertToAll(`${targetClient.character.name} HAS BEEN MUTED! PERMANENTLY!`);
+        server.sendAlertToAll(
+          `${targetClient.character.name} HAS BEEN MUTED! PERMANENTLY!`
+        );
         server.sendChatText(
           client,
           `You have muted ${targetClient.character.name} permanently`
@@ -2319,14 +2403,15 @@ export const commands: Array<Command> = [
           )
         )?.value as unknown as ClientMute;
       if (mutedClient) {
-        
         server.sendChatText(client, `Removed mute on user ${mutedClient.name}`);
         const targetClient = server.getClientByNameOrLoginSession(
           mutedClient.loginSessionId
         );
         if (targetClient && targetClient instanceof Client) {
           server.sendAlert(targetClient, "You have been unmuted!");
-          server.sendAlertToAll(`${targetClient.character.name} HAS BEEN UNMUTED!`);
+          server.sendAlertToAll(
+            `${targetClient.character.name} HAS BEEN UNMUTED!`
+          );
         }
       } else {
         server.sendChatText(

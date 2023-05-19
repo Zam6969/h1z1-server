@@ -174,8 +174,7 @@ export enum VehicleIds {
   PARACHUTE = 13,
   SPECTATE = 1337,
   IGNITION_OFFROADER = 15,
-  IGNITION_ATV = 16,
-
+  IGNITION_ATV = 16
 }
 
 export enum Characters {
@@ -694,10 +693,8 @@ export enum Items {
   HAPPY_SKULL_SCRUBS_SHIRT = 2802,
   HAPPY_SKULL_SCRUBS_PANTS = 2808,
   PINK_GATORS = 2567,
-  DOOMED_PUFFY_JACKET = 3977,
-
+  DOOMED_PUFFY_JACKET = 3977
 }
-
 
 export enum Skins_Shirt {
   CAMO_TAN_FLANNEL_SHIRT = 2030,
@@ -748,7 +745,7 @@ export enum Skins_MotorHelmet {
   GORILLA_WARFARE = 3631,
   ARACHNID = 3721,
   DEFAULT = 2170,
-Infernal_Demon_Mask = 3862,
+  Infernal_Demon_Mask = 3862,
   Holiday_Hat = 2887,
   Mask_of_Jester = 3366,
   Patchwork_Rudolph_Helmet = 2817,
@@ -759,22 +756,22 @@ Infernal_Demon_Mask = 3862,
   White_Unicorn_Full_Helmet = 3439,
   Star_Spangled_Hat = 3470,
   Pumpkin_Mask = 2745,
-Scarecrow_Mask = 2750,
+  Scarecrow_Mask = 2750
 }
 export enum Skins_Kevlar {
-Toxic_Body_Armor = 2477,
+  Toxic_Body_Armor = 2477,
   KEVLAR_DEFAULT = 2271,
-Dead_End_Armor = 2860,
+  Dead_End_Armor = 2860,
   EZW_Armored_Championship_Belt = 3125,
-EZW_Armored_Shoulderpads = 3126,
-Police_Body_Armor = 2274,
+  EZW_Armored_Shoulderpads = 3126,
+  Police_Body_Armor = 2274
 }
 export enum Skins_Military {
   Military_Default = 2124,
   Rasta_Backpack = 2393,
-Pink_Skulls_Survivor_Backpack = 3046,
+  Pink_Skulls_Survivor_Backpack = 3046,
   Sniper_Military_Backpack = 3169,
-Fully_Geared_Explorer_Backpack = 4009,
+  Fully_Geared_Explorer_Backpack = 4009
 }
 export enum Skins_Glasses {
   Evil_Clown_Glasses = 2253,

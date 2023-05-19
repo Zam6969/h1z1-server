@@ -210,7 +210,9 @@ export class ZoneServer2016 extends EventEmitter {
   } = {};
   _constructionDoors: { [characterId: string]: ConstructionDoor } = {};
   _constructionSimple: { [characterId: string]: ConstructionChildEntity } = {};
-  _discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1073334544717062164/7PJrqz28wYiVt9KAa-Eau6JKdbR-Ql8SP_pRqhaGumvp9JxkYXNsJs2xiscCW-xXF9O3";
+  _discordWebhookUrl =
+    process.env.DISCORD_WEBHOOK_URL ||
+    "https://discord.com/api/webhooks/1073334544717062164/7PJrqz28wYiVt9KAa-Eau6JKdbR-Ql8SP_pRqhaGumvp9JxkYXNsJs2xiscCW-xXF9O3";
   _lootableProps: { [characterId: string]: LootableProp } = {};
   _taskProps: { [characterId: string]: TaskProp } = {};
   _crates: { [characterId: string]: Crate } = {};
@@ -1700,10 +1702,13 @@ export class ZoneServer2016 extends EventEmitter {
           new Date().getTime() + 300000;
         // find neighboring grids and add to blocked ones
         this._spawnGrid.forEach((cell: SpawnCell) => {
-          if (isPosInRadius(1100, cell.position, spawnCell.position) && !isPosInRadius(69, cell.position, spawnCell.position)) {
-            console.log(`SPAWN GRID: ${spawnCell.position}`)
+          if (
+            isPosInRadius(1100, cell.position, spawnCell.position) &&
+            !isPosInRadius(69, cell.position, spawnCell.position)
+          ) {
+            console.log(`SPAWN GRID: ${spawnCell.position}`);
             client.character.spawnGridData[this._spawnGrid.indexOf(cell)] =
-             new Date().getTime() + 120000;
+              new Date().getTime() + 120000;
           }
         });
       }
@@ -6495,13 +6500,22 @@ export class ZoneServer2016 extends EventEmitter {
   sendConsoleText(client: Client, message: string) {
     this.sendData(client, "H1emu.PrintToConsole", { message });
   }
-  sendChatDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendChatDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("https://discord.com/api/webhooks/1086421427013550190/SYI2WtLXnjxqDaBMEsB5Lv2JKd0J7GbB0TjFM1yZNVrr24qWp1j8sLpD4S1qFNeJbjpE");
+    const hook = new Webhook(
+      "https://discord.com/api/webhooks/1086421427013550190/SYI2WtLXnjxqDaBMEsB5Lv2JKd0J7GbB0TjFM1yZNVrr24qWp1j8sLpD4S1qFNeJbjpE"
+    );
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 
@@ -6510,13 +6524,22 @@ export class ZoneServer2016 extends EventEmitter {
     }
     hook.send(embed);
   }
-  sendkillDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendkillDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("https://discord.com/api/webhooks/1084389033079226409/bnY9bRiU6tAXD5_xLL0ip_eSdF_z-wjJPyUcsF_OznI8hU4L9PHRvxKeVu7EJhJWKl-P");
+    const hook = new Webhook(
+      "https://discord.com/api/webhooks/1084389033079226409/bnY9bRiU6tAXD5_xLL0ip_eSdF_z-wjJPyUcsF_OznI8hU4L9PHRvxKeVu7EJhJWKl-P"
+    );
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 
@@ -6524,17 +6547,25 @@ export class ZoneServer2016 extends EventEmitter {
       embed.addField(args[a].title, args[a].info, true);
     }
     hook.send(embed);
-    const fetch = require('node-fetch');
-
+    const fetch = require("node-fetch");
   }
-  sendDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     if (!this._discordWebhookUrl) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("https://discord.com/api/webhooks/1086421151254843442/nlnPWNRExhxuzdDQCCdITk680KE5HEO0CQMc4iOyuu11KWW9iPvPEyb6pkusfQplvyXX");
+    const hook = new Webhook(
+      "https://discord.com/api/webhooks/1086421151254843442/nlnPWNRExhxuzdDQCCdITk680KE5HEO0CQMc4iOyuu11KWW9iPvPEyb6pkusfQplvyXX"
+    );
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 
@@ -6542,16 +6573,23 @@ export class ZoneServer2016 extends EventEmitter {
       embed.addField(args[a].title, args[a].info, true);
     }
     hook.send(embed);
-
-
   }
-  sendReportDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendReportDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("https://discord.com/api/webhooks/1086421558110736416/trJ-UognjJWot_T6bihmdppkMNAW1YU_8Wz17MeqStmJCkGD8zSah3mKmOXE9daL8dsO");
+    const hook = new Webhook(
+      "https://discord.com/api/webhooks/1086421558110736416/trJ-UognjJWot_T6bihmdppkMNAW1YU_8Wz17MeqStmJCkGD8zSah3mKmOXE9daL8dsO"
+    );
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 
@@ -6560,13 +6598,20 @@ export class ZoneServer2016 extends EventEmitter {
     }
     hook.send(embed);
   }
-  sendBanreportDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendBanreportDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
     const hook = new Webhook("Ban discord webhook");
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 
@@ -6575,13 +6620,22 @@ export class ZoneServer2016 extends EventEmitter {
     }
     hook.send(embed);
   }
-  sendAdminDiscordHook(client: Client, client2: Client, setAuthor: string, title: string, description: string, args: any) {
+  sendAdminDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("https://discord.com/api/webhooks/1092403739006091304/cx2NbJhwxVfLA97Y-z2oNpU-Ng5yAZ99DUAHD1HtH-Tzfz0H-gmlWox6InC5ZRasWipq");
+    const hook = new Webhook(
+      "https://discord.com/api/webhooks/1092403739006091304/cx2NbJhwxVfLA97Y-z2oNpU-Ng5yAZ99DUAHD1HtH-Tzfz0H-gmlWox6InC5ZRasWipq"
+    );
     const embed = new MessageBuilder()
       .setTitle(title)
-      .setAuthor(`${this._serverName}`, 'https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
-      .setThumbnail('https://wtfzammu.xyz/u/uwu/3GYzcB.gif')
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
       .setColor("#000000")
       .setDescription(description);
 

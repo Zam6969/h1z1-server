@@ -133,10 +133,7 @@ export const internalCommands: Array<Command> = [
         VehicleIds.ATV,
         VehicleIds.OFFROADER,
         VehicleIds.IGNITION_OFFROADER,
-        VehicleIds.IGNITION_ATV,
-
-        
-
+        VehicleIds.IGNITION_ATV
       ];
       if (!allowedIds.includes(packetData.vehicleId)) {
         server.sendChatText(

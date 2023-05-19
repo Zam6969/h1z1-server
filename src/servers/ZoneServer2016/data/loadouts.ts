@@ -29,7 +29,7 @@ export const characterDefaultLoadout = [
 
   { item: Items.MAP },
   { item: Items.COMPASS },
-  { item: Items.GAUZE, count: 5 },
+  { item: Items.GAUZE, count: 5 }
 ];
 
 export const characterKitLoadout = [
@@ -41,7 +41,7 @@ export const characterKitLoadout = [
   { item: Items.AMMO_12GA, count: 12 },
   { item: Items.AMMO_308, count: 15 },
   { item: Items.HOLIDAY_HAT },
-  { item: Items.CONVEYS_BLUE },
+  { item: Items.CONVEYS_BLUE }
 ];
 export const characterskinsloadout = [
   { item: Items.CONVEYS_BLUE },
@@ -91,7 +91,7 @@ export const characterskinsloadout = [
   { item: Items.STEAMPUNK_GOGGLES },
   { item: Items.HAPPY_SKULL_SCRUBS_SHIRT },
   { item: Items.HAPPY_SKULL_SCRUBS_PANTS },
-  { item: Items.PINK_GATORS },
+  { item: Items.PINK_GATORS }
 ];
 
 export const characterBuildKitLoadout = [

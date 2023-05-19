@@ -13,8 +13,8 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // TODO enable @typescript-eslint/no-unused-vars
-import {ZoneClient2016 as Client} from "./classes/zoneclient";
-import {ZoneServer2016} from "./zoneserver";
+import { ZoneClient2016 as Client } from "./classes/zoneclient";
+import { ZoneServer2016 } from "./zoneserver";
 import {
   _,
   eul2quat,
@@ -28,7 +28,7 @@ import {
   toHex
 } from "../../utils/utils";
 
-import {CraftManager} from "./managers/craftmanager";
+import { CraftManager } from "./managers/craftmanager";
 import {
   ConstructionErrors,
   ConstructionPermissionIds,
@@ -41,28 +41,38 @@ import {
   ResourceTypes,
   Stances
 } from "./models/enums";
-import {BaseFullCharacter} from "./entities/basefullcharacter";
-import {BaseLightweightCharacter} from "./entities/baselightweightcharacter";
-import {ConstructionParentEntity} from "./entities/constructionparententity";
-import {ConstructionDoor} from "./entities/constructiondoor";
-import {CommandHandler} from "./commands/commandhandler";
-import {ChatChat, GameTimeSync, Synchronization} from "types/zone2016packets";
-import {VehicleCurrentMoveMode} from "types/zone2015packets";
-import {ClientBan, ConstructionPermissions, DamageInfo, fireHint, UserVerification} from "types/zoneserver";
-import {positionUpdate} from "types/savedata";
-import {LootableProp} from "./entities/lootableprop";
-import {Vehicle2016} from "./entities/vehicle";
-import {Plant} from "./entities/plant";
-import {ConstructionChildEntity} from "./entities/constructionchildentity";
-import {Collection} from "mongodb";
-import {DB_COLLECTIONS} from "../../utils/enums";
-import {LootableConstructionEntity} from "./entities/lootableconstructionentity";
-import {Character2016} from "./entities/character";
-import {Crate} from "./entities/crate";
-import {EXTERNAL_CONTAINER_GUID, LOADOUT_CONTAINER_GUID, OBSERVER_GUID} from "../../utils/constants";
-import {BaseLootableEntity} from "./entities/baselootableentity";
-import {Destroyable} from "./entities/destroyable";
-import {Lootbag} from "./entities/lootbag";
+import { BaseFullCharacter } from "./entities/basefullcharacter";
+import { BaseLightweightCharacter } from "./entities/baselightweightcharacter";
+import { ConstructionParentEntity } from "./entities/constructionparententity";
+import { ConstructionDoor } from "./entities/constructiondoor";
+import { CommandHandler } from "./commands/commandhandler";
+import { ChatChat, GameTimeSync, Synchronization } from "types/zone2016packets";
+import { VehicleCurrentMoveMode } from "types/zone2015packets";
+import {
+  ClientBan,
+  ConstructionPermissions,
+  DamageInfo,
+  fireHint,
+  UserVerification
+} from "types/zoneserver";
+import { positionUpdate } from "types/savedata";
+import { LootableProp } from "./entities/lootableprop";
+import { Vehicle2016 } from "./entities/vehicle";
+import { Plant } from "./entities/plant";
+import { ConstructionChildEntity } from "./entities/constructionchildentity";
+import { Collection } from "mongodb";
+import { DB_COLLECTIONS } from "../../utils/enums";
+import { LootableConstructionEntity } from "./entities/lootableconstructionentity";
+import { Character2016 } from "./entities/character";
+import { Crate } from "./entities/crate";
+import {
+  EXTERNAL_CONTAINER_GUID,
+  LOADOUT_CONTAINER_GUID,
+  OBSERVER_GUID
+} from "../../utils/constants";
+import { BaseLootableEntity } from "./entities/baselootableentity";
+import { Destroyable } from "./entities/destroyable";
+import { Lootbag } from "./entities/lootbag";
 
 const debug = require("debug")("ZoneServer");
 
@@ -132,7 +142,11 @@ export class ZonePacketHandlers {
     server.sendData(client, "ZoneDoneSendingInitialData", {}); // Required for WaitForWorldReady
   }
 
-  async ClientFinishedLoading(server: ZoneServer2016, client: Client, packet: any) {
+  async ClientFinishedLoading(
+    server: ZoneServer2016,
+    client: Client,
+    packet: any
+  ) {
     if (!server.hookManager.checkHook("OnClientFinishedLoading", client))
       return;
     server.tempGodMode(client, 15000);
@@ -143,45 +157,66 @@ export class ZonePacketHandlers {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
       setTimeout(() => {
-      if (client.isAdmin) {
-        server.setGodMode(client, true);
-        client.isDebugMode = !client.isDebugMode;
-        server.sendChatTextToAdmins(`${client.character.name} has joined the server!`);
-        const obj = [
-          { title: 'Name', info: `${client.character.name}` },
-          { title: 'Server', info: `?` },
-          { title: 'CharacterID', info: `${client.character.characterId}` },
-          { title: 'LoginSessionID', info: `${client.loginSessionId}` },
-        ];
-        server.sendAdminDiscordHook(client, client, "", `Admin Has Joined The Server!`, ``, obj);
-      }
-    }, 4000);
-      setTimeout(async () => {
-
-        const getUserVerification = async (): Promise<UserVerification | null> => {
-          return await server._db
-              ?.collection(DB_COLLECTIONS.VERIFIED)
-              .findOne({guid: client.loginSessionId}) as UserVerification | null;
+        if (client.isAdmin) {
+          server.setGodMode(client, true);
+          client.isDebugMode = !client.isDebugMode;
+          server.sendChatTextToAdmins(
+            `${client.character.name} has joined the server!`
+          );
+          const obj = [
+            { title: "Name", info: `${client.character.name}` },
+            { title: "Server", info: `?` },
+            { title: "CharacterID", info: `${client.character.characterId}` },
+            { title: "LoginSessionID", info: `${client.loginSessionId}` }
+          ];
+          server.sendAdminDiscordHook(
+            client,
+            client,
+            "",
+            `Admin Has Joined The Server!`,
+            ``,
+            obj
+          );
         }
+      }, 4000);
+      setTimeout(async () => {
+        const getUserVerification =
+          async (): Promise<UserVerification | null> => {
+            return (await server._db
+              ?.collection(DB_COLLECTIONS.VERIFIED)
+              .findOne({
+                guid: client.loginSessionId
+              })) as UserVerification | null;
+          };
 
-        const verification = await getUserVerification()
+        const verification = await getUserVerification();
 
-        if(!verification) {
-          console.log('not verified sadge')
+        if (!verification) {
+          console.log("not verified sadge");
         } else {
           const discordId = userVerification.discordId;
           const soeClient = server.getSoeClient(client.soeClientId);
           const obj = [
-            {title: 'Player HWID', info: `${client.HWID}`},
-            {title: 'CharacterID', info: `${client.character.characterId}`},
-            {title: 'LoginSessionID', info: `${client.loginSessionId}`},
-            {title: 'Player IP', info: `||${soeClient?.address}||`},
-            {title: 'Player Avg Ping', info: `${soeClient?.avgPing}`},
-            {title: 'Server Population', info: `${_.size(server._characters)}`},
-            {title: 'Server Name', info: `?`},
-            {title: 'Discord ID', info: `<@${discordId}>`}
+            { title: "Player HWID", info: `${client.HWID}` },
+            { title: "CharacterID", info: `${client.character.characterId}` },
+            { title: "LoginSessionID", info: `${client.loginSessionId}` },
+            { title: "Player IP", info: `||${soeClient?.address}||` },
+            { title: "Player Avg Ping", info: `${soeClient?.avgPing}` },
+            {
+              title: "Server Population",
+              info: `${_.size(server._characters)}`
+            },
+            { title: "Server Name", info: `?` },
+            { title: "Discord ID", info: `<@${discordId}>` }
           ];
-          server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
+          server.sendDiscordHook(
+            client,
+            client,
+            "",
+            `${client.character.name} has joined!`,
+            ``,
+            obj
+          );
         }
 
         server.sendAlert(client, "Welcome to JsReborn Trio ");
@@ -192,72 +227,57 @@ export class ZonePacketHandlers {
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
-            client,
-            `server population : ${_.size(server._characters)}`
+          client,
+          `server population : ${_.size(server._characters)}`
         );
         if (client.isAdmin) {
           if (server.adminMessage)
             server.sendAlert(client, server.adminMessage);
         }
       }, 10000);
-      console.log(client.loginSessionId)
+      console.log(client.loginSessionId);
       const userVerification: UserVerification = (await server._db
         ?.collection(DB_COLLECTIONS.VERIFIED)
-        .findOne({ guid: client.loginSessionId })) as unknown as UserVerification;
+        .findOne({
+          guid: client.loginSessionId
+        })) as unknown as UserVerification;
       if (userVerification?.isVerified) {
-        
         //client.banType = hwidBanned.banType;
         //server.enforceBan(client);
-      } else { 
-        server.sendChatText(
-          client,
-          `You are linked to discord!`
-        );
+      } else {
+        server.sendChatText(client, `You are linked to discord!`);
         var verifycode: number;
-        if(userVerification) {
+        if (userVerification) {
           verifycode = userVerification?.verifyCode;
-      } else { 
-        const object: UserVerification = {
-          guid: client.loginSessionId!,
-          discordId: null!,
-          verifyCode: Math.floor(100000 + Math.random() * 9000000),
-          isVerified: false
+        } else {
+          const object: UserVerification = {
+            guid: client.loginSessionId!,
+            discordId: null!,
+            verifyCode: Math.floor(100000 + Math.random() * 9000000),
+            isVerified: false
+          };
+          console.log(object);
+          verifycode = object.verifyCode;
+          server._db?.collection(DB_COLLECTIONS.VERIFIED).insertOne(object);
+        }
+        var spamMsg = `You must verify your account on discord at https://discord.gg/JsReborn in the #verify channel. Code: ${verifycode}`;
+        setTimeout(() => {
+          var test = setInterval(() => {
+            server.sendChatText(client, spamMsg);
+            server.sendAlert(client, spamMsg);
+          }, 1000);
 
-        };
-        console.log(object)
-        verifycode = object.verifyCode;
-        server._db?.collection(DB_COLLECTIONS.VERIFIED).insertOne(object);
-      }
-      var spamMsg = `You must verify your account on discord at https://discord.gg/JsReborn in the #verify channel. Code: ${verifycode}`
-      setTimeout(() => {
-        var test = setInterval(() => {
-          server.sendChatText(
-            client,
-            spamMsg
-          );
-          server.sendAlert(
-            client,
-            spamMsg
-          );
-        }, 1000)
-
-        server.sendChatText(
-          client,
-          `You have been Disconnected.`
-        );
-        server.sendAlert(
-          client,
-          `You have been Disconnected.`
-        );
+          server.sendChatText(client, `You have been Disconnected.`);
+          server.sendAlert(client, `You have been Disconnected.`);
           setTimeout(() => {
             server.sendData(client, "CharacterSelectSessionResponse", {
               status: 1,
-              sessionId: client.loginSessionId,
+              sessionId: client.loginSessionId
             });
             server.deleteClient(client);
             clearInterval(test);
-          }, 25000)
-        }, 3000)
+          }, 25000);
+        }, 3000);
       }
       if (client.banType != "") {
         server.sendChatTextToAdmins(
@@ -490,19 +510,45 @@ export class ZonePacketHandlers {
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
       { title: "Total reports this session:", info: `${targetClient.reports}` }
     ];
-    server.sendChatTextToAdmins(`${targetClient.character.name} HAS BEEN REPORTED BY ${client.character.name}`); 
-    server.sendReportDiscordHook(client, client, "", `${targetClient.character.name} HAS BEEN REPORTED`, ``, obj);
+    server.sendChatTextToAdmins(
+      `${targetClient.character.name} HAS BEEN REPORTED BY ${client.character.name}`
+    );
+    server.sendReportDiscordHook(
+      client,
+      client,
+      "",
+      `${targetClient.character.name} HAS BEEN REPORTED`,
+      ``,
+      obj
+    );
     setTimeout(() => {
-      server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
-      server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
-      server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
+      server.sendAlert(
+        client,
+        `YOU REPORTED ${targetClient.character.name} Thanks for the report!`
+      );
+      server.sendAlert(
+        client,
+        "Please Join the discord and open a ticket if you think this player is cheating"
+      );
+      server.sendAlert(
+        client,
+        "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn"
+      );
     }, 1);
     setTimeout(() => {
-      server.sendAlert(client, `YOU REPORTED ${targetClient.character.name} Thanks for the report!`);
-      server.sendAlert(client, "Please Join the discord and open a ticket if you think this player is cheating");
-      server.sendAlert(client, "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn");
+      server.sendAlert(
+        client,
+        `YOU REPORTED ${targetClient.character.name} Thanks for the report!`
+      );
+      server.sendAlert(
+        client,
+        "Please Join the discord and open a ticket if you think this player is cheating"
+      );
+      server.sendAlert(
+        client,
+        "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn"
+      );
     }, 30000);
-
 
     delete client.lastDeathReport;
   }
@@ -627,26 +673,32 @@ export class ZonePacketHandlers {
       server.sendChatText(client, "You are muted!");
       return;
     }
-    
+
     if (!client.radio) {
-      
       server.chatManager.sendChatToAllInRange(
         server,
         client,
         message as string,
         300
       );
-     /* if (message.toLowerCase().includes("nigger".toLowerCase())) {  //todo And a filter list.
+      /* if (message.toLowerCase().includes("nigger".toLowerCase())) {  //todo And a filter list.
         server.chatManager.muteClient(server,client,'Racisim','',10000);
         server.kickPlayer(client);
         server.sendAlertToAll(`kicking ${client.character.name} Racisim`);
       }*/
       const obj = [
-        { title: 'Name', info: `${client.character.name}` },
-        { title: 'type', info: `Chat` },
-        { title: 'Message', info: `${message}` },
+        { title: "Name", info: `${client.character.name}` },
+        { title: "type", info: `Chat` },
+        { title: "Message", info: `${message}` }
       ];
-      server.sendChatDiscordHook(client, client, "", `${client.character.name} Sent a Message!`, ``, obj);
+      server.sendChatDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} Sent a Message!`,
+        ``,
+        obj
+      );
     } else if (client.radio) {
       server.chatManager.sendChatToAllWithRadio(
         server,
@@ -654,11 +706,18 @@ export class ZonePacketHandlers {
         message as string
       );
       const obj = [
-        { title: 'Name', info: `${client.character.name}` },
-        { title: 'type', info: `Radio` },
-        { title: 'Message', info: `${message}` },
+        { title: "Name", info: `${client.character.name}` },
+        { title: "type", info: `Radio` },
+        { title: "Message", info: `${message}` }
       ];
-      server.sendChatDiscordHook(client, client, "", `${client.character.name} sent a message!`, ``, obj);
+      server.sendChatDiscordHook(
+        client,
+        client,
+        "",
+        `${client.character.name} sent a message!`,
+        ``,
+        obj
+      );
     }
   }
   ClientInitializationDetails(
@@ -1001,7 +1060,14 @@ export class ZonePacketHandlers {
             const c = server.getClientByCharId(passenger);
             if (!c) return;
             server.kickPlayer(c);
-            server.sendReportDiscordHook(client, client, client.character.name, `ERROR Kicked`, `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`, null);
+            server.sendReportDiscordHook(
+              client,
+              client,
+              client.character.name,
+              `ERROR Kicked`,
+              `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`,
+              null
+            );
             server.sendChatTextToAdmins(
               `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`,
               false
@@ -1136,7 +1202,14 @@ export class ZonePacketHandlers {
             { type: "XS glitching", pos }
           );
         }
-        server.sendReportDiscordHook(client, client, client.character.name, `ERROR Fairplay`, `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`, null);
+        server.sendReportDiscordHook(
+          client,
+          client,
+          client.character.name,
+          `ERROR Fairplay`,
+          `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`,
+          null
+        );
         server.sendChatTextToAdmins(
           `FairPlay: Possible XS glitching detected by ${client.character.name} at position [${pos[0]} ${pos[1]} ${pos[2]}]`
         );

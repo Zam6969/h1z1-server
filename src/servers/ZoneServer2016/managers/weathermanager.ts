@@ -125,26 +125,27 @@ export class WeatherManager {
       }
     }
   }
-  tempCommand(server: ZoneServer2016, client: Client, args: Array<string>): void {
+  tempCommand(
+    server: ZoneServer2016,
+    client: Client,
+    args: Array<string>
+  ): void {
     if (this.dynamicEnabled) {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
     const temp: number = Number(args[0]);
     server.sendChatText(client, `Weather temperature set to ${temp}`);
-  
+
     this.weather = {
       ...this.weather,
       rain: 0,
       temp: 28,
-      colorGradient: temp,
+      colorGradient: temp
     };
-  
+
     this.sendUpdateToAll(server, client, true);
   }
-  
-  
-  
 
   startWeatherWorker(server: ZoneServer2016) {
     if (this.dynamicEnabled) {
@@ -169,9 +170,7 @@ export class WeatherManager {
   sendUpdateToAll(server: ZoneServer2016, client?: Client, broadcast = false) {
     server.sendDataToAll("UpdateWeatherData", this.weather);
     if (client && broadcast) {
-      server.sendGlobalChatText(
-        `Weather Updated by ${client.character.name}!`
-      );
+      server.sendGlobalChatText(`Weather Updated by ${client.character.name}!`);
     }
   }
 
