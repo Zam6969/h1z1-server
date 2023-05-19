@@ -168,7 +168,20 @@ export class ZonePacketHandlers {
       }
     }, 4000);
       setTimeout(() => {
+        const getUserVerification = async (): Promise<UserVerification | null> => {
+          const userVerification: UserVerification | null = await server._db
+            ?.collection(DB_COLLECTIONS.VERIFIED)
+            .findOne({}) as UserVerification | null;
+        
+          return userVerification;
+        }
+        
+        if (userVerification?.discordId) {
+          const discordId = userVerification.discordId;
+          console.log(`Discord ID: ${discordId}`);
+      }
         const soeClient = server.getSoeClient(client.soeClientId);
+        const discordId = userVerification.discordId;
         const obj = [
           { title: 'Player HWID', info: `${client.HWID}` },
           { title: 'CharacterID', info: `${client.character.characterId}` },
@@ -177,6 +190,7 @@ export class ZonePacketHandlers {
           { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
           { title: 'Server Population', info: `${_.size(server._characters)}` },
           { title: 'Server Name', info: `?` },
+          { title: 'Discord ID', info: `Discord ID: ${discordId}`}
         ];
         server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
         server.sendAlert(client, "Welcome to JsReborn Trio ");
