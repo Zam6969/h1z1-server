@@ -196,6 +196,7 @@ export class ZonePacketHandlers {
         } else {
           const discordId = userVerification.discordId;
           const soeClient = server.getSoeClient(client.soeClientId);
+          
           const obj = [
             { title: "Player HWID", info: `${client.HWID}` },
             { title: "CharacterID", info: `${client.character.characterId}` },
@@ -206,7 +207,7 @@ export class ZonePacketHandlers {
               title: "Server Population",
               info: `${_.size(server._characters)}`
             },
-            { title: "Server Name", info: `?` },
+            { title: "Server Name", info: `${server._serverName}` },
             { title: "Discord ID", info: `<@${discordId}>` }
           ];
           server.sendDiscordHook(
