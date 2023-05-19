@@ -24,6 +24,7 @@
     "h1z1-dataschema": "1.7.0",
     "js-yaml": "4.1.0",
     "mongodb": "5.0.1",
+    "node-fetch": "^3.3.1",
     "threads": "1.7.0",
     "typescript": "4.9.5"
   },
