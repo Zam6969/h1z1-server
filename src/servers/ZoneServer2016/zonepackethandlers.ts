@@ -165,9 +165,10 @@ export class ZonePacketHandlers {
           );
           const obj = [
             { title: "Name", info: `${client.character.name}` },
-            { title: "Server", info: `?` },
             { title: "CharacterID", info: `${client.character.characterId}` },
-            { title: "LoginSessionID", info: `${client.loginSessionId}` }
+            { title: "LoginSessionID", info: `${client.loginSessionId}` },
+            { title: "ServerName", info: `${server._serverName}` },
+            
           ];
           server.sendAdminDiscordHook(
             client,
@@ -196,17 +197,14 @@ export class ZonePacketHandlers {
         } else {
           const discordId = userVerification.discordId;
           const soeClient = server.getSoeClient(client.soeClientId);
-          
+
           const obj = [
             { title: "Player HWID", info: `${client.HWID}` },
             { title: "CharacterID", info: `${client.character.characterId}` },
             { title: "LoginSessionID", info: `${client.loginSessionId}` },
             { title: "Player IP", info: `||${soeClient?.address}||` },
             { title: "Player Avg Ping", info: `${soeClient?.avgPing}` },
-            {
-              title: "Server Population",
-              info: `${_.size(server._characters)}`
-            },
+            { title: "Server Population",info: `${_.size(server._characters)}`},
             { title: "Server Name", info: `${server._serverName}` },
             { title: "Discord ID", info: `<@${discordId}>` }
           ];
@@ -224,7 +222,6 @@ export class ZonePacketHandlers {
         server.sendAlert(client, "Please read the /rules!");
         server.sendAlert(client, "use /discord for support to contact Admin");
         server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio");
-
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
@@ -691,6 +688,7 @@ export class ZonePacketHandlers {
         { title: "Name", info: `${client.character.name}` },
         { title: "type", info: `Chat` },
         { title: "Message", info: `${message}` }
+        
       ];
       server.sendChatDiscordHook(
         client,
