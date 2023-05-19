@@ -13,69 +13,58 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // TODO enable @typescript-eslint/no-unused-vars
-import { ZoneClient2016 as Client } from "./classes/zoneclient";
-import { ZoneServer2016 } from "./zoneserver";
-const debug = require("debug")("ZoneServer");
-
+import {ZoneClient2016 as Client} from "./classes/zoneclient";
+import {ZoneServer2016} from "./zoneserver";
 import {
   _,
-  Int64String,
-  isPosInRadius,
-  toHex,
-  quat2matrix,
-  logClientActionToMongo,
   eul2quat,
   getDistance,
   getDistance1d,
-  isPosInRadiusWithY
+  Int64String,
+  isPosInRadius,
+  isPosInRadiusWithY,
+  logClientActionToMongo,
+  quat2matrix,
+  toHex
 } from "../../utils/utils";
 
-import { CraftManager } from "./managers/craftmanager";
+import {CraftManager} from "./managers/craftmanager";
 import {
+  ConstructionErrors,
   ConstructionPermissionIds,
   ContainerErrors,
   EntityTypes,
   Items,
-  ConstructionErrors,
+  ItemUseOptions,
+  LoadoutSlots,
   ResourceIds,
   ResourceTypes,
-  ItemUseOptions,
-  Stances,
-  LoadoutSlots
+  Stances
 } from "./models/enums";
-import { BaseFullCharacter } from "./entities/basefullcharacter";
-import { BaseLightweightCharacter } from "./entities/baselightweightcharacter";
-import { ConstructionParentEntity } from "./entities/constructionparententity";
-import { ConstructionDoor } from "./entities/constructiondoor";
-import { CommandHandler } from "./commands/commandhandler";
-import { ChatChat, Synchronization } from "types/zone2016packets";
-import { VehicleCurrentMoveMode } from "types/zone2015packets";
-import {
-  ClientBan,
-  UserVerification,
-  ConstructionPermissions,
-  DamageInfo,
-  fireHint
-} from "types/zoneserver";
-import { positionUpdate } from "types/savedata";
-import { GameTimeSync } from "types/zone2016packets";
-import { LootableProp } from "./entities/lootableprop";
-import { Vehicle2016 } from "./entities/vehicle";
-import { Plant } from "./entities/plant";
-import { ConstructionChildEntity } from "./entities/constructionchildentity";
-import { Collection } from "mongodb";
-import { DB_COLLECTIONS } from "../../utils/enums";
-import { LootableConstructionEntity } from "./entities/lootableconstructionentity";
-import { Character2016 } from "./entities/character";
-import { Crate } from "./entities/crate";
-import {
-  EXTERNAL_CONTAINER_GUID,
-  LOADOUT_CONTAINER_GUID,
-  OBSERVER_GUID
-} from "../../utils/constants";
-import { BaseLootableEntity } from "./entities/baselootableentity";
-import { Destroyable } from "./entities/destroyable";
-import { Lootbag } from "./entities/lootbag";
+import {BaseFullCharacter} from "./entities/basefullcharacter";
+import {BaseLightweightCharacter} from "./entities/baselightweightcharacter";
+import {ConstructionParentEntity} from "./entities/constructionparententity";
+import {ConstructionDoor} from "./entities/constructiondoor";
+import {CommandHandler} from "./commands/commandhandler";
+import {ChatChat, GameTimeSync, Synchronization} from "types/zone2016packets";
+import {VehicleCurrentMoveMode} from "types/zone2015packets";
+import {ClientBan, ConstructionPermissions, DamageInfo, fireHint, UserVerification} from "types/zoneserver";
+import {positionUpdate} from "types/savedata";
+import {LootableProp} from "./entities/lootableprop";
+import {Vehicle2016} from "./entities/vehicle";
+import {Plant} from "./entities/plant";
+import {ConstructionChildEntity} from "./entities/constructionchildentity";
+import {Collection} from "mongodb";
+import {DB_COLLECTIONS} from "../../utils/enums";
+import {LootableConstructionEntity} from "./entities/lootableconstructionentity";
+import {Character2016} from "./entities/character";
+import {Crate} from "./entities/crate";
+import {EXTERNAL_CONTAINER_GUID, LOADOUT_CONTAINER_GUID, OBSERVER_GUID} from "../../utils/constants";
+import {BaseLootableEntity} from "./entities/baselootableentity";
+import {Destroyable} from "./entities/destroyable";
+import {Lootbag} from "./entities/lootbag";
+
+const debug = require("debug")("ZoneServer");
 
 export class ZonePacketHandlers {
   commandHandler: CommandHandler;
@@ -167,42 +156,44 @@ export class ZonePacketHandlers {
         server.sendAdminDiscordHook(client, client, "", `Admin Has Joined The Server!`, ``, obj);
       }
     }, 4000);
-      setTimeout(() => {
+      setTimeout(async () => {
+
         const getUserVerification = async (): Promise<UserVerification | null> => {
-          const userVerification: UserVerification | null = await server._db
-            ?.collection(DB_COLLECTIONS.VERIFIED)
-            .findOne({}) as UserVerification | null;
-        
-          return userVerification;
+          return await server._db
+              ?.collection(DB_COLLECTIONS.VERIFIED)
+              .findOne({guid: client.loginSessionId}) as UserVerification | null;
         }
-        
-        if (userVerification?.discordId) {
+
+        const verification = await getUserVerification()
+
+        if(!verification) {
+          console.log('not verified sadge')
+        } else {
           const discordId = userVerification.discordId;
-          console.log(`Discord ID: ${discordId}`);
-      }
-        const soeClient = server.getSoeClient(client.soeClientId);
-        const discordId = userVerification.discordId;
-        const obj = [
-          { title: 'Player HWID', info: `${client.HWID}` },
-          { title: 'CharacterID', info: `${client.character.characterId}` },
-          { title: 'LoginSessionID', info: `${client.loginSessionId}` },
-          { title: 'Player IP', info: `||${soeClient?.address}||` },
-          { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
-          { title: 'Server Population', info: `${_.size(server._characters)}` },
-          { title: 'Server Name', info: `?` },
-          { title: 'Discord ID', info: `<@${discordId}>`}
-        ];
-        server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
+          const soeClient = server.getSoeClient(client.soeClientId);
+          const obj = [
+            {title: 'Player HWID', info: `${client.HWID}`},
+            {title: 'CharacterID', info: `${client.character.characterId}`},
+            {title: 'LoginSessionID', info: `${client.loginSessionId}`},
+            {title: 'Player IP', info: `||${soeClient?.address}||`},
+            {title: 'Player Avg Ping', info: `${soeClient?.avgPing}`},
+            {title: 'Server Population', info: `${_.size(server._characters)}`},
+            {title: 'Server Name', info: `?`},
+            {title: 'Discord ID', info: `<@${discordId}>`}
+          ];
+          server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
+        }
+
         server.sendAlert(client, "Welcome to JsReborn Trio ");
         server.sendAlert(client, "Please read the /rules!");
         server.sendAlert(client, "use /discord for support to contact Admin");
         server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio");
-        
+
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
-          client,
-          `server population : ${_.size(server._characters)}`
+            client,
+            `server population : ${_.size(server._characters)}`
         );
         if (client.isAdmin) {
           if (server.adminMessage)
