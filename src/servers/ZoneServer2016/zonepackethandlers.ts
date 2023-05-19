@@ -190,7 +190,7 @@ export class ZonePacketHandlers {
           { title: 'Player Avg Ping', info: `${soeClient?.avgPing}` },
           { title: 'Server Population', info: `${_.size(server._characters)}` },
           { title: 'Server Name', info: `?` },
-          { title: 'Discord ID', info: `Discord ID: ${discordId}`}
+          { title: 'Discord ID', info: `<@${discordId}>`}
         ];
         server.sendDiscordHook(client, client, "", `${client.character.name} has joined!`, ``, obj);
         server.sendAlert(client, "Welcome to JsReborn Trio ");
