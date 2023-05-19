@@ -179,6 +179,9 @@ export class ZonePacketHandlers {
         if (userVerification?.discordId) {
           const discordId = userVerification.discordId;
           console.log(`Discord ID: ${discordId}`);
+        } else {
+          console.log("User verification not found or missing discordId");
+          const discordId = null
       }
         const soeClient = server.getSoeClient(client.soeClientId);
         const discordId = userVerification.discordId;
