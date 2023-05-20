@@ -195,7 +195,7 @@ export class ZonePacketHandlers {
         if (!verification) {
           console.log("not verified sadge");
         } else {
-          const discordId = userVerification.discordId;
+          const discordId = verification.discordId;
           const soeClient = server.getSoeClient(client.soeClientId);
 
           const obj = [
