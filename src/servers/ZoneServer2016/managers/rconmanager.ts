@@ -43,7 +43,7 @@ export class RConManager {
   }
 
   private handleSendAlert(req: express.Request, res: express.Response): void {
-    if(req.body.token == '420suckit') {
+    if(req.body.token == 'reqbodymsg') {
         console.log(req.body.msg)
         // Use the ZoneServer2016 instance to send the alert
         this.zoneServer.sendAlertToAll(`Broadcast from SYSTEM: ${req.body.msg}`);
@@ -54,7 +54,7 @@ export class RConManager {
     }
   }
   private async handleShutdown(req: express.Request, res: express.Response): Promise<void> { 
-    if(req.body.token == '420suckit') {
+    if(req.body.token == 'reqbodymsg') {
         // Use the ZoneServer2016 instance to send the alert
         this.zoneServer.sendAlertToAll(`Broadcast from SYSTEM: Server is shutting down NOW.`);
         this.zoneServer.sendDataToAll("WorldShutdownNotice", {

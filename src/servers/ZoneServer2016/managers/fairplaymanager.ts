@@ -32,7 +32,9 @@ import { ZoneServer2016 } from "../zoneserver";
 const encryptedData = require("../../../../data/2016/encryptedData/encryptedData.json"),
   fairPlayData = require("../../../../data/2016/encryptedData/fairPlayData.json");
 
-export class FairPlayManager {
+export class FairPlayManager {  private (server: ZoneServer2016) {
+  this._fairPlayDecryptKey = server._decryptionkeys;
+}
   _decryptKey: string = "";
   _fairPlayDecryptKey: string = "";
   _suspiciousList: string[] = [];
