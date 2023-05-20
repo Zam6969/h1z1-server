@@ -17,10 +17,13 @@ import bodyParser from 'body-parser';
 import { ZoneServer2016 } from '../zoneserver'
 import { ZoneClient2016 } from '../classes/zoneclient';
 
+
+
 export class RConManager {
   private app: express.Express;
   private server: http.Server;
   private zoneServer: ZoneServer2016;
+  _pw = process.env.PW ||"";
 
   constructor(zoneServer: ZoneServer2016) {
     this.zoneServer = zoneServer;
@@ -43,7 +46,7 @@ export class RConManager {
   }
 
   private handleSendAlert(req: express.Request, res: express.Response): void {
-    if(req.body.token == 'reqbodymsg') {
+    if(req.body.token == this._pw) {
         console.log(req.body.msg)
         // Use the ZoneServer2016 instance to send the alert
         this.zoneServer.sendAlertToAll(`Broadcast from SYSTEM: ${req.body.msg}`);
@@ -54,7 +57,7 @@ export class RConManager {
     }
   }
   private async handleShutdown(req: express.Request, res: express.Response): Promise<void> { 
-    if(req.body.token == 'reqbodymsg') {
+    if(req.body.token == this._pw) {
         // Use the ZoneServer2016 instance to send the alert
         this.zoneServer.sendAlertToAll(`Broadcast from SYSTEM: Server is shutting down NOW.`);
         this.zoneServer.sendDataToAll("WorldShutdownNotice", {
