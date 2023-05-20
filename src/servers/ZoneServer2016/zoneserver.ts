@@ -311,7 +311,6 @@ export class ZoneServer2016 extends EventEmitter {
   worldRoutineRate!: number;
   welcomeMessage!: string;
   adminMessage!: string;
-  decryptkey!: string;
   enablePacketInputLogging: boolean = false;
 
   constructor(
@@ -6517,9 +6516,7 @@ export class ZoneServer2016 extends EventEmitter {
   ) {
     if (!this._chatdiscordwebhook) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook(
-      ""
-    );
+    const hook = new Webhook(this._chatdiscordwebhook)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
@@ -6542,9 +6539,7 @@ export class ZoneServer2016 extends EventEmitter {
   ) {
     if (!this._discordWebhookUrl) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook(
-      ""
-    );
+    const hook = new Webhook(this._discordWebhookUrl)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
@@ -6567,9 +6562,7 @@ export class ZoneServer2016 extends EventEmitter {
   ) {
     if (!this. _reportwebhook) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook(
-      ""
-    );
+    const hook = new Webhook(this._reportwebhook)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
@@ -6592,7 +6585,7 @@ export class ZoneServer2016 extends EventEmitter {
   ) {
     if (!this. _bandiscordwebhook) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook("");
+    const hook = new Webhook(this._bandiscordwebhook)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
@@ -6615,9 +6608,7 @@ export class ZoneServer2016 extends EventEmitter {
   ) {
     if (!this._adminhook) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook(
-      ""
-    );
+    const hook = new Webhook(this._adminhook)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
