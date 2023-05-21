@@ -87,21 +87,34 @@ export const commands: Array<Command> = [
       server.sendChatText(
         client,
 
-        `1.Max 3 players raiding/In Base/roaming together
-        2.No alliances of Any kind
-        3.If reporting a player you suspect of this, please try to supply as much evidence as possible.
-        4.Glitching- Do not use glitches at all or you will be banned.
-        5.Dont be toxic to fellow players be kind!
-        6.PLEASE DO NOT BLOCK POI OR REMOVAL OF BASE (if Building in citys is enabled)
-        7.No floaters, First offence: Deletion of shelter / loot, Second offence: Deletion of entire base / loot.  Third offence  Ban if you do it again.
-        8.Switching teamates is allowed but only 3 online at a time!
-        
-        Rules for people that don't think they are rules.
-        8.No being racist at all 
-        9.No cheating at all 
-        10.No pretending to be admin
-        11.No doxing another player
-        12.No Custom Packs that Give you a Advantage.`
+        `-Max 3 players raiding/In Base/roaming together
+        -No alliances of Any kind
+        -If reporting a player you suspect of this, please try to supply as much evidence as
+        possible.
+        -Glitching- Do not use glitches at all or you will be banned.
+        -Don't be toxic to fellow players be kind!
+        -Do not block Poi's or removal of base!
+        -No floaters, First offence: Deletion of shelter / loot, Second offence: Deletion of
+        entire base / loot. Third offence Ban if you do it again. (No Floating boxes also)
+        -More than 3 people could be online! but no playing together more than 3 as a team!
+        -If caught playing with a cheater you risk being banned!
+        -No Building on top of inaccessible places such as (Zimms, or Warehouses or Any poi building) This means no Storages on them.
+        -No being racist at all
+        -No cheating at all
+        -No pretending to be admin
+        -No doxing another player
+        -No Custom Packs that Give you a Advantage.
+        -No harassment.
+        -No sexism.
+        -No racism.
+        -No hate speech
+        -No spamming.
+        -No self promotion
+        -No sexually explicit content at all.
+        -No Death Threats.
+        -No promotion of self harm or encouraging others to do so.
+        -No HARASSMENT to others or whispers deemed excessive by admin
+        press tilde To view rules`
       );
     }
   },
