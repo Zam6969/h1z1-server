@@ -351,6 +351,13 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "distance",
+    permissionLevel: PermissionLevels.MODERATOR,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      server.charactersRenderDistance = 1000;
+    }
+  },
+  {
     name: "tp",
     permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
