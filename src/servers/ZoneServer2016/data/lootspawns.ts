@@ -1226,7 +1226,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.SEED_CORN,
-        weight: 3,
+        weight: 20,
         spawnCount: {
           min: 1,
           max: 3
@@ -1250,7 +1250,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
       },
       {
         item: Items.WATER_EMPTY,
-        weight: 30,
+        weight: 3,
         spawnCount: {
           min: 1,
           max: 10
@@ -3126,7 +3126,7 @@ export const containerLootSpawners: {
         weight: 20,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 10
         }
       },
       {
@@ -3134,7 +3134,7 @@ export const containerLootSpawners: {
         weight: 15,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 10
         }
       },
       {
@@ -3150,7 +3150,7 @@ export const containerLootSpawners: {
         weight: 10,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 5
         }
       }
     ]
@@ -3164,7 +3164,7 @@ export const containerLootSpawners: {
         weight: 50,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 10
         }
       },
       {
@@ -3180,7 +3180,7 @@ export const containerLootSpawners: {
         weight: 10,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 10
         }
       },
       {
@@ -3188,7 +3188,7 @@ export const containerLootSpawners: {
         weight: 10,
         spawnCount: {
           min: 1,
-          max: 1
+          max: 10
         }
       },
       {

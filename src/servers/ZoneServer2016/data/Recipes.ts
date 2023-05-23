@@ -803,28 +803,6 @@ export const recipes: { [recipeId: number]: Recipe } = {
       }
     ]
   },
-
-[Items.BACKPACKBIG]: {
-  filterId: FilterIds.SURVIVAL,
-  components: [
-    {
-      itemDefinitionId: Items.CLOTH,
-      requiredAmount: 200
-    },
-    {
-      itemDefinitionId: Items.BACKPACK_MILITARY_TAN,
-      requiredAmount: 1
-    },
-    {
-      itemDefinitionId: Items.BACKPACK_FRAME,
-      requiredAmount: 1
-    },
-    {
-      itemDefinitionId: Items.NAIL,
-      requiredAmount: 50
-    }
-  ]
-},
   [Items.BARBEQUE]: {
     filterId: FilterIds.HOUSING,
     components: [
