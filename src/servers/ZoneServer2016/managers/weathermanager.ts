@@ -39,7 +39,7 @@ export class WeatherManager {
   weather!: Weather2016;
   templates = localWeatherTemplates;
   dynamicWorker: any;
-  dynamicEnabled = false;
+  dynamicEnabled = true;
 
   cycleSpeed = 100;
   frozeCycle = false;
@@ -125,25 +125,60 @@ export class WeatherManager {
       }
     }
   }
-  tempCommand(
-    server: ZoneServer2016,
-    client: Client,
-    args: Array<string>
-  ): void {
+
+  handleRandomCommand(server: ZoneServer2016, client: Client) {
     if (this.dynamicEnabled) {
       this.dynamicEnabled = false;
       server.sendChatText(client, "Dynamic weather removed !");
     }
-    const temp: number = Number(args[0]);
-    server.sendChatText(client, `Weather temperature set to ${temp}`);
+    server.sendChatText(client, `Randomized weather`);
+
+    function rnd_number(max: any, fixed: boolean = false) {
+      const num = Math.random() * max;
+      return Number(fixed ? num.toFixed(0) : num);
+    }
 
     this.weather = {
       ...this.weather,
-      rain: 0,
-      temp: 28,
-      colorGradient: temp
-    };
+      //name: "sky_dome_600.dds", todo: use random template from a list
+      /*
+            unknownDword1: 0,
+            unknownDword2: 0,
+            skyBrightness1: 1,
+            skyBrightness2: 1,
+            */
+      rain: rnd_number(200, true),
+      temp: rnd_number(80, true),
+      colorGradient: rnd_number(1),
+      unknownDword8: rnd_number(1),
+      unknownDword9: rnd_number(1),
+      unknownDword10: rnd_number(1),
+      unknownDword11: 0,
+      unknownDword12: 0,
+      sunAxisX: rnd_number(360, true),
+      sunAxisY: rnd_number(360, true),
+      unknownDword15: 0,
+      windDirectionX: rnd_number(360, true),
+      windDirectionY: rnd_number(360, true),
+      windDirectionZ: rnd_number(360, true),
+      wind: rnd_number(100, true),
+      unknownDword20: 0,
+      unknownDword21: 0,
+      unknownDword22: 0,
+      unknownDword23: 0,
+      unknownDword24: 0,
+      unknownDword25: 0,
+      unknownDword26: 0,
+      unknownDword27: 0,
+      unknownDword28: 0,
+      unknownDword29: 0,
 
+      AOSize: rnd_number(0.5),
+      AOGamma: rnd_number(0.2),
+      AOBlackpoint: rnd_number(2),
+
+      unknownDword33: 0,
+    };
     this.sendUpdateToAll(server, client, true);
   }
 
@@ -170,7 +205,9 @@ export class WeatherManager {
   sendUpdateToAll(server: ZoneServer2016, client?: Client, broadcast = false) {
     server.sendDataToAll("UpdateWeatherData", this.weather);
     if (client && broadcast) {
-      server.sendGlobalChatText(`Weather Updated by ${client.character.name}!`);
+      server.sendGlobalChatText(
+        `User "${client.character.name}" has changed weather.`
+      );
     }
   }
 
@@ -413,41 +450,41 @@ export class WeatherManager {
     this.seasonstart();
     const weather = {
       name: "sky_Z_clouds.dds",
-      unknownDword1: 0.002,
+      unknownDword1: 1,
       fogDensity: this.fogEnabled
         ? Number((this.fogValue / 40000).toFixed(5))
         : 0,
       fogFloor: 71,
       fogGradient: 0.008,
       rain: 0, //broken
-      temp: 29,
+      temp: this.temperature, // does almost nothing
       colorGradient: Number((this.skyColor / 400).toFixed(5)),
-      unknownDword8: 0.25, //clouds cause the screen flickering
-      unknownDword9: 0.25,
-      unknownDword10: 0.25,
-      unknownDword11: 0.25,
-      unknownDword12: 0,
+      unknownDword8: 0, //clouds cause the screen flickering
+      unknownDword9: 0,
+      unknownDword10: 0,
+      unknownDword11: 0,
+      unknownDword12: 0.25,
       sunAxisX: 0,
       sunAxisY: 0,
       unknownDword15: 0,
-      windDirectionX: 1,
-      windDirectionY: 0.5,
-      windDirectionZ: 0,
-      wind: 3,
+      windDirectionX: -1,
+      windDirectionY: -0.5,
+      windDirectionZ: -1,
+      wind: Number((this.windStrength / 25).toFixed(5)),
       unknownDword20: 0,
       unknownDword21: 1,
       unknownDword22: 0.3,
-      unknownDword23: 0.002,
-      unknownDword24: 0.002,
+      unknownDword23: -0.002,
+      unknownDword24: 0,
       unknownDword25: 1000,
-      unknownDword26: 0.001,
-      unknownDword27: 0.5,
+      unknownDword26: 0.2,
+      unknownDword27: 0,
       unknownDword28: 0.002,
       unknownDword29: 8000,
       AOSize: 0.1,
       AOGamma: 0.8,
       AOBlackpoint: 0.2,
-      unknownDword33: 0.5
+      unknownDword33: 0.5,
     };
     return weather;
   }
