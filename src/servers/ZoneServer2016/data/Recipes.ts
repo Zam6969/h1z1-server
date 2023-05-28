@@ -1373,15 +1373,23 @@ export const recipes: { [recipeId: number]: Recipe } = {
     components: [
       {
         itemDefinitionId: Items.CLOTH,
-        requiredAmount: 8
+        requiredAmount: 200
       },
       {
-        itemDefinitionId: Items.TWINE,
+        itemDefinitionId: Items.BACKPACK_MILITARY_TAN,
         requiredAmount: 1
       },
       {
         itemDefinitionId: Items.BACKPACK_FRAME,
-        requiredAmount: 1
+        requiredAmount: 5
+      },
+      {
+        itemDefinitionId: Items.METAL_SHEET,
+        requiredAmount: 2
+      },
+      {
+        itemDefinitionId: Items.NAIL,
+        requiredAmount: 50
       }
     ]
   },
