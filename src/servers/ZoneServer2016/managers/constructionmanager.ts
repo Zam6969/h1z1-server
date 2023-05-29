@@ -339,6 +339,7 @@ export class ConstructionManager {
     parentObjectCharacterId: string,
     BuildingSlot: string
   ) {
+    if (client.isAdmin) return false;
     const item = client.character.getItemById(itemDefinitionId);
     if (!item) {
       this.sendPlacementFinalize(server, client, 1);
