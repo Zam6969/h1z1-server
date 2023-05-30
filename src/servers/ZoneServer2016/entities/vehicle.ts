@@ -674,7 +674,7 @@ export class Vehicle2016 extends BaseLootableEntity {
         if (client) {
           server.sendAlert(
             client,
-            "This vehicle will not run without fuel.  It can be created from animal fat or from corn based ethanol."
+            "This vehicle will not run without fuel."
           );
         }
       }
