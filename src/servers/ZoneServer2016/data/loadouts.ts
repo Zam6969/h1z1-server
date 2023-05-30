@@ -43,6 +43,11 @@ export const characterKitLoadout = [
   { item: Items.HOLIDAY_HAT },
   { item: Items.CONVEYS_BLUE }
 ];
+export const characterVehicleLoadout = [
+  { item: Items.SPARKPLUGS },
+  { item: Items.VEHICLE_KEY },
+  { item: Items.BATTERY }
+];
 export const characterskinsloadout = [
   { item: Items.CONVEYS_BLUE },
   { item: Items.TWITCH_HOODIE },

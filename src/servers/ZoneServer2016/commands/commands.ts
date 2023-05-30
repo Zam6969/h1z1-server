@@ -29,7 +29,8 @@ import { ZoneClient2016 as Client } from "../classes/zoneclient";
 import {
   characterBuildKitLoadout,
   characterKitLoadout,
-  characterskinsloadout
+  characterskinsloadout,
+  characterVehicleLoadout
 } from "../data/loadouts";
 import { EquipSlots, Items, ResourceIds, ResourceTypes } from "../models/enums";
 import { ZoneServer2016 } from "../zoneserver";
@@ -1896,7 +1897,22 @@ export const commands: Array<Command> = [
       server.sendChatText(client, `skins kit given`);
     }
   },
-
+  {
+    name: "vehicleparts",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: async (
+      server: ZoneServer2016,
+      client: Client,
+      args: Array<string>
+    ) => {
+      client.character.equipItem(
+        server,
+        server.generateItem(Items.FANNY_PACK_DEV)
+      );
+      client.character.equipLoadout(server, characterVehicleLoadout);
+      server.sendChatText(client, `Vehicle Parts Given`);
+    }
+  },
   {
     name: "debug",
     permissionLevel: PermissionLevels.MODERATOR,
