@@ -304,7 +304,7 @@ export class ConstructionManager {
     client: Client,
     isInsidePermissionedFoundation: boolean
   ): boolean {
-    if (client.isAdmin) return false;
+    if (client.isDebugMode) return false;
     if (this.allowPOIPlacement) return false;
     if (this.overridePlacementItems.includes(itemDefinitionId)) return false;
     let useRange = true;
@@ -453,6 +453,7 @@ export class ConstructionManager {
     for (const a in server._constructionFoundations) {
       const foundation = server._constructionFoundations[a];
       let allowBuild = false;
+      if (client.isDebugMode) allowBuild = true;
       const permissions = foundation.permissions[client.character.characterId];
       if (permissions && permissions.build) allowBuild = true;
       if (
