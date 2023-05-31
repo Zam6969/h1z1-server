@@ -2046,7 +2046,7 @@ export const containerLootSpawners: {
         weight: 20,
         spawnCount: {
           min: 2,
-          max: 10
+          max: 9
         }
       }
     ]
