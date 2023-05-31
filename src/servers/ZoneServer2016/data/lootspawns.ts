@@ -2002,6 +2002,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.BACKPACK_FRAME,
+        weight: 8,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.CODED_MESSAGE,
         weight: 2,
         spawnCount: {
@@ -2106,6 +2114,14 @@ export const containerLootSpawners: {
       {
         item: Items.BACKPACK_MILITARY_TAN,
         weight: 50,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.BACKPACK_FRAME,
+        weight: 10,
         spawnCount: {
           min: 1,
           max: 1
@@ -3035,6 +3051,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.BACKPACK_FRAME,
+        weight: 20,
+        spawnCount: {
+          min: 1,
+          max: 2
+        }
+      },
+      {
         item: Items.PANTS_DEFAULT,
         weight: 50,
         spawnCount: {
@@ -3068,7 +3092,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WEAPON_308,
-        weight: 100,
+        weight: 50,
         spawnCount: {
           min: 1,
           max: 1
@@ -3076,7 +3100,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.WEAPON_SHOTGUN,
-        weight: 100,
+        weight: 50,
         spawnCount: {
           min: 1,
           max: 1
