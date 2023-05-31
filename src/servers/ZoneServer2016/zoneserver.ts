@@ -5353,8 +5353,7 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendAlert(client, "All planes are busy.");
       return;
     }
-    if (client.isDebugMode) this.worldObjectManager.minAirdropSurvivors = 1
-    this.sendAlert(client, "work?");
+    if (client.isDebugMode) this.useAirdrop
     if (
       _.size(this._clients) < this.worldObjectManager.minAirdropSurvivors &&
       !this._soloMode
@@ -5363,6 +5362,7 @@ export class ZoneServer2016 extends EventEmitter {
       return;
     }
     let blockedArea = false;
+    if (client.isDebugMode) blockedArea = false;
     for (const a in this._constructionFoundations) {
       if (
         isPosInRadius(
@@ -5375,7 +5375,6 @@ export class ZoneServer2016 extends EventEmitter {
         break;
       }
     }
-    if (client.isDebugMode) return;
     if (client.currentPOI || blockedArea) {
       this.sendAlert(client, "You are too close to the restricted area.");
       return;
