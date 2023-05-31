@@ -5347,65 +5347,50 @@ export class ZoneServer2016 extends EventEmitter {
     }
   }
 
-  useAirdrop(client: Client, item: BaseItem): void {
-    // Bypass restrictions if client.isDebugMode is active
-    if (client.isDebugMode) {
-      this.sendAlert(client, "Debug mode is active. Bypassing restrictions.");
-    } else {
-      // Rest of the code with existing restrictions...
-      if (this._airdrop) {
-        this.sendAlert(client, "All planes are busy.");
-        return;
-      }
-  
+  useAirdrop(client: Client, item: BaseItem) {
+    if (this._airdrop) {
+      this.sendAlert(client, "All planes are busy.");
+      return;
+    }
+
+    if (
+      _.size(this._clients) < this.worldObjectManager.minAirdropSurvivors &&
+      !this._soloMode
+    ) {
+      this.sendAlert(client, "No planes ready. Not enough survivors.");
+      return;
+    }
+    let blockedArea = false;
+    for (const a in this._constructionFoundations) {
       if (
-        _.size(this._clients) < this.worldObjectManager.minAirdropSurvivors &&
-        !this._soloMode
+        isPosInRadius(
+          50,
+          this._constructionFoundations[a].state.position,
+          client.character.state.position
+        )
       ) {
-        this.sendAlert(client, "No planes ready. Not enough survivors.");
-        return;
-      }
-  
-      let blockedArea = false;
-      for (const a in this._constructionFoundations) {
-        if (
-          isPosInRadius(
-            50,
-            this._constructionFoundations[a].state.position,
-            client.character.state.position
-          )
-        ) {
-          blockedArea = true;
-          break;
-        }
-      }
-  
-      if (client.currentPOI || blockedArea) {
-        this.sendAlert(client, "You are too close to the restricted area.");
-        return;
-      }
-  
-      if (
-        item.itemDefinitionId !== Items.AIRDROP_CODE ||
-        !this.removeInventoryItem(client.character, item)
-      ) {
-        this.sendAlert(client, "Invalid airdrop item.");
-        return;
+        blockedArea = true;
+        break;
       }
     }
-  
-    // Code to use the airdrop
+
+    if (client.currentPOI || blockedArea) {
+      this.sendAlert(client, "You are too close to the restricted area.");
+      return;
+    }
+
+    if (
+      item.itemDefinitionId != Items.AIRDROP_CODE ||
+      !this.removeInventoryItem(client.character, item)
+    )
+      return;
     this.sendAlert(client, "You have called an airdrop.");
-    const pos: Float32Array = new Float32Array([
+    const pos = new Float32Array([
       client.character.state.position[0],
       400,
       client.character.state.position[2],
       1
     ]);
-  
-    // Rest of the code to set up the airdrop...
-  
-  
     const angle = getAngle(
       client.character.state.position,
       new Float32Array([0, 0, 0, 0])
