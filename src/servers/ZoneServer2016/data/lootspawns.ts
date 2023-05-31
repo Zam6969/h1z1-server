@@ -2372,6 +2372,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.VEHICLE_KEY,
+        weight: 5,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.WEAPON_WRENCH,
         weight: 37,
         spawnCount: {
