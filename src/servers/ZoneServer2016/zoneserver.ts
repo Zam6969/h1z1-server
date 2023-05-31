@@ -5348,7 +5348,7 @@ export class ZoneServer2016 extends EventEmitter {
   }
 
   useAirdrop(client: Client, item: BaseItem) {
-    if (client.isDebugMode) return;
+    if (client.isDebugMode) this.useAirdrop
     if (this._airdrop) {
       this.sendAlert(client, "All planes are busy.");
       return;
