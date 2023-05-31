@@ -5347,16 +5347,17 @@ export class ZoneServer2016 extends EventEmitter {
     }
   }
 
-  useAirdrop(client: Client, item: BaseItem) {
+  useAirdrop(client: Client, item: BaseItem): void {
     if (client.isDebugMode) {
-      this.useAirdrop
+      this.sendAlert(client, "Airdrop called in debug mode.");
       return;
     }
+    
     if (this._airdrop) {
       this.sendAlert(client, "All planes are busy.");
       return;
     }
-    if (client.isDebugMode) this.useAirdrop
+    
     if (
       _.size(this._clients) < this.worldObjectManager.minAirdropSurvivors &&
       !this._soloMode
@@ -5364,8 +5365,8 @@ export class ZoneServer2016 extends EventEmitter {
       this.sendAlert(client, "No planes ready. Not enough survivors.");
       return;
     }
+    
     let blockedArea = false;
-    if (client.isDebugMode) blockedArea = false;
     for (const a in this._constructionFoundations) {
       if (
         isPosInRadius(
@@ -5378,23 +5379,27 @@ export class ZoneServer2016 extends EventEmitter {
         break;
       }
     }
+    
     if (client.currentPOI || blockedArea) {
       this.sendAlert(client, "You are too close to the restricted area.");
       return;
     }
-
+  
     if (
-      item.itemDefinitionId != Items.AIRDROP_CODE ||
+      item.itemDefinitionId !== Items.AIRDROP_CODE ||
       !this.removeInventoryItem(client.character, item)
-    )
+    ) {
       return;
+    }
+  
     this.sendAlert(client, "You have called an airdrop.");
-    const pos = new Float32Array([
+    const pos: Float32Array = new Float32Array([
       client.character.state.position[0],
       400,
       client.character.state.position[2],
       1
     ]);
+  
     const angle = getAngle(
       client.character.state.position,
       new Float32Array([0, 0, 0, 0])
