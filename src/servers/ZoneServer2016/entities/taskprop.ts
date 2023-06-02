@@ -119,6 +119,16 @@ export class TaskProp extends BaseLightweightCharacter {
           Items.FIRST_AID
         ];
         break;
+      case "Common_Props_Gunbench.adr":
+          this.nameId = 12785;
+          this.requiredItemId = 1469;
+          this.rewardItems = [
+          Items.GUNPOWDER_REFINED,
+          Items.ALLOY_LEAD,
+          Items.ALLOY_LEAD,
+          Items.SHARD_BRASS,
+          ];
+          break;
     }
   }
 
