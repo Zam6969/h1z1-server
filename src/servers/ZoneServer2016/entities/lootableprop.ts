@@ -170,6 +170,10 @@ function getContainerAndTime(entity: LootableProp) {
       entity.containerId = Items.CONTAINER_STORAGE;
       entity.searchTime = 500;
       return;
+    case 10065:
+      entity.containerId = Items.WORKBENCH_WEAPON
+      entity.searchTime = 100;
+      break;
   }
 }
 
