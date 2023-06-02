@@ -741,6 +741,7 @@ export class ConstructionManager {
         );
       case Items.SHELTER:
       case Items.SHELTER_LARGE:
+      //case Items.WORKBENCH_WEAPON:
       case Items.SHELTER_UPPER:
       case Items.SHELTER_UPPER_LARGE:
       case Items.STRUCTURE_STAIRS:

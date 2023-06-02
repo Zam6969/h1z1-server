@@ -88,6 +88,7 @@ export class SmeltingManager {
     await Scheduler.wait(this.burnTime);
     this.checkSmeltables(server);
   }
+  
 
   public async checkCollectors(server: ZoneServer2016) {
     for (const a in this._collectingEntities) {
@@ -183,7 +184,9 @@ export class SmeltingManager {
       }
     }
     return false;
+    
   }
+  
 
   private async smelt(
     server: ZoneServer2016,
