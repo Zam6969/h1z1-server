@@ -142,7 +142,12 @@ export const internalCommands: Array<Command> = [
         );
         server.sendChatText(
           client,
-          `OFFROADER: ${VehicleIds.OFFROADER}, PICKUP: ${VehicleIds.PICKUP}, POLICECAR: ${VehicleIds.POLICECAR}, ATV: ${VehicleIds.ATV},IGNITION_OFFROADER: ${VehicleIds.IGNITION_OFFROADER},IGNITION_ATV: ${VehicleIds.IGNITION_ATV}`
+          `OFFROADER: ${VehicleIds.OFFROADER},
+           PICKUP: ${VehicleIds.PICKUP},
+           POLICECAR: ${VehicleIds.POLICECAR},
+           ATV: ${VehicleIds.ATV},
+           IGNITION_OFFROADER: ${VehicleIds.IGNITION_OFFROADER},
+           IGNITION_ATV: ${VehicleIds.IGNITION_ATV}`
         );
         return;
       }
