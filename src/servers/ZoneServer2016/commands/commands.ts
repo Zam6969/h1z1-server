@@ -29,12 +29,8 @@ import { ZoneClient2016 as Client } from "../classes/zoneclient";
 import {
   characterBuildKitLoadout,
   characterKitLoadout,
-<<<<<<< HEAD
   characterskinsloadout,
   characterVehicleLoadout
-=======
-  characterVehicleKit
->>>>>>> upstream/master
 } from "../data/loadouts";
 import { EquipSlots, Items, ResourceIds, ResourceTypes } from "../models/enums";
 import { ZoneServer2016 } from "../zoneserver";
@@ -269,10 +265,10 @@ export const commands: Array<Command> = [
   },
   //#endregion
 
-  //#region MODERATOR PERMISSIONS
+  //#region ADMIN PERMISSIONS
   {
     name: "vanish",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client) => {
       client.character.isSpectator = !client.character.isSpectator;
       server.sendAlert(
@@ -309,7 +305,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "getnetstats",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
         server.sendChatText(
@@ -346,7 +342,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "d",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       client.properlyLogout = true;
       server.sendData(client, "CharacterSelectSessionResponse", {
@@ -357,14 +353,16 @@ export const commands: Array<Command> = [
   },
   {
     name: "distance",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      server.charactersRenderDistance = 1000;
+      if (client.isDebugMode) {
+        server.charactersRenderDistance = 10000;
+      }
     }
-  },
+  },  
   {
     name: "tp",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       let locationPosition;
       switch (args[0]) {
@@ -452,7 +450,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "tphere",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
         server.sendChatText(client, `Correct usage: /tphere {name|playerId}`);
@@ -496,7 +494,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "tpto",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
         server.sendChatText(client, `Correct usage: /tpto {name|playerId}`);
@@ -540,7 +538,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "silentban",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
@@ -604,7 +602,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "ban",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
@@ -702,7 +700,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "deepcover",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
@@ -758,7 +756,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "kick",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       if (!args[0]) {
         server.sendChatText(
@@ -806,7 +804,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "unban",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     keepCase: true,
     execute: async (
       server: ZoneServer2016,
@@ -842,7 +840,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "gm", // "god" also works
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       server.setGodMode(client, !client.character.godMode);
       server.sendAlert(client, `Set godmode to ${client.character.godMode}`);
@@ -856,7 +854,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "listprocesses",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
@@ -1448,14 +1446,6 @@ export const commands: Array<Command> = [
     }
   },
   {
-    name: "vehicleparts",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      client.character.equipLoadout(server, characterVehicleKit);
-      server.sendChatText(client, `Vehicle Parts Given`);
-    }
-  },
-  {
     name: "addallitems",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -1582,7 +1572,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "players",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
       server.sendChatText(
         client,
@@ -1927,7 +1917,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "debug",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (server: ZoneServer2016, client: Client) => {
       client.isDebugMode = !client.isDebugMode;
       server.sendAlert(client, `Set debug mode to ${client.isDebugMode}`);
@@ -2352,7 +2342,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "globalmute",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
@@ -2417,7 +2407,7 @@ export const commands: Array<Command> = [
   },
   {
     name: "globalunmute",
-    permissionLevel: PermissionLevels.MODERATOR,
+    permissionLevel: PermissionLevels.ADMIN,
     execute: async (
       server: ZoneServer2016,
       client: Client,
