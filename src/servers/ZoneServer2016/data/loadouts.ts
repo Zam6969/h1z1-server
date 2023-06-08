@@ -99,6 +99,11 @@ export const characterskinsloadout = [
   { item: Items.PINK_GATORS }
 ];
 
+export const characterVehicleKit = [
+  { item: Items.SPARKPLUGS },
+  { item: Items.VEHICLE_KEY },
+  { item: Items.BATTERY }
+];
 export const characterBuildKitLoadout = [
   { item: Items.FOUNDATION, count: 10 },
   { item: Items.FOUNDATION_EXPANSION, count: 40 },
