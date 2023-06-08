@@ -41,7 +41,8 @@ export const characterKitLoadout = [
   { item: Items.AMMO_12GA, count: 12 },
   { item: Items.AMMO_308, count: 15 },
   { item: Items.HOLIDAY_HAT },
-  { item: Items.CONVEYS_BLUE }
+  { item: Items.CONVEYS_BLUE },
+  { item: Items.BANDANA_BASIC }
 ];
 export const characterVehicleLoadout = [
   { item: Items.SPARKPLUGS },
