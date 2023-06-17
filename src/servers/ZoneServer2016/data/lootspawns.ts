@@ -1206,7 +1206,7 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
 
   // #region FARM
   "ItemSpawnerFarm.adr": {
-    spawnChance: 50,
+    spawnChance: 80,
     items: [
       {
         item: Items.FERTILIZER,
@@ -2728,7 +2728,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.FERTILIZER,
-        weight: 6,
+        weight: 8,
         spawnCount: {
           min: 1,
           max: 3
@@ -3134,7 +3134,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 2
+          max: 3
         }
       },
       {
@@ -3212,7 +3212,7 @@ export const containerLootSpawners: {
         weight: 2,
         spawnCount: {
           min: 1,
-          max: 2
+          max: 3
         }
       }
     ]
@@ -3284,7 +3284,7 @@ export const containerLootSpawners: {
         weight: 1,
         spawnCount: {
           min: 15,
-          max: 15
+          max: 30
         }
       }
     ]
@@ -3438,7 +3438,7 @@ export const containerLootSpawners: {
         weight: 1,
         spawnCount: {
           min: 60,
-          max: 60
+          max: 80
         }
       },
       {

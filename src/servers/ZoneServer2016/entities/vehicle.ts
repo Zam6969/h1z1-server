@@ -44,7 +44,9 @@ function getActorModelId(vehicleId: number) {
     case VehicleIds.SPECTATE:
       return 9371;
     case VehicleIds.IGNITION_OFFROADER:
-      return 9716;
+      return 9187;
+    case VehicleIds.IGNITION_ATV:
+      return 9105;
     default:
       return 7225;
   }
