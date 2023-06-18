@@ -4595,9 +4595,9 @@
   {
     "ID": 9187,
     "MODEL_FILE_NAME": "Bear_Brown.adr",
-    "RACE_ID": 1,
-    "SCALE": 1,
-    "DESCRIPTION": "",
+    "RACE_ID": 0,
+    "SCALE": 0.3,
+    "DESCRIPTION": "BEAR",
     "GENDER": 1,
     "AGE": 21,
     "DESCRIPTOR": "",
