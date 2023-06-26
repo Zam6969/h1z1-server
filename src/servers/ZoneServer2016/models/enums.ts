@@ -380,7 +380,7 @@ export enum Items {
   LANDMINE = 74,
   IED = 1699,
   PUNJI_STICKS = 98,
-  //PUNJI_STICK_ROW = // NEED TO FIND THIS IN ITEM DEFINITIONS
+  PUNJI_STICK_ROW = 3580,
   SNARE = 1415,
   ANIMAL_TRAP = 91,
   BARBED_WIRE = 108,
@@ -435,6 +435,9 @@ export enum Items {
   UPGRADE_KIT_GUN = 2419,
   CHARCOAL = 26,
   METAL_BAR = 39,
+  //#endregion
+
+  //#region Quest Items
   ANTI_VIRAL_BOTTLE = 2671,
   HANDWRITTEN_NOTE_CAROLINE = 2611,
   ANTI_VIRAL_BOTTLE_EMPTY = 2612,
@@ -446,13 +449,25 @@ export enum Items {
   BRAIN_INFECTED = 2642,
   SYRINGE_INFECTED_BLOOD = 1510,
   EMPTY_SPECIMEN_BAG = 2641,
+  DEAD_CELL_PHONE = 2635,
+  WEAK_CELL_PHONE_BATTERY = 2637,
+  CRACKED_CLIPBOARD = 2610,
+  DOCTORS_FILE = 2631,
+  WEICHS_WALLET = 2703,
+  WEICHS_REPORT = 2633,
+  KLAVISK_NOTE = 2632,
+  REFRIGERATOR_NOTE = 3075,
+  DOCTORS_MEMO = 3076,
   //#endregion
 
+  //#region Traps
   TRAP_FIRE = 2812,
   TRAP_FLASH = 2810,
   TRAP_GAS = 2811,
   TRAP_SHOCK = 2832,
+  //#endregion
 
+  //#region
   BACKPACK_FRAMED = 2111,
   BACKPACKBIG = 2778,
   BACKPACK_SATCHEL = 1432,
@@ -676,7 +691,7 @@ export enum Skins_Shirt {
   PRO_GRAMER_HOODIE = 2378,
   PARAMEDIC_UNIFORM = 2535,
   SHIRT_DEFAULT = 2088,
-  Dragon_Lodge_Parka = 3033
+  DRAGON_LODGE_PARKA = 3033
 }
 
 export enum Skins_Pants {
@@ -688,7 +703,7 @@ export enum Skins_Pants {
   PARAMEDIC_SLACKS = 2534,
   PANTS_DEFAULT = 2177,
   TWIN_GALAXIES_PANTS = 3875,
-  Stars_Stripes_Shorts = 2404
+  STARS_STRIPES_SHORTS = 2404
 }
 
 export enum Skins_Beanie {
@@ -719,15 +734,14 @@ export enum Skins_MotorHelmet {
   White_Unicorn_Full_Helmet = 3439,
   Star_Spangled_Hat = 3470,
   Pumpkin_Mask = 2745,
-  Scarecrow_Mask = 2750
+  Scarecrow_Mask = 2750,
 }
 export enum Skins_Kevlar {
   Toxic_Body_Armor = 2477,
   KEVLAR_DEFAULT = 2271,
-  Dead_End_Armor = 2860,
+  DEAD_END_ARMOR = 2860,
   EZW_Armored_Championship_Belt = 3125,
   EZW_Armored_Shoulderpads = 3126,
-  Police_Body_Armor = 2274
 }
 export enum Skins_Military {
   Military_Default = 2124,
@@ -737,10 +751,10 @@ export enum Skins_Military {
   Fully_Geared_Explorer_Backpack = 4009
 }
 export enum Skins_Glasses {
-  Evil_Clown_Glasses = 2253,
-  Default_Goggles = 1693,
-  White_Biker_Glasses = 2252,
-  Steampunk_Goggles = 2954
+  EVIL_CLOWN_GLASSES = 2253,
+  DEFAULT_GOGGLES = 1693,
+  WHITE_BIKER_GLASSES = 2252,
+  STEAMPUNK_GOGGLES = 2954
 }
 
 export enum Effects {

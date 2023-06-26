@@ -1353,6 +1353,14 @@ export const lootTables: { [lootSpawner: string]: LootSpawner } = {
         }
       },
       {
+        item: Items.DOCTORS_MEMO,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.CLOTH,
         weight: 100,
         spawnCount: {
@@ -2613,6 +2621,30 @@ export const containerLootSpawners: {
           min: 1,
           max: 2
         }
+      },
+      {
+        item: Items.CRACKED_CLIPBOARD,
+        weight: 5,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.DEAD_CELL_PHONE,
+        weight: 3,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.DOCTORS_FILE,
+        weight: 3,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
       }
     ]
   },
@@ -2623,6 +2655,46 @@ export const containerLootSpawners: {
       {
         item: Items.GAUZE,
         weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.DOCTORS_MEMO,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.WEAK_CELL_PHONE_BATTERY,
+        weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.WEICHS_WALLET,
+        weight: 4,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.WEICHS_REPORT,
+        weight: 4,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.KLAVISK_NOTE,
+        weight: 4,
         spawnCount: {
           min: 1,
           max: 1
@@ -2669,6 +2741,14 @@ export const containerLootSpawners: {
       {
         item: Items.SYRINGE_H1Z1_REDUCER,
         weight: 10,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.REFRIGERATOR_NOTE,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1
@@ -2891,6 +2971,14 @@ export const containerLootSpawners: {
       {
         item: Items.CANNED_FOOD01,
         weight: 50,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
+        item: Items.REFRIGERATOR_NOTE,
+        weight: 15,
         spawnCount: {
           min: 1,
           max: 1

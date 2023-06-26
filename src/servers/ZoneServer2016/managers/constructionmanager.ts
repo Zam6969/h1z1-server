@@ -230,9 +230,11 @@ export class ConstructionManager {
 
   detectSpawnPointPlacement(
     itemDefinitionId: number,
+    client: Client,
     position: Float32Array,
     isInsidePermissionedFoundation: boolean
   ): boolean {
+    if (client.isDebugMode) return false;
     if (!this.spawnPointBlockedPlacementRange) return false;
     let isInSpawnPoint = false;
     spawnLocations2.forEach((point: Float32Array) => {
@@ -252,8 +254,10 @@ export class ConstructionManager {
   detectVehicleSpawnPointPlacement(
     itemDefinitionId: number,
     position: Float32Array,
+    client: Client,
     isInsidePermissionedFoundation: boolean
   ): boolean {
+    if (client.isDebugMode) return false;
     if (!this.vehicleSpawnPointBlockedPlacementRange) return false;
     let isInVehicleSpawnPoint = false;
     Z1_vehicles.forEach((vehicleSpawn: any) => {
@@ -537,6 +541,7 @@ export class ConstructionManager {
     if (
       this.detectSpawnPointPlacement(
         itemDefinitionId,
+        client,
         position,
         isInsidePermissionedFoundation
       )
@@ -553,6 +558,7 @@ export class ConstructionManager {
       this.detectVehicleSpawnPointPlacement(
         itemDefinitionId,
         position,
+        client,
         isInsidePermissionedFoundation
       )
     ) {
@@ -625,6 +631,14 @@ export class ConstructionManager {
     switch (itemDefinitionId) {
       case Items.SNARE:
       case Items.PUNJI_STICKS:
+        return this.placeTrap(
+          server,
+          itemDefinitionId,
+          modelId,
+          position,
+          fixEulerOrder(rotation)
+        );
+      case Items.PUNJI_STICK_ROW:
         return this.placeTrap(
           server,
           itemDefinitionId,

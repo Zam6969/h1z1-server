@@ -903,6 +903,8 @@ export enum PopulationLevel {
   HIGH = 2,
   FULL = 3
 }
+
+// not used anymore, may have some use in the future
 export function getPopulationLevel(
   currentPop: number,
   maxPop: number
@@ -916,4 +918,39 @@ export function getPopulationLevel(
   } else {
     return PopulationLevel.LOW;
   }
+}
+
+export function fileExists(filePath: string): boolean {
+  try {
+    fs.accessSync(filePath);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function copyFile(
+  originalFilePath: string,
+  newFilePath: string
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const readStream = fs.createReadStream(originalFilePath);
+    const writeStream = fs.createWriteStream(newFilePath);
+
+    readStream.pipe(writeStream);
+
+    writeStream.on("finish", () => {
+      console.log("File copied successfully!");
+      readStream.close();
+      writeStream.close();
+      resolve();
+    });
+
+    writeStream.on("error", (err) => {
+      console.error("Error copying file:", err);
+      readStream.close();
+      writeStream.close();
+      reject(err);
+    });
+  });
 }
