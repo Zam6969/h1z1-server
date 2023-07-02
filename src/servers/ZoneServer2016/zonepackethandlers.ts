@@ -709,7 +709,7 @@ export class ZonePacketHandlers {
         server,
         client,
         message as string,
-        300
+        100000
       );
       /* if (message.toLowerCase().includes("nigger".toLowerCase())) {  //todo And a filter list.
         server.chatManager.muteClient(server,client,'Racisim','',10000);
