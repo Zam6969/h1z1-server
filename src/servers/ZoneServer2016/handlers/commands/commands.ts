@@ -114,7 +114,9 @@ export const commands: Array<Command> = [
         );
         server.sendChatText(
           client,
-          `items : ${_.size(objects)} | vehicles : ${_.size(vehicles)}`
+          `items : ${_.size(objects)} | vehicles : ${_.size(vehicles)}
+          
+          use /pop for player pop only :)`
         );
       }
     }
