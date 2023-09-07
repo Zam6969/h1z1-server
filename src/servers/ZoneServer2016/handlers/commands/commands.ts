@@ -123,9 +123,24 @@ export const commands: Array<Command> = [
     name: "spawninfo",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      
       server.sendChatText(
         client,
         `You spawned at "${client.character.spawnLocation}"`,
+        true
+      );
+    }
+  },
+  {
+    name: "pop",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const {
+        _clients: clients,
+      } = server;
+      server.sendChatText(
+        client,
+        `server population  ${_.size(clients)} `,
         true
       );
     }
@@ -1466,7 +1481,7 @@ export const commands: Array<Command> = [
     permissionLevel: PermissionLevels.ADMIN,
     keepCase: true,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      server.sendAlertToAll(args.join(" "));
+      server.sendAlertToAll("Broadcast from " + client.character.name + ": " + args.join(" "));
     }
   },
   {
