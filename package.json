@@ -21,7 +21,7 @@
     "h1emu-core": "1.2.1",
     "h1z1-dataschema": "1.7.0",
     "js-yaml": "4.1.0",
-    "mongodb": "5.7.0",
+    "mongodb": "^5.7.0",
     "threads": "1.7.0",
     "typescript": "5.1.6"
   },
