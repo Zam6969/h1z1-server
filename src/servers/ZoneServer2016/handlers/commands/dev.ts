@@ -18,16 +18,16 @@ import {
   CharacterManagedObject,
   CharacterSeekTarget
 } from "types/zone2016packets";
-import { BaseLightweightCharacter } from "../entities/baselightweightcharacter";
-import { Npc } from "../entities/npc";
-import { ZoneClient2016 as Client } from "../classes/zoneclient";
-import { ZoneServer2016 } from "../zoneserver";
-import { Items } from "../models/enums";
-import { LootableConstructionEntity } from "../entities/lootableconstructionentity";
-import { ConstructionChildEntity } from "../entities/constructionchildentity";
-import { ConstructionDoor } from "../entities/constructiondoor";
-import { randomIntFromInterval } from "../../../utils/utils";
-import { Zombie } from "../entities/zombie";
+import { BaseLightweightCharacter } from "../../entities/baselightweightcharacter";
+import { Npc } from "../../entities/npc";
+import { ZoneClient2016 as Client } from "../../classes/zoneclient";
+import { ZoneServer2016 } from "../../zoneserver";
+import { Items } from "../../models/enums";
+import { LootableConstructionEntity } from "../../entities/lootableconstructionentity";
+import { ConstructionChildEntity } from "../../entities/constructionchildentity";
+import { ConstructionDoor } from "../../entities/constructiondoor";
+import { randomIntFromInterval } from "../../../../utils/utils";
+import { Zombie } from "../../entities/zombie";
 
 const debug = require("debug")("zonepacketHandlers");
 
@@ -132,7 +132,7 @@ const dev: any = {
     server.logStats();
   },
   spam: function (server: ZoneServer2016, client: Client, args: Array<string>) {
-    const spamNb = args[1] || 1;
+    const spamNb = Number(args[1]) || 1;
     for (let i = 0; i < spamNb; i++) {
       server.sendChatText(client, `spam ${i}`);
     }
@@ -166,8 +166,11 @@ const dev: any = {
     const models = require("../../../../data/2016/dataSources/Models.json");
     const wordFilter = args[1];
     if (wordFilter) {
-      const result = models.filter((word: any) =>
-        word?.MODEL_FILE_NAME?.toLowerCase().includes(wordFilter.toLowerCase())
+      const result = models.filter(
+        (word: any) =>
+          word?.MODEL_FILE_NAME?.toLowerCase().includes(
+            wordFilter.toLowerCase()
+          )
       );
       server.sendChatText(client, `Found models for ${wordFilter}:`);
       for (let index = 0; index < result.length; index++) {
