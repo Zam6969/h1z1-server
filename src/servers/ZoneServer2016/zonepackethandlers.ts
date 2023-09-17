@@ -108,6 +108,8 @@ function getStanceFlags(num: number): StanceFlags {
   };
 }
 
+//const abilities = require("../../../data/2016/sampleData/abilities.json");
+
 export class ZonePacketHandlers {
   commandHandler: CommandHandler;
   constructor() {
@@ -164,6 +166,26 @@ export class ZonePacketHandlers {
     server.sendRawData(client, server.projectileDefinitionsCache);
 
     server.sendRawData(client, server.profileDefinitionsCache);
+
+    // for melees / emotes / vehicle boost / etc (needs more work)
+    /*
+    server.sendData(client, "Abilities.SetActivatableAbilityManager", abilities);
+      server.sendData(client, "ClientUpdate.UpdateStat", {
+        stats: [
+          {
+            statId: 5,
+            statValue: {
+                type: 1,
+                value: {
+                    base: 1.3,
+                    modifier: 0.16
+                }
+            }
+          }
+        ]
+      })
+    */
+
     /*
       server.sendData(client, "Loadout.SetCurrentLoadout", {
         guid: client.character.guid,
@@ -3520,9 +3542,10 @@ export class ZonePacketHandlers {
     }
   }
   async reloadCommandCache() {
-    delete require.cache[require.resolve("./commands/commandhandler")];
-    const CommandHandler = (require("./commands/commandhandler") as any)
-      .CommandHandler;
+    delete require.cache[require.resolve("./handlers/commands/commandhandler")];
+    const CommandHandler = (
+      require("./handlers/commands/commandhandler") as any
+    ).CommandHandler;
     this.commandHandler = new CommandHandler();
     this.commandHandler.reloadCommands();
   }

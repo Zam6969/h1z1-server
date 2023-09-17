@@ -97,7 +97,7 @@ export const commands: Array<Command> = [
           _spawnedItems: objects,
           _vehicles: vehicles
         } = server;
-        const serverVersion = require("../../../../package.json").version;
+        const serverVersion = require("../../../../../package.json").version;
         server.sendChatText(client, `h1z1-server V${serverVersion}`, true);
         const uptimeMin = (Date.now() - server._startTime) / 60000;
         server.sendChatText(
@@ -119,6 +119,19 @@ export const commands: Array<Command> = [
           use /pop for player pop only :)`
         );
       }
+    }
+  },
+  {
+    name: "pop",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const pop = _.size(server._clients);
+      server.sendChatText(
+        client,
+        `There ${pop > 1 ? "are" : "is"} ${pop} player${
+          pop > 1 ? "s" : ""
+        } online.`
+      );
     }
   },
   {
@@ -186,6 +199,17 @@ export const commands: Array<Command> = [
           const stat = stats[index];
           server.sendChatText(client, stat, index == 0);
         }
+      }
+    }
+  },
+  {
+    name: "ping",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const soeClient = server.getSoeClient(client.soeClientId);
+      if (soeClient) {
+        const stats = soeClient.getNetworkStats();
+        server.sendChatText(client, stats[2], true);
       }
     }
   },
@@ -2015,8 +2039,8 @@ export const commands: Array<Command> = [
         }
       }
 
-      delete require.cache[require.resolve("../data/lootspawns")];
-      const loottables = require("../data/lootspawns").lootTables;
+      delete require.cache[require.resolve("../../data/lootspawns")];
+      const loottables = require("../../data/lootspawns").lootTables;
       server.worldObjectManager.createLoot(server, loottables);
       server.sendChatText(client, `Respawned loot`);
     }

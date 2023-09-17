@@ -171,6 +171,7 @@ const spawnLocations2 = require("../../../data/2016/zoneData/Z1_gridSpawns.json"
   loadoutSlotItemClasses = require("./../../../data/2016/dataSources/LoadoutSlotItemClasses.json"),
   equipSlotItemClasses = require("./../../../data/2016/dataSources/EquipSlotItemClasses.json"),
   weaponDefinitions = require("../../../data/2016/dataSources/ServerWeaponDefinitions"),
+  //dynamicappearance = require("../../../data/2016/sampleData/dynamicappearance"),
   resourceDefinitions = require("../../../data/2016/dataSources/Resources"),
   Z1_POIs = require("../../../data/2016/zoneData/Z1_POIs"),
   equipmentModelTexturesMapping: Record<
@@ -1402,6 +1403,16 @@ export class ZoneServer2016 extends EventEmitter {
       this.packWeaponDefinitions();
     }
     this.sendRawData(client, this.weaponDefinitionsCache);
+
+    // used for equipment textures / skins, does nothing so far
+    /*
+    this.sendData(client, "ReferenceData.DynamicAppearance", {
+      array1: dynamicappearance.array1,
+      array2: dynamicappearance.array2,
+      array3: dynamicappearance.array3
+    })
+    */
+
     // packet is just broken, idk why
     /*
     this.sendData(client, "ClientBeginZoning", {
@@ -3301,10 +3312,10 @@ export class ZoneServer2016 extends EventEmitter {
     console.log(JSON.stringify(this._packetsStats));
   }
 
-  private _sendData(
+  private _sendData<ZonePacket>(
     client: Client,
     packetName: h1z1PacketsType2016,
-    obj: zone2016packets,
+    obj: ZonePacket,
     unbuffered: boolean
   ) {
     if (this._packetsStats[packetName]) this._packetsStats[packetName]++;
@@ -3340,10 +3351,10 @@ export class ZoneServer2016 extends EventEmitter {
     this._sendData(client, packetName, obj, true);
   }
 
-  sendData(
+  sendData<ZonePacket>(
     client: Client,
     packetName: h1z1PacketsType2016,
-    obj: zone2016packets
+    obj: ZonePacket
   ) {
     this._sendData(client, packetName, obj, false);
   }
@@ -4429,10 +4440,14 @@ export class ZoneServer2016 extends EventEmitter {
       }
     );
     client.isInAir = false;
-    if (seatId === "0" && vehicle.engineOn) {
-      vehicle.stopEngine(this);
+
+    if (seatId === "0") {
+      if (vehicle.engineOn) {
+        vehicle.stopEngine(this);
+      }
       vehicle.isLocked = false;
     }
+
     client.vehicle.mountedVehicle = "";
     this.sendData(client, "Vehicle.Occupy", {
       guid: "",
