@@ -493,7 +493,7 @@ export const commands: Array<Command> = [
           locationPosition = new Float32Array([-125.55, 23.41, -1131.71, 1]);
           break;
         case "br":
-          locationPosition = new Float32Array([3824.41, 168.19, -4000.0, 1]);
+          locationPosition = new Float32Array([3861.76, 153.08, -3947.53, 1]);
           break;
         case "ranchito":
           locationPosition = new Float32Array([2185.32, 42.36, 2130.49, 1]);
