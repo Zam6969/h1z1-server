@@ -123,7 +123,7 @@ export class RConManager {
   private handleSendAlert(req: express.Request, res: express.Response): void {
     if (!req.body.msg) res.json({ success: false, msg: "no message provided" });
     // Use the ZoneServer2016 instance to send the alert
-    this.zoneServer.sendAlertToAll(`Broadcast from SYSTEM: ${req.body.msg}`);
+    this.zoneServer.sendAlertToAll(`Broadcast from ${req.body.msg}`);
 
     res.json({ success: true, msg: req.body.msg });
   }
