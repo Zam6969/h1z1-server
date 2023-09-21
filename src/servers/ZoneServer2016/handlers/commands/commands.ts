@@ -135,6 +135,15 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "t",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {const { lookAt} = client.character.state;
+    server.sendChatText(
+      client,`${lookAt} `
+      );
+    }
+  },
+  {
     name: "spawninfo",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -142,20 +151,6 @@ export const commands: Array<Command> = [
       server.sendChatText(
         client,
         `You spawned at "${client.character.spawnLocation}"`,
-        true
-      );
-    }
-  },
-  {
-    name: "pop",
-    permissionLevel: PermissionLevels.DEFAULT,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      const {
-        _clients: clients,
-      } = server;
-      server.sendChatText(
-        client,
-        `server population  ${_.size(clients)} `,
         true
       );
     }
@@ -216,8 +211,7 @@ export const commands: Array<Command> = [
   {
     name: "location",
     permissionLevel: PermissionLevels.DEFAULT,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      const { position, rotation } = client.character.state;
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {const { position, rotation ,} = client.character.state;
       server.sendChatText(
         client,
         `position: ${position[0].toFixed(2)},${position[1].toFixed(
