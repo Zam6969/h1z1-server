@@ -64,33 +64,31 @@ export const commands: Array<Command> = [
     name: "tpl",
     permissionLevel: PermissionLevels.MODERATOR,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      if (!client.character.state.lookAt) {
-        server.sendChatText(client, "You are not currently looking at a location.");
+      // Check if the client has a valid character and lookAt vector
+      if (!client.character || !client.character.state.lookAt) {
+        server.sendChatText(client, "Unable to determine lookAt direction.");
         return;
       }
   
-      // Get the crosshair location from client.character.state.lookAt
-      const crosshairLocation = client.character.state.lookAt;
+      // Calculate the destination position based on lookAt direction
+      const lookAtDirection = client.character.state.lookAt;
+      const currentPosition = client.character.state.position;
+      const teleportDistance = 100; // Adjust this value as needed
+      const x = currentPosition[0] + teleportDistance * lookAtDirection[0];
+      const y = currentPosition[1] + teleportDistance * lookAtDirection[1];
+      const z = currentPosition[2] + teleportDistance * lookAtDirection[2];
+      const locationPosition = new Float32Array([x, y, z, 1]);
   
-      client.character.state.position = crosshairLocation;
-      client.managedObjects?.forEach((characterId: any) => {
-        server.dropVehicleManager(client, characterId);
-      });
-      client.isLoading = false;
-      client.characterReleased = true;
-      client.character.lastLoginDate = toHex(Date.now());
-      server.dropAllManagedObjects(client);
-      server.sendData(client, "ClientUpdate.UpdateLocation", {
-        position: crosshairLocation,
-        triggerLoadingScreen: false
-      });
+      // Teleport the client to the calculated position
+      client.character.state.position = locationPosition;
   
-      server.sendChatText(
-        client,
-        `Teleported to crosshair location: ${crosshairLocation}`
-      );
+      // Perform any additional cleanup or updates if necessary
+  
+      // Inform the player about the teleport
+      server.sendChatText(client, "You have been teleported to your crosshair position.");
     }
   },
+  
   {
     name: "respawn",
     permissionLevel: PermissionLevels.DEFAULT,
