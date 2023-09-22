@@ -95,7 +95,6 @@ export const commands: Array<Command> = [
       // Inform the player about the teleport
       server.sendChatText(client, "You have been teleported to your crosshair position.");
     }
-  }
   },
   
   {
