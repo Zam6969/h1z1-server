@@ -61,6 +61,37 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "tpl",
+    permissionLevel: PermissionLevels.MODERATOR,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      if (!client.character.state.lookAt) {
+        server.sendChatText(client, "You are not currently looking at a location.");
+        return;
+      }
+  
+      // Get the crosshair location from client.character.state.lookAt
+      const crosshairLocation = client.character.state.lookAt;
+  
+      client.character.state.position = crosshairLocation;
+      client.managedObjects?.forEach((characterId: any) => {
+        server.dropVehicleManager(client, characterId);
+      });
+      client.isLoading = false;
+      client.characterReleased = true;
+      client.character.lastLoginDate = toHex(Date.now());
+      server.dropAllManagedObjects(client);
+      server.sendData(client, "ClientUpdate.UpdateLocation", {
+        position: crosshairLocation,
+        triggerLoadingScreen: false
+      });
+  
+      server.sendChatText(
+        client,
+        `Teleported to crosshair location: ${crosshairLocation}`
+      );
+    }
+  },
+  {
     name: "respawn",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -131,15 +162,6 @@ export const commands: Array<Command> = [
         `There ${pop > 1 ? "are" : "is"} ${pop} player${
           pop > 1 ? "s" : ""
         } online.`
-      );
-    }
-  },
-  {
-    name: "t",
-    permissionLevel: PermissionLevels.DEFAULT,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {const { lookAt} = client.character.state;
-    server.sendChatText(
-      client,`${lookAt} `
       );
     }
   },
