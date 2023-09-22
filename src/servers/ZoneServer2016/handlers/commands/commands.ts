@@ -77,16 +77,25 @@ export const commands: Array<Command> = [
       const x = currentPosition[0] + teleportDistance * lookAtDirection[0];
       const y = currentPosition[1] + teleportDistance * lookAtDirection[1];
       const z = currentPosition[2] + teleportDistance * lookAtDirection[2];
-      const locationPosition = new Float32Array([x, y, z, 1]);
   
-      // Teleport the client to the calculated position
-      client.character.state.position = locationPosition;
+      // Set the new position for the client
+      const crosshairLocation = new Float32Array([x, y, z, 1]);
+      client.character.state.position = crosshairLocation;
   
-      // Perform any additional cleanup or updates if necessary
+      // Trigger loading screen and update client's location
+      client.isLoading = true;
+      client.characterReleased = false;
+      client.character.lastLoginDate = toHex(Date.now());
+      server.dropAllManagedObjects(client);
+      server.sendData(client, "ClientUpdate.UpdateLocation", {
+        position: crosshairLocation,
+        triggerLoadingScreen: true
+      });
   
       // Inform the player about the teleport
       server.sendChatText(client, "You have been teleported to your crosshair position.");
     }
+  }
   },
   
   {
