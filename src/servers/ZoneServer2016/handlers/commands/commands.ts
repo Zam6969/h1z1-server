@@ -1441,21 +1441,22 @@ export const commands: Array<Command> = [
       }
   
       switch (kitName) {
-        case "kit":
+        case "pvp":
           targetClient.character.equipLoadout(server, characterKitLoadout);
-          server.sendChatText(targetClient, "You received the kit");
+          server.sendChatText(targetClient, "You received pvp kit");
+          server.sendChatText(client, `You sent PVP kit to ${targetClient}`);
           break;
         case "vehicleparts":
           targetClient.character.equipLoadout(server, characterVehicleKit);
           server.sendChatText(targetClient, "You received the vehicle parts kit");
+          server.sendChatText(client, `You sent vehicle parts kit to ${targetClient}`);
           break;
         default:
           server.sendChatText(client, "Invalid kit name");
           break;
       }
     },
-  }
-  
+  },
   {
     name: "shutdown",
     permissionLevel: PermissionLevels.ADMIN,
