@@ -56,6 +56,7 @@ export class RConManager {
     this.app.get("/rcon/players", this.handleGetPlayers.bind(this));
     this.app.post("/rcon/alert", this.handleSendAlert.bind(this));
     this.app.post("/rcon/shutdown", this.handleShutdown.bind(this));
+    this.app.post("/rcon/sendmessage", this.handlesendmessage.bind(this));
   }
 
   public startHttpServer(port: number): void {
@@ -120,13 +121,22 @@ export class RConManager {
     );
     res.json({ success: true, players: playerList });
   }
+  private handlesendmessage(req: express.Request, res: express.Response): void {
+    if (!req.body.msg) res.json({ success: false, msg: "no message provided" });
+    // Use the ZoneServer2016 instance to send the alert
+    this.zoneServer.sendGlobalChatText(`${req.body.msg}`);   //what gets sent to the game
+
+    res.json({ success: true, msg: req.body.msg });
+  
+  }
   private handleSendAlert(req: express.Request, res: express.Response): void {
     if (!req.body.msg) res.json({ success: false, msg: "no message provided" });
     // Use the ZoneServer2016 instance to send the alert
-    this.zoneServer.sendAlertToAll(`${req.body.msg}`);
+    this.zoneServer.sendAlertToAll(`${req.body.msg}`);   //what gets sent to the game
 
     res.json({ success: true, msg: req.body.msg });
   }
+  
   private async handleShutdown(
     req: express.Request,
     res: express.Response
