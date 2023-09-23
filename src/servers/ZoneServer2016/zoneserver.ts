@@ -189,6 +189,7 @@ export class ZoneServer2016 extends EventEmitter {
   _decryptionkeys = process.env.DECRYPTKEY || "";
   _bandiscordwebhook = process.env.BANHOOK || "";
   _chatdiscordwebhook = process.env.CHATHOOK || "";
+  _chatdiscordwebhook2 = process.env.CHATHOOK2 || ""; 
   _discordWebhookUrl =process.env.DCHOOK ||"";
   _reportwebhook = process.env.REPORTHOOK ||"";
   _adminhook = process.env.ADMINHOOK ||"";
@@ -6748,6 +6749,29 @@ export class ZoneServer2016 extends EventEmitter {
     this.sendData(client, "H1emu.PrintToConsole", { message });
   }
   sendChatDiscordHook(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
+    if (!this._chatdiscordwebhook) return;
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook(this._chatdiscordwebhook)
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+  }
+  sendChatDiscordHook2(
     client: Client,
     client2: Client,
     setAuthor: string,

@@ -752,6 +752,20 @@ export class ZonePacketHandlers {
         ``,
         obj
       );
+      const obj2 = [
+        { title: "Name", info: `${client.character.name}` },
+        { title: "Message", info: `${message}` }
+        
+      ];
+      server.sendChatDiscordHook2(
+        client,
+        client,
+        "",
+        `${client.character.name} Sent a Message!`,
+        ``,
+        obj2
+      );
+      
     } else if (client.radio) {
       server.chatManager.sendChatToAllWithRadio(
         server,
