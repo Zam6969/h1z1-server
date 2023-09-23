@@ -30,7 +30,8 @@ import {
   characterBuildKitLoadout,
   characterSkinsLoadout,
   characterKitLoadout,
-  characterVehicleKit
+  characterVehicleKit,
+  characterWipeKit
 } from "../../data/loadouts";
 import {
   Effects,
@@ -75,7 +76,7 @@ export const commands: Array<Command> = [
       const currentPosition = client.character.state.position;
       const teleportDistance = 100; // Adjust this value as needed
       const x = currentPosition[0] + teleportDistance * lookAtDirection[0];
-      const y = currentPosition[1] + teleportDistance * lookAtDirection[1];
+      const y = currentPosition[1] * lookAtDirection[1];
       const z = currentPosition[2] + teleportDistance * lookAtDirection[2];
   
       // Set the new position for the client
@@ -1451,6 +1452,24 @@ export const commands: Array<Command> = [
           server.sendChatText(targetClient, "You received the vehicle parts kit");
           server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
+        case "wipe":
+            targetClient.character.equipLoadout(server, characterWipeKit);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        case "skins":
+            client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
+            targetClient.character.equipLoadout(server, characterSkinsLoadout);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        case "build":
+            client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
+            targetClient.character.equipLoadout(server, characterBuildKitLoadout);
+            server.sendChatText(client, `Build kit given`);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
         default:
           server.sendChatText(client, "Invalid kit name");
           break;
@@ -1866,38 +1885,6 @@ export const commands: Array<Command> = [
         client,
         `Removed all constructions in range of ${Number(args[0])}`
       );
-    }
-  },
-  {
-    name: "build",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: async (
-      server: ZoneServer2016,
-      client: Client,
-      args: Array<string>
-    ) => {
-      client.character.equipItem(
-        server,
-        server.generateItem(Items.FANNY_PACK_DEV)
-      );
-      client.character.equipLoadout(server, characterBuildKitLoadout);
-      server.sendChatText(client, `Build kit given`);
-    }
-  },
-  {
-    name: "skins",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: async (
-      server: ZoneServer2016,
-      client: Client,
-      args: Array<string>
-    ) => {
-      client.character.equipItem(
-        server,
-        server.generateItem(Items.FANNY_PACK_DEV)
-      );
-      client.character.equipLoadout(server, characterSkinsLoadout);
-      server.sendChatText(client, `skins kit given`);
     }
   },
   {
