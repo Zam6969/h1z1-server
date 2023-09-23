@@ -6779,9 +6779,9 @@ export class ZoneServer2016 extends EventEmitter {
     description: string,
     args: any
   ) {
-    if (!this._chatdiscordwebhook) return;
+    if (!this._chatdiscordwebhook2) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
-    const hook = new Webhook(this._chatdiscordwebhook)
+    const hook = new Webhook(this._chatdiscordwebhook2)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
