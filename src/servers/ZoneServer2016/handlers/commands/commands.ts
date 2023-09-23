@@ -1418,27 +1418,44 @@ export const commands: Array<Command> = [
     name: "kit",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server, client, args) => {
-      if (args.length === 0) {
-        server.sendChatText(client, "Usage: /kit [kit name]");
+      if (args.length < 2) {
+        server.sendChatText(client, "Usage: /kit [kit name] [target client]");
         return;
       }
-
+  
       const kitName = args[0];
-
+      const targetClientName = args[1];
+  
+      // Find the target client
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;
+      }
+  
       switch (kitName) {
         case "kit":
-          client.character.equipLoadout(server, characterKitLoadout);
+          targetClient.character.equipLoadout(server, characterKitLoadout);
+          server.sendChatText(targetClient, "You received the kit");
           break;
         case "vehicleparts":
-          client.character.equipLoadout(server, characterVehicleKit);
-          server.sendChatText(client, "Vehicle Parts Given");
+          targetClient.character.equipLoadout(server, characterVehicleKit);
+          server.sendChatText(targetClient, "You received the vehicle parts kit");
           break;
         default:
           server.sendChatText(client, "Invalid kit name");
           break;
       }
     },
-  },
+  }
+  
   {
     name: "shutdown",
     permissionLevel: PermissionLevels.ADMIN,
