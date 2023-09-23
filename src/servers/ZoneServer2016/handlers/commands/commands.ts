@@ -1402,21 +1402,6 @@ export const commands: Array<Command> = [
     }
   },
   {
-    name: "kit",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      client.character.equipLoadout(server, characterKitLoadout);
-    }
-  },
-  {
-    name: "vehicleparts",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      client.character.equipLoadout(server, characterVehicleKit);
-      server.sendChatText(client, `Vehicle Parts Given`);
-    }
-  },
-  {
     name: "addallitems",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -1428,6 +1413,31 @@ export const commands: Array<Command> = [
       }
       */
     }
+  },
+  {
+    name: "kit",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server, client, args) => {
+      if (args.length === 0) {
+        server.sendChatText(client, "Usage: /kit [kit name]");
+        return;
+      }
+
+      const kitName = args[0];
+
+      switch (kitName) {
+        case "kit":
+          client.character.equipLoadout(server, characterKitLoadout);
+          break;
+        case "vehicleparts":
+          client.character.equipLoadout(server, characterVehicleKit);
+          server.sendChatText(client, "Vehicle Parts Given");
+          break;
+        default:
+          server.sendChatText(client, "Invalid kit name");
+          break;
+      }
+    },
   },
   {
     name: "shutdown",
