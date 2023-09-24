@@ -1900,40 +1900,41 @@ export class ZoneServer2016 extends EventEmitter {
 
   sendKillFeed(client: Client, damageInfo: DamageInfo) {
     if (
-        !client.currentPOI ||
-        client.character.characterId === damageInfo.entity
+      !client.currentPOI ||
+      client.character.characterId === damageInfo.entity
     )
-        return;
+      return;
     for (const a in this._clients) {
-        if (
-            this._clients[a].currentPOI != client.currentPOI ||
-            this._clients[a].loginSessionId === client.loginSessionId
-        )
-            continue;
-
-        const killer = client.character.characterId; // Killer's name
-        const killedBy = damageInfo.entity; // Entity that caused the damage
-
-        this.sendData(this._clients[a], "Character.KilledBy", {
-            killer: killer,
-            killed: killedBy
-        });
-
-        const obj2 = [
-            { title: "Killer", info: killer },
-            { title: "Killed", info: killedBy }
-        ];
-
-        this.sendkillfeed2(
-            client,
-            client,
-            "",
-            `${killer} Has Killed ${killedBy}`,
-            ``,
-            obj2
-        );
+      if (
+        this._clients[a].currentPOI != client.currentPOI ||
+        this._clients[a].loginSessionId === client.loginSessionId
+      )
+        continue;
+  
+      // Fetch the killer's name (you might need to access your data structure to get it)
+      const killerName = this._clients[a].character.name;
+  
+      this.sendData(this._clients[a], "Character.KilledBy", {
+        killer: damageInfo.entity,
+        killed: client.character.characterId,
+      });
+      
+      const obj2 = [
+        { title: "Killer", info: `${killerName}` }, // Use the killer's name
+        { title: "Killed", info: `${client.character.characterId}` },
+      ];
+  
+      this.sendkillfeed2(
+        client,
+        client,
+        "",
+        `${killerName} Has Killed ${client.character.characterId}`, // Use the killer's name
+        ``,
+        obj2
+      );
     }
-}
+  }
+  
 
 
   async explosionDamage(
