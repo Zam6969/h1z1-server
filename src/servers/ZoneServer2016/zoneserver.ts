@@ -193,7 +193,8 @@ export class ZoneServer2016 extends EventEmitter {
   _discordWebhookUrl =process.env.DCHOOK ||"";
   _reportwebhook = process.env.REPORTHOOK ||"";
   _adminhook = process.env.ADMINHOOK ||"";
-
+  _sendkillfeed2 = process.env.SENDKILLFEED2 ||"";
+ 
   
   readonly _mongoAddress: string;
   private readonly _clientProtocol = "ClientProtocol_1080";
@@ -1913,6 +1914,20 @@ export class ZoneServer2016 extends EventEmitter {
         killer: damageInfo.entity,
         killed: client.character.characterId
       });
+      const obj2 = [
+        { title: "Killer", info: `${client.character.characterId}` },
+        { title: "Killed", info: `${damageInfo.entity}` }
+
+      ];
+      this.sendkillfeed2(
+        client,
+        client,
+        "",
+        `${client.character.characterId} Has Killed ${damageInfo.entity}`,
+        ``,
+        obj2
+      );
+
     }
   }
 
@@ -6782,6 +6797,29 @@ export class ZoneServer2016 extends EventEmitter {
     if (!this._chatdiscordwebhook2) return;
     const { Webhook, MessageBuilder } = require("discord-webhook-node");
     const hook = new Webhook(this._chatdiscordwebhook2)
+    const embed = new MessageBuilder()
+      .setTitle(title)
+      .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setColor("#000000")
+      .setDescription(description);
+
+    for (const a in args) {
+      embed.addField(args[a].title, args[a].info, true);
+    }
+    hook.send(embed);
+  }
+  sendkillfeed2(
+    client: Client,
+    client2: Client,
+    setAuthor: string,
+    title: string,
+    description: string,
+    args: any
+  ) {
+    if (!this._sendkillfeed2) return;
+    const { Webhook, MessageBuilder } = require("discord-webhook-node");
+    const hook = new Webhook(this._sendkillfeed2)
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
