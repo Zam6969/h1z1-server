@@ -1900,13 +1900,11 @@ export class ZoneServer2016 extends EventEmitter {
 
   sendKillFeed(client: Client, damageInfo: DamageInfo) {
     if (
-      !client.currentPOI ||
       client.character.characterId === damageInfo.entity
     )
       return;
     for (const a in this._clients) {
       if (
-        this._clients[a].currentPOI != client.currentPOI ||
         this._clients[a].loginSessionId === client.loginSessionId
       )
         continue;
