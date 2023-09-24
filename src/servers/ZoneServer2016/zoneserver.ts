@@ -6823,7 +6823,7 @@ export class ZoneServer2016 extends EventEmitter {
     const embed = new MessageBuilder()
       .setTitle(title)
       .setAuthor(`${this._serverName}`, "https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
-      .setThumbnail("https://wtfzammu.xyz/u/uwu/3GYzcB.gif")
+      .setThumbnail("https://wtfzammu.xyz/u/uwu/B6zrwo.gif")
       .setColor("#000000")
       .setDescription(description);
 
