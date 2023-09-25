@@ -1419,7 +1419,7 @@ export const commands: Array<Command> = [
     name: "kit",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server, client, args) => {
-      if (args.length < 2) {
+      if (args.length < 1) {
         server.sendChatText(client, "Usage: /kit [kit name] [target client]");
         return;
       }
@@ -1427,8 +1427,11 @@ export const commands: Array<Command> = [
       const kitName = args[0];
       const targetClientName = args[1];
   
-      // Find the target client
-      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      // Check if the third argument is provided and truthy, or default to the sender (self)
+      const targetClient = args[2]
+        ? server.getClientByNameOrLoginSession(args[2])
+        : client;
+  
       if (typeof targetClient === "string") {
         server.sendChatText(
           client,
@@ -1447,31 +1450,30 @@ export const commands: Array<Command> = [
           server.sendChatText(targetClient, "You received pvp kit");
           server.sendChatText(client, `You sent PVP kit to ${targetClientName}`);
           break;
-        case "vehicleparts":
+        case "parts":
           targetClient.character.equipLoadout(server, characterVehicleKit);
           server.sendChatText(targetClient, "You received the vehicle parts kit");
           server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
-        case "wipe":
-            targetClient.character.equipLoadout(server, characterWipeKit);
-            server.sendChatText(targetClient, "You received the vehicle parts kit");
-            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
-          break;
         case "skins":
             client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
             targetClient.character.equipLoadout(server, characterSkinsLoadout);
-            server.sendChatText(targetClient, "You received the vehicle parts kit");
-            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+            server.sendChatText(targetClient, "You received the skin kit");
+            server.sendChatText(client, `You sent skin kit sent to ${targetClientName}`);
           break;
         case "build":
             client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
             targetClient.character.equipLoadout(server, characterBuildKitLoadout);
             server.sendChatText(client, `Build kit given`);
+            server.sendChatText(client, `Build kit sent to ${targetClientName}`);
+        case "wipe":
+            targetClient.character.equipLoadout(server, characterWipeKit);
             server.sendChatText(targetClient, "You received the vehicle parts kit");
             server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
+          break;
         default:
-          server.sendChatText(client, "Invalid kit name");
+          server.sendChatText(client, "Use pvp,parts,skins,build kits!");
           break;
       }
     },
