@@ -185,9 +185,9 @@ export const characterVehicleKit = [
   { item: Items.TURBO_OFFROADER },
   { item: Items.TURBO_ATV },
   { item: Items.TURBO_PICKUP },
-  { item: Items.HEADLIGHTS_ATV }
-  { item: Items.HEADLIGHTS_OFFROADER }
-  { item: Items.HEADLIGHTS_PICKUP }
+  { item: Items.HEADLIGHTS_ATV },
+  { item: Items.HEADLIGHTS_OFFROADER },
+  { item: Items.HEADLIGHTS_PICKUP },
   { item: Items.HEADLIGHTS_POLICE }
   
 
