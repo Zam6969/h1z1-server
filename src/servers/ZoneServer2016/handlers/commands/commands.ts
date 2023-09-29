@@ -914,6 +914,8 @@ export const commands: Array<Command> = [
         status: 1,
         sessionId: targetClient.loginSessionId,
         reason: "Kicked"
+        
+        
        } )
     
     }
@@ -1076,6 +1078,17 @@ export const commands: Array<Command> = [
         scale: [1, 1, 1, 1]
       });
       server.sendChatText(client, "Back to normal size");
+    }
+  },
+  {
+    name: "anim",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      server.sendDataToAll("Character.PlayAnimation", {
+        animationname:"sit",
+        animation: "sit"
+      });
+      server.sendChatText(client, "send anim data");
     }
   },
   {
