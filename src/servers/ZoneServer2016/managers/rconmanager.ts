@@ -153,7 +153,10 @@ export class RConManager {
   ): Promise<void> {
     // Use the ZoneServer2016 instance to send the alert
     this.zoneServer.sendAlertToAll(
-      `Broadcast from SYSTEM: Server is shutting down NOW.`
+      `Broadcast from SYSTEM: Server is saving!.`
+    );
+    this.zoneServer.sendAlertToAll(
+      `Broadcast from SYSTEM: Server is Shuting Down!.`
     );
     this.zoneServer.sendDataToAll("WorldShutdownNotice", {
       timeLeft: 0,

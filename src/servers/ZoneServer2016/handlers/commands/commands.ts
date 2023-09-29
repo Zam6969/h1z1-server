@@ -163,6 +163,31 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "box",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const targetClientName = args[1];
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;
+      }
+      const title = args[2]
+      const message = args[3]
+      server.sendData(client, "H1emu.MessageBox", {
+        title: `${title}`,
+        message: `${message}`
+      });
+    },
+  },
+  {
     name: "clientinfo",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -558,6 +583,25 @@ export const commands: Array<Command> = [
         }
         return;
       }
+      for (const a in server._clients) {
+        const iteratedClient = server._clients[a];
+        if (iteratedClient.spawnedEntities.includes(client.character)) {
+          server.sendData(iteratedClient, "Character.RemovePlayer", {
+            characterId: client.character.characterId
+          });
+          iteratedClient.spawnedEntities.splice(
+            iteratedClient.spawnedEntities.indexOf(client.character),
+            1
+          );
+        }
+      }
+      server.sendData(client, "Spectator.Enable", {});
+    }
+  },
+  {
+    name: "vanish2",
+    permissionLevel: PermissionLevels.MODERATOR,
+    execute: (server: ZoneServer2016, client: Client) => {
       for (const a in server._clients) {
         const iteratedClient = server._clients[a];
         if (iteratedClient.spawnedEntities.includes(client.character)) {
