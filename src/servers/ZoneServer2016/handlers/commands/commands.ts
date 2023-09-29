@@ -909,7 +909,13 @@ export const commands: Array<Command> = [
         return;
       }
       const reason = args[1] ? args.slice(1).join(" ") : "Undefined";
-      server.kickPlayerWithReason(targetClient, reason, true);
+      client.properlyLogout = true;
+      server.sendData(targetClient, "CharacterSelectSessionResponse", {
+        status: 1,
+        sessionId: targetClient.loginSessionId,
+        reason: "Kicked"
+       } )
+    
     }
   },
   {
