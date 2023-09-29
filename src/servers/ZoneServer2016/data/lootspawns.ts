@@ -2396,6 +2396,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.KEVLAR_DEFAULT,
+        weight: 30,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.VEHICLE_KEY,
         weight: 5,
         spawnCount: {
@@ -2853,6 +2861,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 25,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.TWINE,
         weight: 25,
         spawnCount: {
@@ -3031,6 +3047,14 @@ export const containerLootSpawners: {
         }
       },
       {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 50,
+        spawnCount: {
+          min: 1,
+          max: 1
+        }
+      },
+      {
         item: Items.CLOTH,
         weight: 50,
         spawnCount: {
@@ -3064,7 +3088,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.VEHICLE_KEY,
-        weight: 25,
+        weight: 50,
         spawnCount: {
           min: 1,
           max: 1
@@ -3098,6 +3122,14 @@ export const containerLootSpawners: {
         spawnCount: {
           min: 1,
           max: 4
+        }
+      },
+      {
+        item: Items.BACKPACK_MILITARY_TAN,
+        weight: 50,
+        spawnCount: {
+          min: 1,
+          max: 1
         }
       },
       {
@@ -3441,8 +3473,8 @@ export const containerLootSpawners: {
         item: Items.LIGHTER,
         weight: 1,
         spawnCount: {
-          min: 1,
-          max: 1
+          min: 5,
+          max: 5
         }
       }
     ]
