@@ -952,7 +952,10 @@ export const commands: Array<Command> = [
         server.sendChatText(client, "Client not found.");
         return;
       }
-      const reason = args[1] ? args.slice(1).join(" ") : "Undefined";
+      const reason = args[1] ? args.slice(1).join(" ") : "No info given.";
+      server.sendData(client, "H1emu.PrintToConsole", {
+        message: args.slice(1).join(`You Were Kicked from Loot [US] ${targetClient} Reason: ${reason} `)
+      });
       client.properlyLogout = true;
       server.sendData(targetClient, "CharacterSelectSessionResponse", {
         status: 1,
