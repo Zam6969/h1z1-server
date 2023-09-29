@@ -50,6 +50,7 @@ import { LoadoutContainer } from "../../classes/loadoutcontainer";
 import { BaseItem } from "../../classes/baseItem";
 import { DB_COLLECTIONS } from "../../../../utils/enums";
 import { WorldDataManager } from "../../managers/worlddatamanager";
+import { Packet } from "types/shared";
 const itemDefinitions = require("./../../../../../data/2016/dataSources/ServerItemDefinitions.json");
 
 export const commands: Array<Command> = [
@@ -95,6 +96,60 @@ export const commands: Array<Command> = [
   
       // Inform the player about the teleport
       server.sendChatText(client, "You have been teleported to your crosshair position.");
+    }
+  },
+  {
+    name: "tt2",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server, client) => {
+      // Get the client's current lookAt direction
+      const lookAt = client.character.state.lookAt;
+  
+      // Teleport the client to the position they are looking at
+      client.character.state.position = lookAt;
+  
+      // Send a message to update the client's location
+      server.sendData(client, "ClientUpdate.UpdateLocation", {
+        position: lookAt,
+      });
+    },
+  },
+  {
+    name: "tttt",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server, client, packetData: any) => {
+      server.sendChatText(
+        client,
+        ` pdp: ${packetData.position} ccsl: ${client.character.state.lookAt}`
+      );
+    }
+  }
+  
+  {
+    name: "tt",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server: ZoneServer2016, client: Client, packetData: any) => {
+        // Check if the client provided a valid target position
+        if (!packetData.position || !packetData.lookAt) {
+            server.sendChatText(
+                client,
+                "[ERROR] Invalid position or lookAt data. Please provide a valid target position."
+            );
+            return;
+        }
+
+        // Create a new character ID for the player
+        const characterId = server.generateGuid();
+
+        // Set the player's position and lookAt to the provided values
+        client.character.state.position = packetData.position;
+        client.character.state.lookAt = packetData.lookAt;
+
+        // Send a message to confirm the teleportation
+        server.sendChatText(
+            client,
+            `You have been teleported to (${packetData.position.x}, ${packetData.position.y}, ${packetData.position.z}).`
+        );
     }
   },
   {
@@ -170,6 +225,67 @@ export const commands: Array<Command> = [
         } online.`
       );
     }
+  },
+  {
+    name: "kit2",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server, client, args) => {
+      if (args.length < 2) {
+        server.sendChatText(client, "Usage: /kit [kit name] [target client]");
+        return;
+      }
+  
+      const kitName = args[0];
+      const targetClientName = args[1];
+  
+      // Find the target client
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;
+      }
+  
+      switch (kitName) {
+        case "pvp":
+          targetClient.character.equipLoadout(server, characterKitLoadout);
+          server.sendChatText(targetClient, "You received pvp kit");
+          server.sendChatText(client, `You sent PVP kit to ${targetClientName}`);
+          break;
+        case "vehicleparts":
+          targetClient.character.equipLoadout(server, characterVehicleKit);
+          server.sendChatText(targetClient, "You received the vehicle parts kit");
+          server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        case "wipe":
+            targetClient.character.equipLoadout(server, characterWipeKit);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        case "skins":
+            client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
+            targetClient.character.equipLoadout(server, characterSkinsLoadout);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        case "build":
+            client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
+            targetClient.character.equipLoadout(server, characterBuildKitLoadout);
+            server.sendChatText(client, `Build kit given`);
+            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
+          break;
+        default:
+          server.sendChatText(client, "Invalid kit name");
+          break;
+      }
+    },
   },
   {
     name: "spawninfo",
