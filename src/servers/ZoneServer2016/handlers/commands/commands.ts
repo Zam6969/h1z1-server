@@ -123,7 +123,7 @@ export const commands: Array<Command> = [
         ` pdp: ${packetData.position} ccsl: ${client.character.state.lookAt}`
       );
     }
-  }
+  },
   
   {
     name: "tt",
