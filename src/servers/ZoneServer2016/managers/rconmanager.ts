@@ -67,60 +67,70 @@ export class RConManager {
 
   private handleGetPlayers(req: express.Request, res: express.Response): void {
     // Use the ZoneServer2016 instance to send the alert
-    var players = this.zoneServer._clients;
-    var playerList: {
-      guid: string | undefined;
-      character: { name: string  };
-      isAdmin: boolean;
-      isDebugMode: boolean;
-      HWID: string;
-      pvpStats: {
-        shotsFired: number;
-        shotsHit: number;
-        head: number;
-        spine: number;
-        hands: number;
-        legs: number;
-      };
-      clientLogs: {
-        log: string;
-        isSuspicious: boolean;
-      }[];
-      loginSessionId: string;
-      sessionId: number;
-      soeClientId: string;
-      avgPing: number;
-      permissionLevel: number;
+    const players = this.zoneServer._clients;
+    const playerList: {
+        guid: string | undefined;
+        character: { name: string };
+        isAdmin: boolean;
+        isDebugMode: boolean;
+        HWID: string;
+        pvpStats: {
+            shotsFired: number;
+            shotsHit: number;
+            head: number;
+            spine: number;
+            hands: number;
+            legs: number;
+        };
+        clientLogs: {
+            log: string;
+            isSuspicious: boolean;
+        }[];
+        loginSessionId: string;
+        sessionId: number;
+        soeClientId: string;
+        avgPing: number;
+        permissionLevel: number;
+        uptime: string; // Add uptime field
     }[] = [];
+
+    const serverStartTime = this.zoneServer._startTime;
+    const currentTimestamp = Date.now();
+
     Object.values(this.zoneServer._clients).forEach(
-      (client: ZoneClient2016) => {
-        const { position, rotation } = client.character.state;
-        // client,
-        // `position: ${position[0].toFixed(2)},${position[1].toFixed(
-        //   2
-        // )},${position[2].toFixed(2)}`
-        playerList.push({
-          guid: client.guid,
-          character: {
-            name: client.character.name
-            // positon: ,
-            // rotation
-          },
-          isAdmin: client.isAdmin,
-          isDebugMode: client.isDebugMode,
-          HWID: client.HWID,
-          pvpStats: client.pvpStats,
-          clientLogs: client.clientLogs,
-          loginSessionId: client.loginSessionId,
-          sessionId: client.sessionId,
-          soeClientId: client.soeClientId,
-          avgPing: client.avgPing,
-          permissionLevel: client.permissionLevel,
-        });
-      }
+        (client: ZoneClient2016) => {
+            const { position, rotation } = client.character.state;
+
+            // Calculate uptime for each player
+            const uptimeMin = (currentTimestamp - serverStartTime) / 60000;
+            const uptimeString =
+                uptimeMin < 60
+                    ? `${uptimeMin.toFixed()}m`
+                    : `${(uptimeMin / 60).toFixed()}h`;
+
+            playerList.push({
+                guid: client.guid,
+                character: {
+                    name: client.character.name,
+                },
+                isAdmin: client.isAdmin,
+                isDebugMode: client.isDebugMode,
+                HWID: client.HWID,
+                pvpStats: client.pvpStats,
+                clientLogs: client.clientLogs,
+                loginSessionId: client.loginSessionId,
+                sessionId: client.sessionId,
+                soeClientId: client.soeClientId,
+                avgPing: client.avgPing,
+                permissionLevel: client.permissionLevel,
+                uptime: uptimeString, // Add uptime to player data
+            });
+        }
     );
+
     res.json({ success: true, players: playerList });
-  }
+}
+
   private handlesendmessage(req: express.Request, res: express.Response): void {
     if (!req.body.msg) res.json({ success: false, msg: "no message provided" });
     // Use the ZoneServer2016 instance to send the alert
