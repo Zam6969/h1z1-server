@@ -166,7 +166,7 @@ export const commands: Array<Command> = [
     name: "box",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      const targetClientName = args[1];
+      const targetClientName = args[0];
       const targetClient = server.getClientByNameOrLoginSession(targetClientName);
       if (typeof targetClient === "string") {
         server.sendChatText(
@@ -179,9 +179,9 @@ export const commands: Array<Command> = [
         server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
         return;
       }
-      const title = args[2]
-      const message = args[3]
-      server.sendData(client, "H1emu.MessageBox", {
+      const title = args[1]
+      const message = args[2]
+      server.sendData(targetClient, "H1emu.MessageBox", {
         title: `${title}`,
         message: `${message}`
       });
