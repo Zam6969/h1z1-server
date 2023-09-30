@@ -1907,14 +1907,14 @@ export class ZoneServer2016 extends EventEmitter {
 
     if (findclient) {
       const obj2 = [
-        { title: "Killer", info: `${findclient?.character.name}` }, // Use the killer's name
+        { title: "Killer", info: `${findclient.character.name}` }, // Use the killer's name
         { title: "Killed", info: `${client.character.name}` },
     ];
     this.sendkillfeed2(
       client,
       client,
       "",
-      `${findclient?.character.name} Has Killed ${client.character.name}`, // Use the killer's name
+      `${findclient.character.name} Has Killed ${client.character.name}`, // Use the killer's name
       ``,
       obj2
     )}
