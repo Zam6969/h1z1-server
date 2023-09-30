@@ -310,21 +310,17 @@ export class ZonePacketHandlers {
           verifycode = object.verifyCode;
           server._db?.collection(DB_COLLECTIONS.VERIFIED).insertOne(object);
         }
-        var spamMsg = `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}`;
         setTimeout(() => {
           var test = setInterval(() => {
-            server.sendChatText(client, spamMsg);
-            server.sendAlert(client, spamMsg);
+            server.sendChatText(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}`);
+            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}` );
+            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}` );
           }, 1000);
-
-          server.sendChatText(client, `You have been Disconnected.`);
-          server.sendAlert(client, `You have been Disconnected.`);
           setTimeout(() => {
             server.sendData(client, "CharacterSelectSessionResponse", {
               status: 1,
               sessionId: client.loginSessionId
             });
-            server.deleteClient(client);
             clearInterval(test);
           }, 25000);
         }, 3000); 
