@@ -124,7 +124,6 @@ export const commands: Array<Command> = [
       );
     }
   },
-  
   {
     name: "tt",
     permissionLevel: PermissionLevels.ADMIN,
