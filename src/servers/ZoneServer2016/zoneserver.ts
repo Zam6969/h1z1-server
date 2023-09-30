@@ -1899,7 +1899,7 @@ export class ZoneServer2016 extends EventEmitter {
   }
 
   sendKillFeed(client: Client, damageInfo: DamageInfo) {
-    if (!client.currentPOI || client.character.characterId === damageInfo.entity) {
+    if (!client.currentPOI || client.character.name === damageInfo.entity) {
       return;
     }
   
@@ -1913,19 +1913,19 @@ export class ZoneServer2016 extends EventEmitter {
   
       this.sendData(this._clients[a], "Character.KilledBy", {
         killer: damageInfo.entity,
-        killed: client.character.characterId,
+        killed: client.character.name,
       });
   
       const obj2 = [
-        { title: "Killer", info: `${client.character.name}` }, // Use the killer's name
-        { title: "Killed", info: `${damageInfo.entity}` },
+        { title: "Killer", info: `${damageInfo.entity}` }, // Use the killer's name
+        { title: "Killed", info: `${client.character.name}` },
       ];
   
       this.sendkillfeed2(
         client,
         client,
         "",
-        `${client.character.name} Has Killed ${damageInfo.entity}`, // Use the killer's name
+        `${damageInfo.entity} Has Killed ${client.character.name}`, // Use the killer's name
         ``,
         obj2
       );
