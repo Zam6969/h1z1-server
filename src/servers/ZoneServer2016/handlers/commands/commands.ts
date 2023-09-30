@@ -197,14 +197,6 @@ export const commands: Array<Command> = [
     }
   },
   {
-    name: "clientinfo",
-    permissionLevel: PermissionLevels.DEFAULT,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      
-      
-    }
-  },
-  {
     name: "serverinfo",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
