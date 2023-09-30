@@ -272,10 +272,8 @@ export class ZonePacketHandlers {
           );
         }
 
-        server.sendAlert(client, "Welcome to JsReborn Trio ");
-        server.sendAlert(client, "Please read the /rules!");
-        server.sendAlert(client, "use /discord for support to contact Admin");
-        server.sendAlert(client, "Welcome to JsReborn 2x Solo/Duo/Trio");
+        server.sendAlert(client, "Please read the rules in discord!");
+        server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio/Quad");
         if (server.welcomeMessage)
           server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
@@ -329,7 +327,7 @@ export class ZonePacketHandlers {
             server.deleteClient(client);
             clearInterval(test);
           }, 25000);
-        }, 3000);
+        }, 3000); 
       }
       if (client.banType != "") {
         server.sendChatTextToAdmins(

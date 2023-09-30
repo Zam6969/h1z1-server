@@ -17583,21 +17583,5 @@
     "CAMERA_DISTANCE": 0,
     "CAMERA_ANGLE": 0,
     "IS_VALID_FOR_PC": 0
-  },
-  {
-    "ID": 10126,
-    "MODEL_FILE_NAME": "Common_Structures_Firehouse.adr",
-    "RACE_ID": 0,
-    "SCALE": 1,
-    "DESCRIPTION": "Firehouse_spawn",
-    "GENDER": 2,
-    "AGE": 0,
-    "DESCRIPTOR": "",
-    "MATERIAL_TYPE": 0,
-    "WATER_DISPLACEMENT": 0,
-    "TELEPORT_EFFECT_ID": 0,
-    "CAMERA_DISTANCE": 0,
-    "CAMERA_ANGLE": 0,
-    "IS_VALID_FOR_PC": 0
   }
 ]

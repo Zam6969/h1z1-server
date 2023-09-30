@@ -176,10 +176,10 @@ export const commands: Array<Command> = [
       }
       if (!targetClient) {
         server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
-        return;
+        return;``
       }
       const title = args[1]
-      const message = args[2]
+      const message = args.join(" ").toString();
       server.sendData(targetClient, "H1emu.MessageBox", {
         title: `${title}`,
         message: `${message}`

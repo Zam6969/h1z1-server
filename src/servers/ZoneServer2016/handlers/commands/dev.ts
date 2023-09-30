@@ -58,10 +58,7 @@ const dev: any = {
     // spawn a zombie
     const characterId = server.generateGuid();
     const transient = server.getTransientId(characterId);
-    const zombie = new Npc(
-      characterId,
-      transient,
-      9510,
+    const zombie = new Npc(characterId,transient,9510,
       client.character.state.position,
       client.character.state.rotation,
       server

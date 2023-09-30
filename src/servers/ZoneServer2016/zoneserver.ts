@@ -1902,7 +1902,6 @@ export class ZoneServer2016 extends EventEmitter {
     if (
       !client.currentPOI ||
       client.character.characterId === damageInfo.entity
-
     )
       return;
     for (const a in this._clients) {
@@ -1911,26 +1910,21 @@ export class ZoneServer2016 extends EventEmitter {
         this._clients[a].loginSessionId === client.loginSessionId
       )
         continue;
-  
-      // Fetch the killer's name (you might need to access your data structure to get it)
-      const killerName = this._clients[a].character.name;
-      const killedName = client.character.name;
-      
       this.sendData(this._clients[a], "Character.KilledBy", {
         killer: damageInfo.entity,
-        killed: client.character.characterId,
+        killed: client.character.characterId+
       });
-      
+    }
       const obj2 = [
-        { title: "Killer", info: `${killerName}` }, // Use the killer's name
-        { title: "Killed", info: `${damageInfo.entity}` },
+        { title: "Killer", info: `${damageInfo.entity}` }, // Use the killer's name
+        { title: "Killed", info: `${client.character.character.name}` },
       ];
   
       this.sendkillfeed2(
         client,
         client,
         "",
-        `${killerName} Has Killed ${damageInfo.entity}`, // Use the killer's name
+        `${killer} Has Killed ${Killed}`, // Use the killer's name
         ``,
         obj2
       );
