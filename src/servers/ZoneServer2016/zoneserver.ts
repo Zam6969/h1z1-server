@@ -6824,7 +6824,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendChatDiscordHook2(
     client: Client,
@@ -6847,7 +6851,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendDiscordHook(
     client: Client,
@@ -6870,7 +6878,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendReportDiscordHook(
     client: Client,
@@ -6893,7 +6905,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendBanreportDiscordHook(
     client: Client,
@@ -6916,7 +6932,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendAdminDiscordHook(
     client: Client,
@@ -6939,7 +6959,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     for (const a in args) {
       embed.addField(args[a].title, args[a].info, true);
     }
-    hook.send(embed);
+    try {
+      hook.send(embed)
+    } catch (error) {
+      console.log(error);
+    }
   }
   sendConsoleTextToAdmins(message: string) {
     for (const a in this._clients) {
