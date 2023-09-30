@@ -1900,37 +1900,39 @@ export class ZoneServer2016 extends EventEmitter {
 
   sendKillFeed(client: Client, damageInfo: DamageInfo) {
     if (client.character.name === damageInfo.entity) {
-      return;
+        return;
     }
-  
-    for (const a in this._clients) {
-      if (
-        this._clients[a].currentPOI !== client.currentPOI ||
-        this._clients[a].loginSessionId === client.loginSessionId
-      ) {
-        continue;
-      }
-  
-      this.sendData(this._clients[a], "Character.KilledBy", {
-        killer: damageInfo.entity,
-        killed: client.character.name,
-      });
-  
-      const obj2 = [
+
+    // Define the obj2 array outside the loop
+    const obj2 = [
         { title: "Killer", info: `${damageInfo.entity}` }, // Use the killer's name
         { title: "Killed", info: `${client.character.name}` },
-      ];
-  
-      this.sendkillfeed2(
-        client,
-        client,
-        "",
-        `${damageInfo.entity} Has Killed ${client.character.name}`, // Use the killer's name
-        ``,
-        obj2
-      );
+    ];
+    this.sendkillfeed2(
+      client,
+      client,
+      "",
+      `${damageInfo.entity} Has Killed ${client.character.name}`, // Use the killer's name
+      ``,
+      obj2
+  );
+
+    for (const a in this._clients) {
+        if (
+            this._clients[a].currentPOI !== client.currentPOI ||
+            this._clients[a].loginSessionId === client.loginSessionId
+        ) {
+            continue;
+        }
+
+        this.sendData(this._clients[a], "Character.KilledBy", {
+            killer: damageInfo.entity,
+            killed: client.character.name,
+        });
+
+
     }
-  }
+}
   
   
 
