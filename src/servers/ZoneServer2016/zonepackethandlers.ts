@@ -217,11 +217,13 @@ export class ZonePacketHandlers {
           server.sendChatTextToAdmins(
             `${client.character.name} has joined the server!`
           );
+          
           const obj = [
             { title: "Name", info: `${client.character.name}` },
             { title: "CharacterID", info: `${client.character.characterId}` },
             { title: "LoginSessionID", info: `${client.loginSessionId}` },
             { title: "ServerName", info: `${server._serverName}` },
+    
             
           ];
           server.sendAdminDiscordHook(
@@ -274,11 +276,9 @@ export class ZonePacketHandlers {
 
         server.sendAlert(client, "Please read the rules in discord!");
         server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio/Quad");
-        if (server.welcomeMessage)
-          server.sendAlert(client, server.welcomeMessage);
         server.sendChatText(
           client,
-          `server population : ${_.size(server._characters)}`
+          `Server Population : ${_.size(server._characters)}`
         );
         if (client.isAdmin) {
           if (server.adminMessage)
@@ -312,9 +312,9 @@ export class ZonePacketHandlers {
         }
         setTimeout(() => {
           var test = setInterval(() => {
-            server.sendChatText(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}`);
-            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}` );
-            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/59DXxMGW in the #verify channel. Code: ${verifycode}` );
+            server.sendChatText(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}`);
+            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}` );
+            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}` );
           }, 1000);
           setTimeout(() => {
             server.sendData(client, "CharacterSelectSessionResponse", {
