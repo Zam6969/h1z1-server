@@ -59,6 +59,7 @@ export const characterWipeKit = [
   { item: Items.BANDANA_BASIC },
   { item: Items.AIRDROP_CODE, count:3},
   { item: Items.BACKPACK_RASTA },
+  { item: Items.POLICE_BODY_ARMOR },
   { item: Items.EVIL_CLOWN_GLASSES }
 ];
 export const characterVehicleLoadout = [
