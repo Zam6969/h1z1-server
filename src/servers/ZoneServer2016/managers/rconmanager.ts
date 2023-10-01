@@ -57,7 +57,28 @@ export class RConManager {
     this.app.post("/rcon/alert", this.handleSendAlert.bind(this));
     this.app.post("/rcon/shutdown", this.handleShutdown.bind(this));
     this.app.post("/rcon/sendmessage", this.handlesendmessage.bind(this));
+    this.app.get("/rcon/uptime", this.handleGetUptime.bind(this));
   }
+  private handleGetUptime(req: express.Request, res: express.Response): void {
+    const serverStartTime = this.zoneServer._startTime;
+    const currentTimestamp = Date.now();
+    const uptimeMin = (currentTimestamp - serverStartTime) / 60000;
+    const uptimeString =
+        uptimeMin < 60
+            ? `${uptimeMin.toFixed()}m`
+            : `${(uptimeMin / 60).toFixed()}h`;
+
+    // Assuming you have a data structure like this to store uptime:
+    const Uptime: { uptime: string }[] = [];
+
+    // Push the uptime string to the data structure
+    Uptime.push({
+        uptime: uptimeString,
+    });
+
+    // Send the response with the uptime data
+    res.json({ uptime: Uptime });
+}
 
   public startHttpServer(port: number): void {
     this.server.listen(port, () => {
