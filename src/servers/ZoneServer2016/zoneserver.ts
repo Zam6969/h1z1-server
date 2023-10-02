@@ -1960,7 +1960,7 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
 
         this.sendData(this._clients[a], "Character.KilledBy", {
             killer: damageInfo.entity,
-            killed: client.character.name,
+            killed: client.character.characterId,
         });
 
 
