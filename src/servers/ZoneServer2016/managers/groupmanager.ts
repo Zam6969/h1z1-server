@@ -237,6 +237,7 @@ export class GroupManager {
     target: Client,
     joinState: boolean
   ) {
+    const isAdmin = source.isAdmin;
     const pendingInvite = this.pendingInvites[target.character.characterId];
     if (pendingInvite != source.character.groupId) {
       server.sendAlert(target, "You have no pending invites!");
@@ -247,6 +248,31 @@ export class GroupManager {
     if (group && source.character.characterId != group.leader) {
       return;
     }
+    if (isAdmin) {
+    // If the source is an admin, bypass the invite check and add the user directly
+    this.sendAlertToGroup(
+      server,
+      source.character.groupId,
+      `${target.character.name} was forcefully added to the group by ${source.character.name}.`
+    );
+    target.character.groupId = source.character.groupId;
+    group.members.push(target.character.characterId);
+  } else {
+    // Normal invite process
+    this.sendAlertToGroup(
+      server,
+      source.character.groupId,
+      `${target.character.name} joined the group.`
+    );
+    target.character.groupId = source.character.groupId;
+    group.members.push(target.character.characterId);
+  }
+
+  server.sendAlert(target, "Group joined.");
+  delete this.pendingInvites[target.character.characterId];
+
+  this.sendGroupOutlineUpdates(server, group);
+
 
     if (!joinState) {
       server.sendAlert(
@@ -350,6 +376,11 @@ export class GroupManager {
       );
       return;
     }
+    if (!group.members.includes(target.character.characterId) || client.isAdmin) {
+      server.sendChatText(client, `Admins can't be kicked`);
+  }
+  
+    
 
     server.sendAlert(target, "You have been kicked from the group!");
     this.sendAlertToGroup(
