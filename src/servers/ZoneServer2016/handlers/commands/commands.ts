@@ -162,6 +162,28 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "respawnplayer",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const targetClientName = args[0];
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;``
+      }
+      server.respawnPlayer(targetClient,
+        server._spawnGrid[randomIntFromInterval(0, 99)]
+      );
+    }
+  },
+  {
     name: "box",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -289,20 +311,22 @@ export const commands: Array<Command> = [
           break;
         case "wipe":
             targetClient.character.equipLoadout(server, characterWipeKit);
-            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            client.character.equipItem(server,server.generateItem(Items.HAPPY_SKULL_SCRUBS_SHIRT) );
+            client.character.equipItem(server,server.generateItem(Items.HAPPY_SKULL_SCRUBS_PANTS) );
+            server.sendChatText(targetClient, "You received the Wipe Kit");
             server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
         case "skins":
             client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
             targetClient.character.equipLoadout(server, characterSkinsLoadout);
-            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(targetClient, "You received the skins kit!");
             server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
         case "build":
             client.character.equipItem(server,server.generateItem(Items.FANNY_PACK_DEV) );
             targetClient.character.equipLoadout(server, characterBuildKitLoadout);
             server.sendChatText(client, `Build kit given`);
-            server.sendChatText(targetClient, "You received the vehicle parts kit");
+            server.sendChatText(targetClient, "You received the Build kit!");
             server.sendChatText(client, `You sent vehicle parts kit to ${targetClientName}`);
           break;
         default:
@@ -613,7 +637,7 @@ export const commands: Array<Command> = [
           );
         }
       }
-      server.sendData(client, "Spectator.Enable", {});
+      
     }
   },
   {
@@ -1124,17 +1148,6 @@ export const commands: Array<Command> = [
         scale: [1, 1, 1, 1]
       });
       server.sendChatText(client, "Back to normal size");
-    }
-  },
-  {
-    name: "anim",
-    permissionLevel: PermissionLevels.ADMIN,
-    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
-      server.sendDataToAll("Character.PlayAnimation", {
-        animationname:"sit",
-        animation: "sit"
-      });
-      server.sendChatText(client, "send anim data");
     }
   },
   {
