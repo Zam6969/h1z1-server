@@ -184,6 +184,42 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "healplayer",
+    permissionLevel: PermissionLevels.ADMIN,
+    execute: async (
+      server: ZoneServer2016,
+      client: Client,
+      args: Array<string>
+    ) => {
+      const targetClientName = args[0];
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;``
+      }
+      client.character._resources = {
+        [ResourceIds.HEALTH]: 10000,
+
+      };
+      client.character.updateResource(
+        server,
+        client,
+        ResourceIds.HEALTH,
+        ResourceTypes.HEALTH
+      );
+
+      server.sendChatText(client, `Healed ${targetClient}`);
+      server.sendChatText(targetClient, `You were healed`);
+    }
+  },
+  {
     name: "box",
     permissionLevel: PermissionLevels.ADMIN,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
