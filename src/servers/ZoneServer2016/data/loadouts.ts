@@ -47,10 +47,8 @@ export const characterKitLoadout = [
 export const characterWipeKit = [
   { item: Items.BACKPACK_FRAMED},
   { item: Items.WEAPON_308 },
-  { item: Items.HAPPY_SKULL_SCRUBS_SHIRT },
-  { item: Items.HAPPY_SKULL_SCRUBS_PANTS },
   { item: Items.WEAPON_SHOTGUN },
-  { item: Items.FIRST_AID, count: 10 },
+  { item: Items.FIRST_AID, count: 3 },
   { item: Items.BANDAGE_DRESSED, count: 10 },
   { item: Items.AMMO_12GA, count: 12 },
   { item: Items.AMMO_308, count: 15 },
