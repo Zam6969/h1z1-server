@@ -17442,7 +17442,7 @@
   },
   {
     "ID": 10106,
-    "MODEL_FILE_NAME": "BaseBuilding_Structures_Modular_SlottedWall01_T1.adr",
+    "MODEL_FILE_NAME": "Common_Structures_HardwareStore01.adr",
     "RACE_ID": 0,
     "SCALE": 1,
     "DESCRIPTION": "Base Modular Wall Slotted 01",
