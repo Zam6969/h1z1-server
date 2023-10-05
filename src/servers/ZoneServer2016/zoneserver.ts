@@ -5636,7 +5636,7 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
       !this.removeInventoryItem(client.character, item)
     )
       return;
-    this.sendAlertToAll(`Somone has called a airdrop in ${GridCell}`);
+    this.sendAlertToAll(`Somone has called a airdrop in!`);
     const pos = new Float32Array([
       client.character.state.position[0],
       400,
