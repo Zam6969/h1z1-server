@@ -275,7 +275,7 @@ export class ZonePacketHandlers {
         }
 
         server.sendAlert(client, "Please read the rules in discord!");
-        server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio/Quad");
+        server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio/Quad!");
         server.sendChatText(
           client,
           `Server Population : ${_.size(server._characters)}`
