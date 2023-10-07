@@ -104,10 +104,6 @@ export const commands: Array<Command> = [
     execute: (server, client) => {
       // Get the client's current lookAt direction
       const lookAt = client.character.state.lookAt;
-  
-      // Teleport the client to the position they are looking at
-      client.character.state.position = lookAt;
-  
       // Send a message to update the client's location
       server.sendData(client, "ClientUpdate.UpdateLocation", {
         position: lookAt,
