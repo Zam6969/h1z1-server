@@ -2816,7 +2816,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.FERTILIZER,
-        weight: 8,
+        weight: 25,
         spawnCount: {
           min: 1,
           max: 3
@@ -2862,7 +2862,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.BACKPACK_MILITARY_TAN,
-        weight: 25,
+        weight: 30,
         spawnCount: {
           min: 1,
           max: 1
@@ -2878,7 +2878,7 @@ export const containerLootSpawners: {
       },
       {
         item: Items.FERTILIZER,
-        weight: 6,
+        weight: 25,
         spawnCount: {
           min: 1,
           max: 3
@@ -2905,7 +2905,7 @@ export const containerLootSpawners: {
         weight: 25,
         spawnCount: {
           min: 1,
-          max: 2
+          max: 3
         }
       }
     ]
@@ -3246,7 +3246,7 @@ export const containerLootSpawners: {
   },
   // used for crate props
   Crate_buffed: {
-    spawnChance: 60,
+    spawnChance: 100,
     maxItems: 1,
     items: [
       {
@@ -3292,7 +3292,7 @@ export const containerLootSpawners: {
     ]
   },
   Crate: {
-    spawnChance: 50,
+    spawnChance: 100,
     maxItems: 1,
     items: [
       {
@@ -3404,7 +3404,7 @@ export const containerLootSpawners: {
         weight: 1,
         spawnCount: {
           min: 15,
-          max: 30
+          max: 45
         }
       }
     ]
