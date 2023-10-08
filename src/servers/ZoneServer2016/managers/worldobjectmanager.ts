@@ -681,15 +681,9 @@ export class WorldObjectManager {
           authorizedModelId.push(9510);
           authorizedModelId.push(9634);
           break;
-        case "Common_Structures_HardwareStore01.adr": // Add a colon here
-          authorizedModelId.push(10126);
-          break;
         case "NPCSpawner_ZombieWalker.adr":
           authorizedModelId.push(9510);
           authorizedModelId.push(9634);
-          break;
-        case "Common_Structures_HardwareStore01.adr":
-            authorizedModelId.push(10126);
           break;
         case "NPCSpawner_Deer001.adr":
           authorizedModelId.push(9002);
