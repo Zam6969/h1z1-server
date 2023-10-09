@@ -688,8 +688,332 @@ export class WorldObjectManager {
         case "NPCSpawner_Deer001.adr":
           authorizedModelId.push(9002);
           break;
-        default:
-          break;
+          case "ArmoredZombie01.adr":
+            authorizedModelId.push(10829);
+            break;
+          case "NPCSpawner_Deer001.adr":
+                      authorizedModelId.push(9002);
+                      break;
+          case "Rabbit_Tan.adr":
+                      authorizedModelId.push(9212);
+                      break;
+          case "Brown_Bear.adr":
+                      authorizedModelId.push(9187);
+                      break;
+          case "Wolf001.adr":
+                      authorizedModelId.push(9003);
+                      break;
+          case "City_Props_Tree01.adr":
+                      authorizedModelId.push(9776);
+                      break;
+          case "City_Props_StreetLight.adr":
+                      authorizedModelId.push(9775);
+                      break;
+          case "City_Structures_Buildings_Int_WallHole01.adr":
+                      authorizedModelId.push(9809);
+                      break;
+          case "BaseBuilding_Structures_Modular_Wall01_T1.adr":
+                      authorizedModelId.push(10107);
+                      break;
+          case "Common_DPO_DoorProxy_Residential.adr":
+                      authorizedModelId.push(9883);
+                      break;
+          case "Doors_Commercial_01.adr":
+                      authorizedModelId.push(9884);
+                      break;
+          case "Doors_Business_Glass.adr":
+                      authorizedModelId.push(9897);
+                      break;
+          case "Industrial_Props_Barriers_CrowdBarrier01.adr":
+                      authorizedModelId.push(10010);
+                      break;
+          case "Dam_Props_LightEmergency.adr":
+                      authorizedModelId.push(10018);
+                      break;
+          case "City_Structures_Blockade_Floodlight01.adr":
+                      authorizedModelId.push(10024);
+                      break;
+          case "Common_Props_MilitaryBase_HighFence1x1_Corner.adr":  //CORNER
+                      authorizedModelId.push(10035);
+                      break;
+          case "Common_Props_MilitaryBase_HighFence1x1.adr":  //HIGH FENCE
+                      authorizedModelId.push(10036);
+                      break;
+          case "Common_Props_MilitaryBase_HighFence1x2.adr":  //HIGH FENCE X2
+                      authorizedModelId.push(10037);
+                      break;
+          case "Common_Structures_Carport01.adr":
+                      authorizedModelId.push(46);
+                      break;
+          case "Common_Structures_Farm_Shed01.adr":
+                      authorizedModelId.push(47);
+                      break;
+          case "Common_Props_CargoContainer01_Lights.adr":
+                      authorizedModelId.push(9384);
+                      break;
+          case "Common_Structures_Proxy_PitchedRoof.adr":
+                      authorizedModelId.push(8008);
+                      break;
+          case "Common_Structures_Proxy_SolidWall.adr":
+                      authorizedModelId.push(8009);
+                      break;
+          case "Common_Structures_Houses_Shed.adr":
+                      authorizedModelId.push(9075);
+                      break;
+          case "Common_Structures_Houses_ShedDoor.adr":
+                      authorizedModelId.push(9076);
+                      break;
+          case "Common_Props_WreckedCar01_Destroyed.adr":
+                      authorizedModelId.push(9107);
+                      break;
+          case "Common_Props_WreckedTruck01.adr":
+                      authorizedModelId.push(9108);
+                      break;
+          case "Common_Props_WreckedVan01.adr":
+                      authorizedModelId.push(9110);
+                      break;
+          case "Common_Structures_Houses_House35.adr":
+                      authorizedModelId.push(11167);
+                      break;
+          case "Common_Props_Auto_Mech_TrashCan_Fire.adr":
+                      authorizedModelId.push(9373);
+                      break;
+          case "Common_Structures_Proxy_PitchedRoof.adr":
+                      authorizedModelId.push(8008);
+                      break;
+          case "Industrial_Props_Towers_WaterTower_Tower01.adr":
+                      authorizedModelId.push(11165);
+                      break;
+          case "RainbowTroutA.adr":
+                      authorizedModelId.push(11168);
+                      break;
+          case "Common_Props_Bicycle01.adr":
+                      authorizedModelId.push(11166);
+                      break;
+          case "MTX_Props_Bobcat_tax.adr":
+                      authorizedModelId.push(11169);
+                      break;
+          case "Common_Structures_Houses_SmallHouse03.adr":
+                  authorizedModelId.push(11170);
+                  break;
+          case "Common_Structures_Houses_CabinLarge.adr":
+                      authorizedModelId.push(11171);
+                      break;
+          case "Common_Structures_Houses_House37.adr":
+                      authorizedModelId.push(11172);
+                      break;
+          case "Common_Structures_Houses_House01.adr":
+                      authorizedModelId.push(11173);
+                      break;
+          case "Common_Structures_Houses_House24.adr":
+                      authorizedModelId.push(11174);
+                      break;
+          case "Common_Structures_Houses_House36B.adr":
+                      authorizedModelId.push(11175);
+                      break;
+          case "Common_Structures_PoliceStation02.adr":
+                      authorizedModelId.push(11176);
+                      break;
+          case "Common_Structures_Church_Stucco01.adr":
+                      authorizedModelId.push(11177);
+                      break;
+          case "Common_Structures_StorelLevel03.adr":
+                      authorizedModelId.push(11178);
+                      break;
+          case "Common_Structures_StoreFront02.adr":
+                      authorizedModelId.push(11179);
+                      break;
+          case "Common_Structures_Firehouse.adr":
+                      authorizedModelId.push(11180);
+                      break;
+          case "Common_Props_TransmissionTower01.adr":
+                      authorizedModelId.push(11181);
+                      break;
+          case "Common_Structures_HardwareStore01.adr":
+                      authorizedModelId.push(11182);
+                      break;
+          case "Common_Structures_Houses_SmallHouse05.adr":
+                      authorizedModelId.push(11183);
+                      break;
+          case "Common_Structures_Houses_House34B.adr":
+                      authorizedModelId.push(11184);
+                      break;
+          case "Common_Structures_Houses_SmallHouse04.adr":
+                      authorizedModelId.push(11185);
+                      break;
+          case "Common_Structures_Houses_SmallHouse06.adr":
+                  authorizedModelId.push(11186);
+                      break;
+          case "Common_Structures_Houses_House12a.adr":
+                      authorizedModelId.push(11187);
+                      break;
+          case "Common_Structures_Houses_House34B.adr":
+                      authorizedModelId.push(11188);
+                      break;
+          case "Common_Structures_Houses_House16.adr":
+                      authorizedModelId.push(11189);
+                      break;
+          case "Common_Structures_Houses_House21.adr":
+                      authorizedModelId.push(11190);
+                      break;
+          case "Common_Structures_HardwareStore01.adr":
+                      authorizedModelId.push(11191);
+                      break;
+          case "Common_Props_PowerPole02.adr":
+                      authorizedModelId.push(11192);
+                      break;
+          case "Common_Props_StreetLight01.adr":
+                      authorizedModelId.push(11193);
+                      break;
+          case "Farm_Structures_Buildings_Barn01.adr":
+                      authorizedModelId.push(11194);
+                      break;
+          case "Farm_Structures_Buildings_Barn01_Weathervane.adr":
+                      authorizedModelId.push(11195);
+                      break;
+          case "Farm_Structures_Buildings_Barn01_Weathervane_Top.adr":
+                      authorizedModelId.push(11196);
+                      break;
+          case "Common_Structures_Apartments_Apartment01.adr":
+                      authorizedModelId.push(11197);
+                      break;
+          case "Vehicle_Devil01.adr":
+                      authorizedModelId.push(11198);
+                      break;
+          case "Vehicle_Devil02.adr":
+                      authorizedModelId.push(11199);
+                      break;
+          case "Common_Structures_PoliceStation02.adr":
+                      authorizedModelId.push(11200);
+                      break;
+          case "Common_Props_Boulders_Moss03.adr":
+                      authorizedModelId.push(11201);
+                      break;
+          case "Common_Props_Gravestone01.adr":
+                      authorizedModelId.push(11202);
+                      break;
+          case "Common_Props_Gravestone02.adr":
+                      authorizedModelId.push(11203);
+                      break;
+          case "Common_Structures_MilitaryBase_TentOpen.adr":
+                      authorizedModelId.push(11204);
+                      break;
+          case "Common_Props_MilitaryBase_HescoBarrier.adr":
+                      authorizedModelId.push(11205);
+                      break;
+          case "Common_Props_Target_Round10cmRings.adr":
+                      authorizedModelId.push(11206);
+                      break;
+          case "Common_Props_PicNicTable_01.adr":
+                      authorizedModelId.push(11207);
+                      break;
+          case "Common_Props_MilitaryBase_BunkBed.adr":
+                      authorizedModelId.push(11208);
+                      break;
+          case "Common_Props_Bedroom_BedCombined03.adr":
+                      authorizedModelId.push(11209);
+                      break;
+          case "Common_Props_Cabinets_Bathroom01.adr":
+                      authorizedModelId.push(11210);
+                      break;
+          case "Common_Props_Bathroom_Toilet01.adr":
+                      authorizedModelId.push(11211);
+                      break;
+          case "Common_Props_Furniture_Dresser02_Rustic.adr":
+                      authorizedModelId.push(11212);
+                      break;
+          case "Common_Props_Furniture_Armoire02_Rustic.adr":
+                      authorizedModelId.push(11213);
+                      break;
+          case "Common_Props_Bedroom_NightStand01.adr":
+                      authorizedModelId.push(11214);
+                      break;
+          case "Common_Props_LivingRoom_EntertainmentCenter01.adr":
+                      authorizedModelId.push(11215);
+                      break;
+          case "Common_Props_LivingRoom_CoffeeTable01.adr":
+                      authorizedModelId.push(11216);
+                      break;
+          case "Common_Props_Furniture_CafeTable01.adr":
+                      authorizedModelId.push(11217);
+                      break;
+          case "Common_Props_LivingRoom_Sofa01.adr":
+                      authorizedModelId.push(11218);
+                      break;
+          case "Common_Props_LivingRoom_Chair01.adr":
+                      authorizedModelId.push(11219);
+                      break;
+          case "Common_Props_Bedroom_LampFloor03.adr":
+                      authorizedModelId.push(11220);
+                      break;
+          case "Common_Props_Cabinets_CabinetSet06.adr":
+                      authorizedModelId.push(11221);
+                      break;
+          case "Common_Props_Cabinets_CabinetSet04.adr":
+                      authorizedModelId.push(11222);
+                      break;
+          case "Common_Props_Cabinets_Kitchen03.adr":
+                      authorizedModelId.push(11223);
+                      break;
+          case "Common_Props_Kitchen_Fridge.adr":
+                      authorizedModelId.push(11224);
+                      break;
+          case "Common_Props_Cabinets_Kitchen02.adr":
+                      authorizedModelId.push(11225);
+                      break;
+          case "Common_Props_Furniture_BathTub01.adr":
+                      authorizedModelId.push(11226);
+                      break;
+          case "Common_Props_LivingRoom_Bookcase01.adr":
+                      authorizedModelId.push(11227);
+                      break;
+          case "Common_Props_Furniture_Piano01.adr":
+                      authorizedModelId.push(11228);
+                      break;
+          case "Common_Props_Washer.adr":
+                      authorizedModelId.push(11229);
+                      break;
+          case "Common_Props_Dryer.adr":
+                      authorizedModelId.push(11230);
+                      break;
+          case "Common_Structures_Warehouse01.adr":
+                      authorizedModelId.push(11231);
+                      break;
+          case "Hospital_Props_BodyBag02.adr":
+                      authorizedModelId.push(11232);
+                      break;
+          case "Common_Props_WasherDryerCombo.adr":
+                      authorizedModelId.push(11233);
+                      break;
+          case "Common_Props_Fences_WoodPlanksGreyPosts1x2.adr":
+                      authorizedModelId.push(11234);
+                      break;
+          case "Fairgrounds_Props_FairSigns_Rect.adr":
+                      authorizedModelId.push(11235);
+                      break;
+          case "Roads_Props_POISigns_FairSign.adr":
+                      authorizedModelId.push(11236);
+                      break;
+          case "Roads_Props_POISigns_MortonsSign.adr":
+                      authorizedModelId.push(11237);
+                      break;
+          case "Roads_Props_POISigns_RiverRidgeSign.adr":
+                      authorizedModelId.push(11238);
+                      break;
+          case "Roads_Props_Signs_Miles_01.adr":
+                      authorizedModelId.push(11239);
+                      break;
+          case "Roads_Props_Signs_Miles_02.adr":
+                      authorizedModelId.push(11240);
+                      break;
+          case "Roads_Props_Signs_Miles_03.adr":
+                      authorizedModelId.push(11241);
+                      break;
+          case "Normandy_Props_Trees_Dead01.adr":
+                      authorizedModelId.push(8007);
+                      break;
+                  default:
+                      break;
       }
       
       if (!authorizedModelId.length) return;
