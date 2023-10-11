@@ -1939,11 +1939,11 @@ sendKillFeed(client: Client, damageInfo: DamageInfo) {
     )
 } else {
      const killInfo = [
-        { title: "Killer", info: 'mysterious unknown player' }, // Use the killer's name
+        { title: "Killer", info: 'None' }, // Use the killer's name
         { title: "Killed", info: `${client.character.name}` },
     ];
     this.sendKillFeedMessageToDiscord(
-      `A ${killInfo[0].info} Has Killed ${killInfo[1].info}`, 
+      `${killInfo[1].info} Has Died`, 
       ``,
       killInfo
     )
