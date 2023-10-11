@@ -292,6 +292,33 @@ export const commands: Array<Command> = [
     }
   },
   {
+    name: "palert",
+    permissionLevel: PermissionLevels.DEFAULT,
+    execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
+      const targetClientName = args[0];
+      const msg = args.slice(1).join(" "); // Exclude the first argument (client name)
+  
+      // Find the target client
+      const targetClient = server.getClientByNameOrLoginSession(targetClientName);
+  
+      if (typeof targetClient === "string") {
+        server.sendChatText(
+          client,
+          `Could not find player ${targetClientName.toUpperCase()}, did you mean ${targetClient.toUpperCase()}`
+        );
+        return;
+      }
+  
+      if (!targetClient) {
+        server.sendChatText(client, `Client ${targetClientName.toUpperCase()} not found.`);
+        return;
+      }
+  
+      // Use sendAlert method to send the message
+      server.sendAlert(targetClient, msg);
+    }
+  },  
+  {
     name: "pop",
     permissionLevel: PermissionLevels.DEFAULT,
     execute: (server: ZoneServer2016, client: Client, args: Array<string>) => {
@@ -379,6 +406,7 @@ export const commands: Array<Command> = [
       );
     }
   },
+
   {
     name: "findlog",
     permissionLevel: PermissionLevels.ADMIN,
