@@ -283,9 +283,11 @@ export class ConstructionManager {
 
   detectOutOfBoundsPlacement(
     server: ZoneServer2016,
-    position: Float32Array
+    position: Float32Array,
+    client: Client,
   ): boolean {
     if (this.allowOutOfBoundsPlacement) return false;
+    if (client.isDebugMode) return false;
     let inMapBounds: boolean = false;
     server._spawnGrid.forEach((cell: SpawnCell) => {
       if (
@@ -571,7 +573,7 @@ export class ConstructionManager {
       return;
     }
 
-    if (this.detectOutOfBoundsPlacement(server, position)) {
+    if (this.detectOutOfBoundsPlacement(server, position, client)) {
       this.sendPlacementFinalize(server, client, 0);
       server.sendAlert(
         client,
