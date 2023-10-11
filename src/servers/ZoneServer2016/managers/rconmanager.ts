@@ -58,7 +58,6 @@ export class RConManager {
     this.app.post("/rcon/shutdown", this.handleShutdown.bind(this));
     this.app.post("/rcon/sendmessage", this.handlesendmessage.bind(this));
     this.app.get("/rcon/uptime", this.handleGetUptime.bind(this));
-    
   }
   private handleGetUptime(req: express.Request, res: express.Response): void {
     const serverStartTime = this.zoneServer._startTime;
