@@ -51,8 +51,6 @@ export class RConManager {
     this.server = http.createServer(this.app);
 
     // Configure body-parser middleware to parse JSON requests
-    this.app.use(bodyParser.json());
-    this.app.use(requireAuthorization);
     this.app.use(cors());
     this.app.use(bodyParser.json());
     this.app.use(requireAuthorization);
