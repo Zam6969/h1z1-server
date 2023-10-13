@@ -16,6 +16,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { ZoneServer2016 } from "../zoneserver";
 import { ZoneClient2016 } from "../classes/zoneclient";
+import cors from "cors"; // Import the cors middleware
 
 function requireAuthorization(
   req: express.Request,
@@ -38,6 +39,7 @@ function requireAuthorization(
   next();
 }
 
+
 export class RConManager {
   private app: express.Express;
   private server: http.Server;
@@ -49,6 +51,9 @@ export class RConManager {
     this.server = http.createServer(this.app);
 
     // Configure body-parser middleware to parse JSON requests
+    this.app.use(bodyParser.json());
+    this.app.use(requireAuthorization);
+    this.app.use(cors());
     this.app.use(bodyParser.json());
     this.app.use(requireAuthorization);
 
