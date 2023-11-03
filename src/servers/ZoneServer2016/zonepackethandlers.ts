@@ -129,6 +129,7 @@ import {
   ClientBan,
   ConstructionPermissions,
   DamageInfo,
+  UserVerification,
   StanceFlags
 } from "types/zoneserver";
 import { Vehicle2016 } from "./entities/vehicle";
@@ -317,21 +318,19 @@ export class ZonePacketHandlers {
     if (client.firstLoading) {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
-       setTimeout(() => {
+      setTimeout(async () => { // Mark this function as async
         if (client.isAdmin) {
           server.setGodMode(client, true);
           client.isDebugMode = !client.isDebugMode;
           server.sendChatTextToAdmins(
             `${client.character.name} has joined the server!`
           );
-          
+    
           const obj = [
             { title: "Name", info: `${client.character.name}` },
             { title: "CharacterID", info: `${client.character.characterId}` },
             { title: "LoginSessionID", info: `${client.loginSessionId}` },
             { title: "ServerName", info: `${server._serverName}` },
-    
-            
           ];
           server.sendAdminDiscordHook(
             client,
@@ -342,6 +341,39 @@ export class ZonePacketHandlers {
             obj
           );
         }
+        const getUserVerification = async (): Promise<UserVerification | null> => {
+          return (await server._db
+            ?.collection(DB_COLLECTIONS.VERIFIED)
+            .findOne({
+              guid: client.loginSessionId,
+            })) as UserVerification | null;
+        };
+    
+        const verification = await getUserVerification();
+        const discordId = verification?.discordId;
+        const soeClient = server.getSoeClient(client.soeClientId);
+    
+        const obj = [
+          { title: "Player HWID", info: `${client.HWID}` },
+          { title: "CharacterID", info: `${client.character.characterId}` },
+          { title: "LoginSessionID", info: `${client.loginSessionId}` },
+          { title: "Player IP", info: `||${soeClient?.address}||` },
+          { title: "Player Avg Ping", info: `${soeClient?.avgPing}` },
+          { title: "Server Population", info: `${_.size(server._characters)}` },
+          { title: "Server Name", info: `${server._serverName}` },
+          { title: "Discord ID", info: discordId ? `<@${discordId}>` : "Not Verified" },
+        ];
+        server.sendDiscordHook(
+          client,
+          client,
+          "",
+          `${client.character.name} has joined!`,
+          ``,
+          obj
+        );
+    
+      
+    
         server.sendAlert(client, "Please read the rules in discord!");
         server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio");
         server.sendChatText(
