@@ -15,17 +15,19 @@
 // TODO enable @typescript-eslint/no-unused-vars
 import { ZoneClient2016 as Client } from "./classes/zoneclient";
 import { ZoneServer2016 } from "./zoneserver";
+const debug = require("debug")("ZoneServer");
+
 import {
   _,
+  Int64String,
+  isPosInRadius,
+  toHex,
+  quat2matrix,
+  logClientActionToMongo,
   eul2quat,
   getDistance,
   getDistance1d,
-  Int64String,
-  isPosInRadius,
-  isPosInRadiusWithY,
-  logClientActionToMongo,
-  quat2matrix,
-  toHex
+  isPosInRadiusWithY
 } from "../../utils/utils";
 
 import { CraftManager } from "./managers/craftmanager";
@@ -127,8 +129,6 @@ import {
   ClientBan,
   ConstructionPermissions,
   DamageInfo,
-  StanceFlags
-  UserVerification,
   StanceFlags
 } from "types/zoneserver";
 import { Vehicle2016 } from "./entities/vehicle";
@@ -312,10 +312,12 @@ export class ZonePacketHandlers {
     client.currentPOI = 0; // clears currentPOI for POIManager
     server.sendGameTimeSync(client);
     server.constructionManager.sendConstructionData(server, client);
+
+    
     if (client.firstLoading) {
       client.character.lastLoginDate = toHex(Date.now());
       server.setGodMode(client, false);
-      setTimeout(() => {
+       setTimeout(() => {
         if (client.isAdmin) {
           server.setGodMode(client, true);
           client.isDebugMode = !client.isDebugMode;
@@ -340,47 +342,8 @@ export class ZonePacketHandlers {
             obj
           );
         }
-      }, 4000);
-      setTimeout(async () => {
-        const getUserVerification =
-          async (): Promise<UserVerification | null> => {
-            return (await server._db
-              ?.collection(DB_COLLECTIONS.VERIFIED)
-              .findOne({
-                guid: client.loginSessionId
-              })) as UserVerification | null;
-          };
-
-        const verification = await getUserVerification();
-
-        if (!verification) {
-          console.log("not verified sadge");
-        } else {
-          const discordId = verification.discordId;
-          const soeClient = server.getSoeClient(client.soeClientId);
-
-          const obj = [
-            { title: "Player HWID", info: `${client.HWID}` },
-            { title: "CharacterID", info: `${client.character.characterId}` },
-            { title: "LoginSessionID", info: `${client.loginSessionId}` },
-            { title: "Player IP", info: `||${soeClient?.address}||` },
-            { title: "Player Avg Ping", info: `${soeClient?.avgPing}` },
-            { title: "Server Population",info: `${_.size(server._characters)}`},
-            { title: "Server Name", info: `${server._serverName}` },
-            { title: "Discord ID", info: `<@${discordId}>` }
-          ];
-          server.sendDiscordHook(
-            client,
-            client,
-            "",
-            `${client.character.name} has joined!`,
-            ``,
-            obj
-          );
-        }
-
         server.sendAlert(client, "Please read the rules in discord!");
-        server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio/Quad!");
+        server.sendAlert(client, "Welcome to Loot [US] 2x Solo/Duo/Trio");
         server.sendChatText(
           client,
           `Server Population : ${_.size(server._characters)}`
@@ -390,46 +353,6 @@ export class ZonePacketHandlers {
             server.sendAlert(client, server.adminMessage);
         }
       }, 10000);
-      console.log(client.loginSessionId);
-      const userVerification: UserVerification = (await server._db
-        ?.collection(DB_COLLECTIONS.VERIFIED)
-        .findOne({
-          guid: client.loginSessionId
-        })) as unknown as UserVerification;
-      if (userVerification?.isVerified) {
-        //client.banType = hwidBanned.banType;
-        //server.enforceBan(client);
-      } else {
-        server.sendChatText(client, `You are linked to discord!`);
-        var verifycode: number;
-        if (userVerification) {
-          verifycode = userVerification?.verifyCode;
-        } else {
-          const object: UserVerification = {
-            guid: client.loginSessionId!,
-            discordId: null!,
-            verifyCode: Math.floor(100000 + Math.random() * 9000000),
-            isVerified: false
-          };
-          console.log(object);
-          verifycode = object.verifyCode;
-          server._db?.collection(DB_COLLECTIONS.VERIFIED).insertOne(object);
-        }
-        setTimeout(() => {
-          var test = setInterval(() => {
-            server.sendChatText(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}`);
-            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}` );
-            server.sendAlert(client, `You must verify your account on discord at https://discord.gg/kJkpnsrZ6g in the #verify channel. Code: ${verifycode}` );
-          }, 1000);
-          setTimeout(() => {
-            server.sendData(client, "CharacterSelectSessionResponse", {
-              status: 1,
-              sessionId: client.loginSessionId
-            });
-            clearInterval(test);
-          }, 25000);
-        }, 3000); 
-      }
       if (client.banType != "") {
         server.sendChatTextToAdmins(
           `Silently banned ${client.character.name} has joined the server !`
@@ -719,46 +642,6 @@ export class ZonePacketHandlers {
       { title: "Time:", info: `${server.getDateString(Date.now())}` },
       { title: "Total reports this session:", info: `${targetClient.reports}` }
     ];
-    server.sendChatTextToAdmins(
-      `${targetClient.character.name} HAS BEEN REPORTED BY ${client.character.name}`
-    );
-    server.sendReportDiscordHook(
-      client,
-      client,
-      "",
-      `${targetClient.character.name} HAS BEEN REPORTED`,
-      ``,
-      obj
-    );
-    setTimeout(() => {
-      server.sendAlert(
-        client,
-        `YOU REPORTED ${targetClient.character.name} Thanks for the report!`
-      );
-      server.sendAlert(
-        client,
-        "Please Join the discord and open a ticket if you think this player is cheating"
-      );
-      server.sendAlert(
-        client,
-        "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn"
-      );
-    }, 1);
-    setTimeout(() => {
-      server.sendAlert(
-        client,
-        `YOU REPORTED ${targetClient.character.name} Thanks for the report!`
-      );
-      server.sendAlert(
-        client,
-        "Please Join the discord and open a ticket if you think this player is cheating"
-      );
-      server.sendAlert(
-        client,
-        "ALSO DONT FORGET TO PROVIDE PROOF https://Discord.gg/JsReborn"
-      );
-    }, 30000);
-
     delete client.lastDeathReport;
   }
 
@@ -1382,14 +1265,6 @@ export class ZonePacketHandlers {
             const c = server.getClientByCharId(passenger);
             if (!c) return;
             server.kickPlayer(c);
-            server.sendReportDiscordHook(
-              client,
-              client,
-              client.character.name,
-              `ERROR Kicked`,
-              `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${packet.data.positionUpdate.position[0]} ${packet.data.positionUpdate.position[1]} ${packet.data.positionUpdate.position[2]}]`,
-              null
-            );
             server.sendChatTextToAdmins(
               `FairPlay: kicking ${c.character.name} for suspeced teleport in vehicle by ${dist} from [${vehicle.positionUpdate.position[0]} ${vehicle.positionUpdate.position[1]} ${vehicle.positionUpdate.position[2]}] to [${positionUpdate.position[0]} ${positionUpdate.position[1]} ${positionUpdate.position[2]}]`,
               false
