@@ -3269,7 +3269,7 @@ export class ZonePacketHandlers {
           packet
         );
         break;
-      case "Locks.setLock":
+      case "Locks.SetLock":
         this.LocksSetLock(server, client, packet);
         break;
       case "Synchronization":
