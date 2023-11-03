@@ -181,6 +181,8 @@ export const characterSkinsLoadout = [
 export const characterVehicleKit = [
   { item: Items.SPARKPLUGS },
   { item: Items.VEHICLE_KEY },
+  { item: Items.BATTERY },
+  { item: Items.BATTERY },
   { item: Items.TURBO_OFFROADER },
   { item: Items.TURBO_ATV },
   { item: Items.TURBO_PICKUP },
@@ -188,9 +190,6 @@ export const characterVehicleKit = [
   { item: Items.HEADLIGHTS_OFFROADER },
   { item: Items.HEADLIGHTS_PICKUP },
   { item: Items.HEADLIGHTS_POLICE }
-  
-
-
 ];
 export const characterBuildKitLoadout = [
   { item: Items.FOUNDATION, count: 10 },

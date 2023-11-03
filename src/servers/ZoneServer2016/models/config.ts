@@ -12,6 +12,8 @@
 // ======================================================================
 
 import { dailyRepairMaterial } from ".../../types/zoneserver";
+import { FileHash } from ".../../types/shared";
+import { CONNECTION_REJECTION_FLAGS } from "utils/enums";
 
 interface ServerConfig {
   proximityItemsDistance: number;
@@ -22,12 +24,19 @@ interface ServerConfig {
   welcomeMessage: string;
   adminMessage: string;
   enableLoginServerKickRequests: boolean;
+  rebootTime: number;
+  rebootWarnTime: number;
 }
 
 interface FairplayConfig {
   useFairplay: boolean;
   maxPing: number;
   pingTimeoutTime: number;
+  acceptedRejectionTypes: Array<CONNECTION_REJECTION_FLAGS>;
+  useAssetValidation: boolean;
+  hashSubmissionTimeout: number;
+  allowedPacks: Array<FileHash>;
+  requiredPacks: Array<FileHash>;
 }
 
 interface WeatherConfig {
@@ -82,8 +91,8 @@ interface ConstructionConfig {
 interface DecayConfig {
   decayTickInterval: number;
   constructionDamageTicks: number;
-  baseConstructionDamage: number;
-  repairBoxHealValue: number;
+  ticksToFullDecay: number;
+  worldFreeplaceDecayMultiplier: number;
   vehicleDamageTicks: number;
   vacantFoundationTicks: number;
   baseVehicleDamage: number;
